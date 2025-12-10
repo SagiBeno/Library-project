@@ -1,0 +1,5 @@
+npm i
+npm install @netlify/vite-plugin
+npm install -D netlify-cli
+
+npx netlify dev --functions .netlify/functions
