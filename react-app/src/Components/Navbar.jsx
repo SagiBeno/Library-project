@@ -13,12 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useNavigate } from 'react-router-dom'
 
 export default function Navbar (props) {
-    const settings = ['Profile', 'Logout'];
+    const navigate = useNavigate();
 
-    const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(false);
+    const [anchorElUser, setAnchorElUser] = useState(false);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -28,11 +29,11 @@ export default function Navbar (props) {
     };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+        setAnchorElNav(false);
     };
 
     const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
+        setAnchorElUser(false);
     };
 
     return (
@@ -55,7 +56,7 @@ export default function Navbar (props) {
                             textDecoration: 'none',
                         }}
                     >
-                        Lbirary
+                        Library
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -86,7 +87,10 @@ export default function Navbar (props) {
                             onClose={handleCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
-                            <MenuItem onClick={handleCloseNavMenu}>
+                            <MenuItem onClick={() => {
+                                handleCloseNavMenu();
+                                navigate('/my-books');
+                            }}>
                                 <Typography sx={{ textAlign: 'center' }}>My Books</Typography>
                             </MenuItem>
                         </Menu>
@@ -114,8 +118,12 @@ export default function Navbar (props) {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <Button
-                            onClick={handleCloseNavMenu}
+                            onClick={() => {
+                                handleCloseNavMenu();
+                                navigate('/my-books');
+                            }}
                             sx={{ my: 2, color: 'white', display: 'block' }}
+                            
                         >
                             My Books
                         </Button>
