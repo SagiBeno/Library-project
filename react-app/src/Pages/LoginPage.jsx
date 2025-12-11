@@ -3,6 +3,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from "react-router-dom";
 import { useState } from "react"
+import { alpha, styled } from '@mui/material/styles';
 
 export default function LoginPage(props) {
     const [formValues, setFormValues] = useState({
@@ -26,15 +27,45 @@ export default function LoginPage(props) {
         e.preventDefault();
     }
 
+    const CssTextField = styled(TextField)({
+        '& fieldset.MuiOutlinedInput-notchedOutline': {
+            borderColor: '#ddb892',
+        },
+
+        '& label.Mui-focused': {
+            color: '#b08968',
+        },
+
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#b08968',
+        },
+
+        '& .MuiOutlinedInput-root': {
+            '&:hover fieldset': {
+                borderColor:'#b08968',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#b08968',
+            },
+            '&:hover fieldset': {
+                borderColor: '#b08968',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#b08968',
+            },
+        },
+    });
+
     return (
 
-        <Box 
+        <Box
             sx={{
-                height: '100vh',
+                height: '100%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                marginTop: '20px'
             }}
         >
             <Paper
@@ -49,7 +80,7 @@ export default function LoginPage(props) {
                 <Typography
                     variant="h5"
                     align="center"
-                    sx={{fontWeight: 'bold'}}
+                    sx={{ fontWeight: 'bold' }}
                 >
                     Login
                 </Typography>
@@ -62,8 +93,8 @@ export default function LoginPage(props) {
                         margin: '15px'
                     }}
                 >
-                    <InputLabel htmlFor='email' sx={{textAlign: 'left', color: 'black'}}>Email Address</InputLabel>
-                    <TextField
+                    <InputLabel htmlFor='email' sx={{ textAlign: 'left', color: 'black' }}>Email Address</InputLabel>
+                    <CssTextField
                         id="email"
                         label="Email"
                         variant="outlined"
@@ -79,8 +110,8 @@ export default function LoginPage(props) {
                         }}
                     />
 
-                    <InputLabel htmlFor='password' sx={{textAlign: 'left', color: 'black'}}>Password</InputLabel>
-                    <TextField
+                    <InputLabel htmlFor='password' sx={{ textAlign: 'left', color: 'black' }}>Password</InputLabel>
+                    <CssTextField
                         id="password"
                         label="Password"
                         variant="outlined"
@@ -92,13 +123,13 @@ export default function LoginPage(props) {
                         required
                         sx={{
                             marginBottom: '20px',
-                            marginTop: '10px'
+                            marginTop: '10px',
                         }}
                         slotProps={{
                             input: {
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <IconButton onClick={() => setShowPassword( showPassword? false : true  )}>
+                                        <IconButton onClick={() => setShowPassword(showPassword ? false : true)} sx={{color: '#b08968'}}>
                                             {
                                                 showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
                                             }
@@ -112,29 +143,29 @@ export default function LoginPage(props) {
                     {
                         formValues.password.length === 0 || formValues.email.length === 0
                             ?
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{
-                                        marginBottom: '20px'
-                                    }}
-                                    disabled
-                                >
-                                    Login
-                                </Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{
+                                    marginBottom: '20px'
+                                }}
+                                disabled
+                            >
+                                Login
+                            </Button>
                             :
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{
-                                        marginBottom: '20px'
-                                    }}
-                                    className="buttons"
-                                >
-                                    Login
-                                </Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{
+                                    marginBottom: '20px'
+                                }}
+                                className="buttons"
+                            >
+                                Login
+                            </Button>
                     }
-                    
+
                     <Typography variant="subtitle1">
                         Do not have an account? <Link to='/register' className="link">Register here</Link>
                     </Typography>

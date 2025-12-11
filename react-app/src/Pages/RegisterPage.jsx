@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { alpha, styled } from '@mui/material/styles';
 
 export default function RegisterPage(props) {
     const [formValues, setFormValues] = useState({
@@ -31,15 +32,44 @@ export default function RegisterPage(props) {
         e.preventDefault();
     }
 
+    const CssTextField = styled(TextField)({
+        '& fieldset.MuiOutlinedInput-notchedOutline': {
+            borderColor: '#ddb892',
+        },
+        
+        '& label.Mui-focused': {
+            color: '#b08968',
+        },
+
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#b08968',
+        },
+
+        '& .MuiOutlinedInput-root': {
+            '&:hover fieldset': {
+                borderColor:'#b08968',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#b08968',
+            },
+            '&:hover fieldset': {
+                borderColor: '#b08968',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#b08968',
+            },
+        },
+    });
+
     return (
 
         <Box sx={{
-            height: '100vh',
+            height: '100%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'column',
-
+            marginTop: '20px'
         }}>
             <Paper
                 square={false}
@@ -69,7 +99,7 @@ export default function RegisterPage(props) {
                 >
 
                     <InputLabel htmlFor='username' sx={{textAlign: 'left', color: 'black'}}>Username</InputLabel>
-                    <TextField
+                    <CssTextField
                         id="username"
                         label="Username"
                         variant="outlined"
@@ -86,7 +116,7 @@ export default function RegisterPage(props) {
                     />
 
                     <InputLabel htmlFor='email' sx={{textAlign: 'left', color: 'black'}}>Email Address</InputLabel>
-                    <TextField
+                    <CssTextField
                         id="email"
                         label="Email"
                         variant="outlined"
@@ -103,7 +133,7 @@ export default function RegisterPage(props) {
                     />
                 
                     <InputLabel htmlFor='password' sx={{textAlign: 'left', color: 'black'}}>Password</InputLabel>
-                    <TextField
+                    <CssTextField
                         id="password"
                         label="Password"
                         variant="outlined"
@@ -120,7 +150,7 @@ export default function RegisterPage(props) {
                             input: {
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <IconButton onClick={() => setShowPassword( { ...showPassword, password: showPassword.password ? false : true } )}>
+                                        <IconButton onClick={() => setShowPassword( { ...showPassword, password: showPassword.password ? false : true } )} sx={{color: '#b08968'}}>
                                             {
                                                 showPassword.password ? <VisibilityOffIcon /> : <VisibilityIcon />
                                             }
@@ -135,7 +165,7 @@ export default function RegisterPage(props) {
                     }
 
                     <InputLabel htmlFor='passwordConfirm' sx={{textAlign: 'left', marginTop: '20px', color: 'black'}}>Confrim Password</InputLabel>
-                    <TextField
+                    <CssTextField
                         id="passwordConfirm"
                         label="Confirm password"
                         variant="outlined"
@@ -152,7 +182,7 @@ export default function RegisterPage(props) {
                             input: {
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <IconButton onClick={() => setShowPassword( { ...showPassword, confirm: showPassword.confirm ? false : true } )}>
+                                        <IconButton onClick={() => setShowPassword( { ...showPassword, confirm: showPassword.confirm ? false : true } )} sx={{color: '#b08968'}}>
                                             {
                                                 showPassword.confirm ? <VisibilityOffIcon /> : <VisibilityIcon />
                                             }
