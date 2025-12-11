@@ -21,8 +21,8 @@ import TextField from '@mui/material/TextField';
 export default function Navbar(props) {
     const settings = ['Profile', 'Logout'];
 
-    const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(false);
+    const [anchorElUser, setAnchorElUser] = useState(false);
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -34,11 +34,11 @@ export default function Navbar(props) {
     };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+        setAnchorElNav(false);
     };
 
     const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
+        setAnchorElUser(false);
     };
 
     return (
