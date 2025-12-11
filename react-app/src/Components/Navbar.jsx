@@ -14,16 +14,19 @@ import MenuItem from '@mui/material/MenuItem';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Drawer from '@mui/material/Drawer';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { SearchTextField } from './CssTextField';
 
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 
 
-export default function Navbar(props) {
-    const settings = ['Profile', 'Logout'];
+export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
+
+    const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState(false);
     const [anchorElUser, setAnchorElUser] = useState(false);
-
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const handleOpenNavMenu = (event) => {
@@ -44,26 +47,33 @@ export default function Navbar(props) {
     return (
         <>
             <Drawer open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
-                <Box sx={{ width: 250, padding: 2 }} role="presentation">
-                    <TextField
-                        id="outlined-helperText"
+                <Box sx={{ width: 250, padding: 2, backgroundColor: '#b08968', height: '100%', textAlign: 'center' }} role="presentation">
+                    <IconButton sx={{ position: 'absolute', right: 0, color: 'white', marginLeft: '10px' }} onClick={() => setSidebarOpen(false)}>
+                        <CloseRoundedIcon />
+                    </IconButton>
+                    <SearchTextField
                         label="Title"
+                        sx={{ marginBottom: '10px', color: 'white', maxWidth: '200px' }}
+                        inputProps={{ style: { color: "white" } }}
                     />
-                    <TextField
-                        id="outlined-helperText"
+                    <SearchTextField
                         label="Author"
+                        sx={{ marginBottom: '10px', maxWidth: '200px' }}
+                        inputProps={{ style: { color: "white" } }}
                     />
-                    <TextField
-                        id="outlined-helperText"
+                    <SearchTextField
                         label="Subject"
+                        sx={{ marginBottom: '10px', maxWidth: '200px' }}
+                        inputProps={{ style: { color: "white" } }}
                     />
-                    <TextField
-                        id="outlined-helperText"
+                    <SearchTextField
                         label="Place"
+                        sx={{ marginBottom: '10px', maxWidth: '200px' }}
+                        inputProps={{ style: { color: "white" } }}
                     />
                 </Box>
             </Drawer>
-            <AppBar position="static">
+            <AppBar position="static" sx={{ backgroundColor: '#ddb892', color: 'black' }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <AutoStoriesIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -82,7 +92,7 @@ export default function Navbar(props) {
                                 textDecoration: 'none',
                             }}
                         >
-                            Lbirary
+                            Library
                         </Typography>
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -113,12 +123,23 @@ export default function Navbar(props) {
                                 onClose={handleCloseNavMenu}
                                 sx={{ display: { xs: 'block', md: 'none' } }}
                             >
-                                <MenuItem onClick={() => setSidebarOpen(true)}>
-                                    <Typography sx={{ textAlign: 'center' }}>Search</Typography>
+                                <MenuItem onClick={() => {
+                                    setSidebarOpen(true)
+                                    handleCloseNavMenu()
+                                }}>
+                                    <Typography sx={{ textAlign: 'center', color: 'black' }}>Search</Typography>
                                 </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>My Books</Typography>
-                                </MenuItem>
+
+                                {
+                                    loggedIn &&
+                                    <MenuItem onClick={() => {
+                                        handleCloseNavMenu();
+                                        navigate('/my-books');
+                                    }}>
+                                        <Typography sx={{ textAlign: 'center', color: 'black' }}>My Books</Typography>
+                                    </MenuItem>
+                                }
+
                             </Menu>
                         </Box>
 
@@ -143,50 +164,68 @@ export default function Navbar(props) {
                             Library
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                My Books
-                            </Button>
+                            {
+                                loggedIn &&
+                                <Button
+                                    onClick={() => {
+                                        handleCloseNavMenu();
+                                        navigate('/my-books');
+                                    }}
+                                    sx={{ my: 2, color: 'black', display: 'block' }}
+                                >
+                                    My Books
+                                </Button>
+                            }
+
                             <Button
                                 onClick={() => setSidebarOpen(true)}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                sx={{ my: 2, color: 'black', display: 'block' }}
                             >
                                 Search
                             </Button>
                         </Box>
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <AccountCircleIcon />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                <MenuItem onClick={handleCloseUserMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>Profile</Typography>
-                                </MenuItem>
 
-                                <MenuItem onClick={handleCloseUserMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
-                                </MenuItem>
-                            </Menu>
-                        </Box>
+                        {
+                            loggedIn &&
+                            <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
+                                        <AccountCircleIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    <MenuItem onClick={() => {
+                                        handleCloseUserMenu();
+                                        navigate('/profile');
+                                    }}>
+                                        <Typography sx={{ textAlign: 'center' }}>Profile</Typography>
+                                    </MenuItem>
+
+                                    <MenuItem onClick={() => {
+                                        handleCloseUserMenu();
+                                        setLoggedIn(false);
+                                    }}>
+                                        <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
+                                    </MenuItem>
+                                </Menu>
+                            </Box>
+                        }
+
                     </Toolbar>
                 </Container>
             </AppBar>

@@ -1,12 +1,12 @@
 import LoginPage from "./LoginPage"
 import { Container } from "@mui/material"
 
-export default function HomePage (props) {
+export default function HomePage ({ setIsLoading }) {
 
     // TODO - login and register page
     return (
         <Container>
-            <LoginPage />
+            <LoginPage setIsLoading={setIsLoading} />
         </Container>
     )
 }
