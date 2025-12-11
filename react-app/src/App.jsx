@@ -29,9 +29,7 @@ export default function App(props) {
 
   return (
     <>
-      {
-        loggedIn && <Navbar isAdmin={isAdmin} setLoggedIn={setLoggedIn} />
-      }
+      <Navbar isAdmin={isAdmin} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
 
       <Routes>
         <Route path='/' element={<HomePage />} />
