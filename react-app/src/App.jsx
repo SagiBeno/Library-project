@@ -5,6 +5,8 @@ import Navbar from './Components/Navbar'
 import MyBooksPage from './Pages/MyBooksPage'
 import AdminPage from './Pages/AdminPage'
 import ProfilePage from './Pages/ProfilePage'
+import Container from '@mui/material/Container'
+import RegisterPage from './Pages/RegisterPage'
 import './App.css'
 
 function App() {
@@ -17,14 +19,15 @@ function App() {
     <>
       {
         loggedIn && <Navbar isAdmin={isAdmin} setLoggedIn={setLoggedIn} />
-      }
-
+      } 
       <Routes>
         <Route path='/' element={<HomePage />}/>
         <Route path='/my-books' element={<MyBooksPage />}/>
         <Route path='/admin' element={<AdminPage />}/>
         <Route path='/profile' element={<ProfilePage />}/>
+        <Route path='/register' element={<RegisterPage />}/>
       </Routes>
+      
     </>
   )
 }
