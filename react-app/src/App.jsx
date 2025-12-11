@@ -17,7 +17,7 @@ export default function App(props) {
   const [loggedIn, setLoggedIn] = useState(true);
   const [isAdmin, setIsAdmin] = useState(true);
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {

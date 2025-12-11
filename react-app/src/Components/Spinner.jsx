@@ -15,7 +15,11 @@ export default function Spinner(props) {
             top: 0
         }}
     >
-      <CircularProgress size="3rem" />
+      <CircularProgress
+        size={80}
+        sx={{
+            color: '#b08968',
+        }}/>
     </Box>
   );
 }

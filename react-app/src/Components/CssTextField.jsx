@@ -16,7 +16,7 @@ export const LoginTextField = styled(TextField)({
 
     '& .MuiOutlinedInput-root': {
         '&:hover fieldset': {
-            borderColor:'#b08968',
+            borderColor: '#b08968',
         },
         '&.Mui-focused fieldset': {
             borderColor: '#b08968',
@@ -25,27 +25,27 @@ export const LoginTextField = styled(TextField)({
 });
 
 export const SearchTextField = styled(TextField)({
-        '& label.Mui-focused': {
-            color: 'white',
-        },
+    '& label.Mui-focused': {
+        color: 'white',
+    },
 
-        '& .MuiInput-underline:after': {
-            borderBottomColor: 'white',
-        },
+    '& .MuiInput-underline:after': {
+        borderBottomColor: 'white',
+    },
 
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'white',
-            },
-            '&:hover fieldset': {
-                borderColor: 'white',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'white',
-            },
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: 'white',
         },
-        
-        "& .MuiFormLabel-root": {
-            color: "white"
-        }
-    });
+        '&:hover fieldset': {
+            borderColor: 'white',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'white',
+        },
+    },
+
+    "& .MuiFormLabel-root": {
+        color: "white"
+    }
+});
