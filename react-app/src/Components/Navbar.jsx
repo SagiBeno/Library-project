@@ -13,12 +13,24 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 
-export default function Navbar (props) {
+
+export default function Navbar(props) {
     const settings = ['Profile', 'Logout'];
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
+
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -37,6 +49,28 @@ export default function Navbar (props) {
 
     return (
         <AppBar position="static">
+            <Drawer open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
+                <Box sx={{ width: 250 }} role="presentation">
+                    <List>
+                        <ListItem key={'My Books'} disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={'My Books'} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem key={'Settings'} disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <MailIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={'Settings'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                </Box>
+            </Drawer>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AutoStoriesIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -86,6 +120,9 @@ export default function Navbar (props) {
                             onClose={handleCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
+                            <MenuItem onClick={() => setSidebarOpen(true)}>
+                                <Typography sx={{ textAlign: 'center' }}>Open Sidebar</Typography>
+                            </MenuItem>
                             <MenuItem onClick={handleCloseNavMenu}>
                                 <Typography sx={{ textAlign: 'center' }}>My Books</Typography>
                             </MenuItem>
@@ -119,11 +156,17 @@ export default function Navbar (props) {
                         >
                             My Books
                         </Button>
+                        <Button
+                            onClick={() => setSidebarOpen(true)}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Open Sidebar
+                        </Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <AccountCircleIcon/>
+                                <AccountCircleIcon />
                             </IconButton>
                         </Tooltip>
                         <Menu
