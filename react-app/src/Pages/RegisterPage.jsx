@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { LoginTextField } from "./CssTextField";
+import { LoginTextField } from "../Components/CssTextField";
 
 export default function RegisterPage( { setIsLoading } ) {
     const [formValues, setFormValues] = useState({

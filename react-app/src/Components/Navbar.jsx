@@ -15,7 +15,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Drawer from '@mui/material/Drawer';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { SearchTextField } from '../Pages/CssTextField';
+import { SearchTextField } from './CssTextField';
 
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
