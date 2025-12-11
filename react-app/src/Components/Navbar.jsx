@@ -219,6 +219,7 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                                     <MenuItem onClick={() => {
                                         handleCloseUserMenu();
                                         setLoggedIn(false);
+                                        navigate('/');
                                     }}>
                                         <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
                                     </MenuItem>
