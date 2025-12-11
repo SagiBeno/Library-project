@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+t defaultimport { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import Navbar from './Components/Navbar'
@@ -9,7 +9,7 @@ import Container from '@mui/material/Container'
 import RegisterPage from './Pages/RegisterPage'
 import './App.css'
 
-function App() {
+export default function App(props) {
   const navigate = useNavigate();
   // TODO - Log in
   const [loggedIn, setLoggedIn] = useState(true);
