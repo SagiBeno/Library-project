@@ -2,4 +2,6 @@ npm i
 npm install @netlify/vite-plugin
 npm install -D netlify-cli
 
+npm install @mui/material @emotion/react @emotion/styled
+
 npx netlify dev --functions .netlify/functions
