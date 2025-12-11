@@ -15,7 +15,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom'
 
-export default function Navbar (props) {
+export default function Navbar ( { isAdmin, setLoggedIn } ) {
     const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState(false);
@@ -123,7 +123,6 @@ export default function Navbar (props) {
                                 navigate('/my-books');
                             }}
                             sx={{ my: 2, color: 'white', display: 'block' }}
-                            
                         >
                             My Books
                         </Button>
@@ -150,13 +149,29 @@ export default function Navbar (props) {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={() => {
+                                handleCloseUserMenu();
+                                navigate('/profile');
+                            }}>
                                 <Typography sx={{ textAlign: 'center' }}>Profile</Typography>
                             </MenuItem>
 
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={() => {
+                                handleCloseUserMenu();
+                                setLoggedIn(false);
+                                navigate('/');
+                            }}>
                                 <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
                             </MenuItem>
+
+                            {isAdmin &&
+                                <MenuItem onClick={() => {
+                                handleCloseUserMenu();
+                                navigate('/admin');
+                            }}>
+                                    <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
+                                </MenuItem>
+                            }
                         </Menu>
                     </Box>
                 </Toolbar>
