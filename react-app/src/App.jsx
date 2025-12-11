@@ -7,6 +7,7 @@ import AdminPage from './Pages/AdminPage'
 import ProfilePage from './Pages/ProfilePage'
 import Container from '@mui/material/Container'
 import RegisterPage from './Pages/RegisterPage'
+import supabase from "./supabase-test/supabase";
 import './App.css'
 
 export default function App(props) {
