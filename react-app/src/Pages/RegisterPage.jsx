@@ -1,7 +1,8 @@
-import { Box, Paper, TextField, FormControl, Button, Typography, InputAdornment, IconButton, InputLabel } from "@mui/material"
+import { Box, Paper, TextField, FormControl, Button, Typography, InputAdornment, IconButton, InputLabel, FormHelperText } from "@mui/material"
 import { Link } from "react-router-dom";
 import { useState } from "react"
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function RegisterPage(props) {
     const [formValues, setFormValues] = useState({
@@ -26,14 +27,8 @@ export default function RegisterPage(props) {
         });
     }
 
-    const handleShowPassword = () => {
-        const show = showPassword ? false : true;
-        setShowPassword(show);
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formValues)
     }
 
     return (
@@ -58,6 +53,7 @@ export default function RegisterPage(props) {
                 <Typography
                     variant="h5"
                     align="center"
+                    sx={{fontWeight: 'bold'}}
                 >
                     Register
                 </Typography>
@@ -72,7 +68,7 @@ export default function RegisterPage(props) {
                     autoComplete="off"
                 >
 
-                    <InputLabel htmlFor='username' sx={{textAlign: 'left'}}>Username</InputLabel>
+                    <InputLabel htmlFor='username' sx={{textAlign: 'left', color: 'black'}}>Username</InputLabel>
                     <TextField
                         id="username"
                         label="Username"
@@ -89,7 +85,7 @@ export default function RegisterPage(props) {
                         }}
                     />
 
-                    <InputLabel htmlFor='email' sx={{textAlign: 'left'}}>Email Address</InputLabel>
+                    <InputLabel htmlFor='email' sx={{textAlign: 'left', color: 'black'}}>Email Address</InputLabel>
                     <TextField
                         id="email"
                         label="Email"
@@ -106,7 +102,7 @@ export default function RegisterPage(props) {
                         }}
                     />
                 
-                    <InputLabel htmlFor='password' sx={{textAlign: 'left'}}>Password</InputLabel>
+                    <InputLabel htmlFor='password' sx={{textAlign: 'left', color: 'black'}}>Password</InputLabel>
                     <TextField
                         id="password"
                         label="Password"
@@ -118,7 +114,6 @@ export default function RegisterPage(props) {
                         placeholder="Password"
                         required
                         sx={{
-                            marginBottom: '20px',
                             marginTop: '10px'
                         }}
                         slotProps={{
@@ -126,15 +121,20 @@ export default function RegisterPage(props) {
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton onClick={() => setShowPassword( { ...showPassword, password: showPassword.password ? false : true } )}>
-                                            <RemoveRedEyeIcon />
+                                            {
+                                                showPassword.password ? <VisibilityOffIcon /> : <VisibilityIcon />
+                                            }
                                         </IconButton>
                                     </InputAdornment>
                                 ),
                             },
                         }}
                     />
+                    {
+                        formValues.password !== formValues.passwordConfirm && <FormHelperText sx={{color: 'red', fontWeight: 'bold'}}>Passwords do not match!</FormHelperText>
+                    }
 
-                    <InputLabel htmlFor='passwordConfirm' sx={{textAlign: 'left'}}>Confrim Password</InputLabel>
+                    <InputLabel htmlFor='passwordConfirm' sx={{textAlign: 'left', marginTop: '20px', color: 'black'}}>Confrim Password</InputLabel>
                     <TextField
                         id="passwordConfirm"
                         label="Confirm password"
@@ -146,7 +146,6 @@ export default function RegisterPage(props) {
                         placeholder="Confirm password"
                         required
                         sx={{
-                            marginBottom: '20px',
                             marginTop: '10px'
                         }}
                         slotProps={{
@@ -154,23 +153,46 @@ export default function RegisterPage(props) {
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton onClick={() => setShowPassword( { ...showPassword, confirm: showPassword.confirm ? false : true } )}>
-                                            <RemoveRedEyeIcon />
+                                            {
+                                                showPassword.confirm ? <VisibilityOffIcon /> : <VisibilityIcon />
+                                            }
                                         </IconButton>
                                     </InputAdornment>
                                 ),
                             },
                         }}
                     />
+                    {
+                        formValues.password !== formValues.passwordConfirm && <FormHelperText sx={{color: 'red', fontWeight: 'bold'}}>Passwords do not match!</FormHelperText>
+                    }
+                    
+                    {
+                        formValues.password !== formValues.passwordConfirm || formValues.password.length === 0 || formValues.username.length === 0 || formValues.email.length === 0
+                            ? 
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                        marginTop: '20px',
+                                    }}
+                                    disabled
+                                >
+                                    Register
+                                </Button>
+                            :
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                        marginTop: '20px',
+                                    }}
+                                    className="buttons"
+                                >
+                                    Register
+                                </Button>
 
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{
-                            marginBottom: '20px'
-                        }}
-                    >
-                        Register
-                    </Button>
+                    }
+                    
                 </form>
 
             </Paper>

@@ -1,4 +1,6 @@
-import { Box, Paper, TextField, FormControl, Button, Typography, InputLabel } from "@mui/material"
+import { Box, Paper, TextField, FormControl, Button, Typography, InputLabel, IconButton, InputAdornment } from "@mui/material"
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from "react-router-dom";
 import { useState } from "react"
 
@@ -7,6 +9,8 @@ export default function LoginPage(props) {
         email: '',
         password: '',
     });
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e) => {
         const formElement = e.target.name;
@@ -24,14 +28,15 @@ export default function LoginPage(props) {
 
     return (
 
-        <Box sx={{
-            height: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column'
-
-        }}>
+        <Box 
+            sx={{
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column'
+            }}
+        >
             <Paper
                 square={false}
                 sx={{
@@ -44,6 +49,7 @@ export default function LoginPage(props) {
                 <Typography
                     variant="h5"
                     align="center"
+                    sx={{fontWeight: 'bold'}}
                 >
                     Login
                 </Typography>
@@ -56,7 +62,7 @@ export default function LoginPage(props) {
                         margin: '15px'
                     }}
                 >
-                    <InputLabel htmlFor='email' sx={{textAlign: 'left'}}>Email Address</InputLabel>
+                    <InputLabel htmlFor='email' sx={{textAlign: 'left', color: 'black'}}>Email Address</InputLabel>
                     <TextField
                         id="email"
                         label="Email"
@@ -68,38 +74,69 @@ export default function LoginPage(props) {
                         name='email'
                         required
                         sx={{
-                            marginBottom: '20px'
+                            marginBottom: '20px',
+                            marginTop: '10px'
                         }}
                     />
 
-                    <InputLabel htmlFor='password' sx={{textAlign: 'left'}}>Password</InputLabel>
+                    <InputLabel htmlFor='password' sx={{textAlign: 'left', color: 'black'}}>Password</InputLabel>
                     <TextField
-                        id="outlined-basic"
+                        id="password"
                         label="Password"
                         variant="outlined"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Password"
                         onChange={(e) => handleChange(e)}
                         value={formValues.password}
                         name='password'
                         required
                         sx={{
-                            marginBottom: '20px'
+                            marginBottom: '20px',
+                            marginTop: '10px'
+                        }}
+                        slotProps={{
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={() => setShowPassword( showPassword? false : true  )}>
+                                            {
+                                                showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
+                                            }
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            },
                         }}
                     />
 
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{
-                            marginBottom: '20px'
-                        }}
-                    >
-                        Login
-                    </Button>
-
+                    {
+                        formValues.password.length === 0 || formValues.email.length === 0
+                            ?
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                        marginBottom: '20px'
+                                    }}
+                                    disabled
+                                >
+                                    Login
+                                </Button>
+                            :
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                        marginBottom: '20px'
+                                    }}
+                                    className="buttons"
+                                >
+                                    Login
+                                </Button>
+                    }
+                    
                     <Typography variant="subtitle1">
-                        Don't have an account? <Link to='/register'>Register here</Link>
+                        Do not have an account? <Link to='/register' className="link">Register here</Link>
                     </Typography>
                 </form>
 
