@@ -15,7 +15,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Drawer from '@mui/material/Drawer';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { alpha, styled } from '@mui/material/styles';
+import { SearchTextField } from '../Pages/CssTextField';
 
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
@@ -44,31 +44,6 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
         setAnchorElUser(false);
     };
 
-    const CssTextField = styled(TextField)({
-        '& label.Mui-focused': {
-            color: 'white',
-        },
-
-        '& .MuiInput-underline:after': {
-            borderBottomColor: 'white',
-        },
-
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'white',
-            },
-            '&:hover fieldset': {
-                borderColor: 'white',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'white',
-            },
-        },
-        "& .MuiFormLabel-root": {
-            color: "white"
-        }
-    });
-
     return (
         <>
             <Drawer open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
@@ -76,22 +51,22 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                     <IconButton sx={{ position: 'absolute', right: 0, color: 'white', marginLeft: '10px' }} onClick={() => setSidebarOpen(false)}>
                         <CloseRoundedIcon />
                     </IconButton>
-                    <CssTextField
+                    <SearchTextField
                         label="Title"
                         sx={{ marginBottom: '10px', color: 'white', maxWidth: '200px' }}
                         inputProps={{ style: { color: "white" } }}
                     />
-                    <CssTextField
+                    <SearchTextField
                         label="Author"
                         sx={{ marginBottom: '10px', maxWidth: '200px' }}
                         inputProps={{ style: { color: "white" } }}
                     />
-                    <CssTextField
+                    <SearchTextField
                         label="Subject"
                         sx={{ marginBottom: '10px', maxWidth: '200px' }}
                         inputProps={{ style: { color: "white" } }}
                     />
-                    <CssTextField
+                    <SearchTextField
                         label="Place"
                         sx={{ marginBottom: '10px', maxWidth: '200px' }}
                         inputProps={{ style: { color: "white" } }}

@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { useState } from "react"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { alpha, styled } from '@mui/material/styles';
+import { LoginTextField } from "./CssTextField";
 
-export default function RegisterPage(props) {
+export default function RegisterPage( { setIsLoading } ) {
     const [formValues, setFormValues] = useState({
         email: '',
         password: '',
@@ -30,36 +30,8 @@ export default function RegisterPage(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
     }
-
-    const CssTextField = styled(TextField)({
-        '& fieldset.MuiOutlinedInput-notchedOutline': {
-            borderColor: '#ddb892',
-        },
-        
-        '& label.Mui-focused': {
-            color: '#b08968',
-        },
-
-        '& .MuiInput-underline:after': {
-            borderBottomColor: '#b08968',
-        },
-
-        '& .MuiOutlinedInput-root': {
-            '&:hover fieldset': {
-                borderColor:'#b08968',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: '#b08968',
-            },
-            '&:hover fieldset': {
-                borderColor: '#b08968',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: '#b08968',
-            },
-        },
-    });
 
     return (
 
@@ -99,7 +71,7 @@ export default function RegisterPage(props) {
                 >
 
                     <InputLabel htmlFor='username' sx={{textAlign: 'left', color: 'black'}}>Username</InputLabel>
-                    <CssTextField
+                    <LoginTextField
                         id="username"
                         label="Username"
                         variant="outlined"
@@ -116,7 +88,7 @@ export default function RegisterPage(props) {
                     />
 
                     <InputLabel htmlFor='email' sx={{textAlign: 'left', color: 'black'}}>Email Address</InputLabel>
-                    <CssTextField
+                    <LoginTextField
                         id="email"
                         label="Email"
                         variant="outlined"
@@ -133,7 +105,7 @@ export default function RegisterPage(props) {
                     />
                 
                     <InputLabel htmlFor='password' sx={{textAlign: 'left', color: 'black'}}>Password</InputLabel>
-                    <CssTextField
+                    <LoginTextField
                         id="password"
                         label="Password"
                         variant="outlined"
@@ -165,7 +137,7 @@ export default function RegisterPage(props) {
                     }
 
                     <InputLabel htmlFor='passwordConfirm' sx={{textAlign: 'left', marginTop: '20px', color: 'black'}}>Confrim Password</InputLabel>
-                    <CssTextField
+                    <LoginTextField
                         id="passwordConfirm"
                         label="Confirm password"
                         variant="outlined"
