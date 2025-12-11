@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import Navbar from './Components/Navbar'
@@ -14,6 +14,16 @@ function App() {
   // TODO - Log in
   const [loggedIn, setLoggedIn] = useState(true);
   const [isAdmin, setIsAdmin] = useState(true);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const felhasznalok = await supabase
+        .from("library_project_junction")
+        .select("*")
+      setUsers(felhasznalok.data);
+    })().catch(console.warn);
+  }, []);
 
   return (
     <>
@@ -27,9 +37,7 @@ function App() {
         <Route path='/profile' element={<ProfilePage />}/>
         <Route path='/register' element={<RegisterPage />}/>
       </Routes>
-      
+      {JSON.stringify(users)}
     </>
   )
 }
-
-export default App
