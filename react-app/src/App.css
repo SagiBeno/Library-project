@@ -23,6 +23,10 @@
     animation: pulse 2s infinite;
 }
 
+.container {
+    margin-top: 20px;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);

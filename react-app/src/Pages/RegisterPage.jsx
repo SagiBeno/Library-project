@@ -1,11 +1,11 @@
-import { Box, Paper, TextField, FormControl, Button, Typography, InputAdornment, IconButton, InputLabel, FormHelperText } from "@mui/material"
+import { Box, Paper, TextField, FormControl, Button, Typography, InputAdornment, IconButton, InputLabel, FormHelperText, Container } from "@mui/material"
 import { Link } from "react-router-dom";
 import { useState } from "react"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { LoginTextField } from "../Components/CssTextField";
 
-export default function RegisterPage( { setIsLoading } ) {
+export default function RegisterPage({ setIsLoading }) {
     const [formValues, setFormValues] = useState({
         email: '',
         password: '',
@@ -35,14 +35,15 @@ export default function RegisterPage( { setIsLoading } ) {
 
     return (
 
-        <Box sx={{
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            marginTop: '20px'
-        }}>
+        <Container
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+            }}
+            className="container"
+        >
             <Paper
                 square={false}
                 sx={{
@@ -55,9 +56,9 @@ export default function RegisterPage( { setIsLoading } ) {
                 <Typography
                     variant="h5"
                     align="center"
-                    sx={{fontWeight: 'bold'}}
+                    sx={{ fontWeight: 'bold' }}
                 >
-                    Register
+                    Create an account
                 </Typography>
 
                 <form
@@ -70,7 +71,7 @@ export default function RegisterPage( { setIsLoading } ) {
                     autoComplete="off"
                 >
 
-                    <InputLabel htmlFor='username' sx={{textAlign: 'left', color: 'black'}}>Username</InputLabel>
+                    <InputLabel htmlFor='username' sx={{ textAlign: 'left', color: 'black' }}>Username</InputLabel>
                     <LoginTextField
                         id="username"
                         label="Username"
@@ -87,7 +88,7 @@ export default function RegisterPage( { setIsLoading } ) {
                         }}
                     />
 
-                    <InputLabel htmlFor='email' sx={{textAlign: 'left', color: 'black'}}>Email Address</InputLabel>
+                    <InputLabel htmlFor='email' sx={{ textAlign: 'left', color: 'black' }}>Email Address</InputLabel>
                     <LoginTextField
                         id="email"
                         label="Email"
@@ -103,8 +104,8 @@ export default function RegisterPage( { setIsLoading } ) {
                             marginTop: '10px'
                         }}
                     />
-                
-                    <InputLabel htmlFor='password' sx={{textAlign: 'left', color: 'black'}}>Password</InputLabel>
+
+                    <InputLabel htmlFor='password' sx={{ textAlign: 'left', color: 'black' }}>Password</InputLabel>
                     <LoginTextField
                         id="password"
                         label="Password"
@@ -122,7 +123,7 @@ export default function RegisterPage( { setIsLoading } ) {
                             input: {
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <IconButton onClick={() => setShowPassword( { ...showPassword, password: showPassword.password ? false : true } )} sx={{color: '#b08968'}}>
+                                        <IconButton onClick={() => setShowPassword({ ...showPassword, password: showPassword.password ? false : true })} sx={{ color: '#b08968' }}>
                                             {
                                                 showPassword.password ? <VisibilityOffIcon /> : <VisibilityIcon />
                                             }
@@ -133,10 +134,10 @@ export default function RegisterPage( { setIsLoading } ) {
                         }}
                     />
                     {
-                        formValues.password !== formValues.passwordConfirm && <FormHelperText sx={{color: 'red', fontWeight: 'bold'}}>Passwords do not match!</FormHelperText>
+                        formValues.password !== formValues.passwordConfirm && <FormHelperText sx={{ color: 'red', fontWeight: 'bold' }}>Passwords do not match!</FormHelperText>
                     }
 
-                    <InputLabel htmlFor='passwordConfirm' sx={{textAlign: 'left', marginTop: '20px', color: 'black'}}>Confrim Password</InputLabel>
+                    <InputLabel htmlFor='passwordConfirm' sx={{ textAlign: 'left', marginTop: '20px', color: 'black' }}>Confrim Password</InputLabel>
                     <LoginTextField
                         id="passwordConfirm"
                         label="Confirm password"
@@ -154,7 +155,7 @@ export default function RegisterPage( { setIsLoading } ) {
                             input: {
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <IconButton onClick={() => setShowPassword( { ...showPassword, confirm: showPassword.confirm ? false : true } )} sx={{color: '#b08968'}}>
+                                        <IconButton onClick={() => setShowPassword({ ...showPassword, confirm: showPassword.confirm ? false : true })} sx={{ color: '#b08968' }}>
                                             {
                                                 showPassword.confirm ? <VisibilityOffIcon /> : <VisibilityIcon />
                                             }
@@ -165,39 +166,39 @@ export default function RegisterPage( { setIsLoading } ) {
                         }}
                     />
                     {
-                        formValues.password !== formValues.passwordConfirm && <FormHelperText sx={{color: 'red', fontWeight: 'bold'}}>Passwords do not match!</FormHelperText>
+                        formValues.password !== formValues.passwordConfirm && <FormHelperText sx={{ color: 'red', fontWeight: 'bold' }}>Passwords do not match!</FormHelperText>
                     }
-                    
+
                     {
                         formValues.password !== formValues.passwordConfirm || formValues.password.length === 0 || formValues.username.length === 0 || formValues.email.length === 0
-                            ? 
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{
-                                        marginTop: '20px',
-                                    }}
-                                    disabled
-                                >
-                                    Register
-                                </Button>
+                            ?
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{
+                                    marginTop: '20px',
+                                }}
+                                disabled
+                            >
+                                Register
+                            </Button>
                             :
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{
-                                        marginTop: '20px',
-                                    }}
-                                    className="buttons"
-                                >
-                                    Register
-                                </Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{
+                                    marginTop: '20px',
+                                }}
+                                className="buttons"
+                            >
+                                Register
+                            </Button>
 
                     }
-                    
+
                 </form>
 
             </Paper>
-        </Box>
+        </Container>
     )
 }

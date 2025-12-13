@@ -3,9 +3,8 @@ import { Container } from "@mui/material"
 
 export default function HomePage ({ setIsLoading }) {
 
-    // TODO - login and register page
     return (
-        <Container>
+        <Container className="container">
             <LoginPage setIsLoading={setIsLoading} />
         </Container>
     )

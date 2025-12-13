@@ -37,7 +37,6 @@ export default function LoginPage({ setIsLoading }) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                marginTop: '20px'
             }}
         >
             <Paper
