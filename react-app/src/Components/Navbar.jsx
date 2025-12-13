@@ -188,7 +188,7 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                         {
                             loggedIn &&
                             <Box sx={{ flexGrow: 0 }}>
-                                <Tooltip title="Open settings">
+                                <Tooltip title="More options...">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
                                         <AccountCircleIcon />
                                     </IconButton>
@@ -223,6 +223,13 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                                     }}>
                                         <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
                                     </MenuItem>
+
+                                    {isAdmin && <MenuItem onClick={() => {
+                                        handleCloseUserMenu();
+                                        navigate('/admin');
+                                    }}>
+                                        <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
+                                    </MenuItem>}
                                 </Menu>
                             </Box>
                         }
