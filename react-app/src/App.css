@@ -23,6 +23,20 @@
     animation: pulse 2s infinite;
 }
 
+.container {
+    margin-top: 20px;
+}
+
+.modalButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.modalButtons > button:hover {
+    animation: pulse 2s infinite;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -34,5 +48,15 @@
 
     100% {
         transform: scale(1);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .modalButtons {
+        flex-direction: column;
+    }
+
+    .cancelButtons {
+        margin-bottom: 10px !important;
     }
 }

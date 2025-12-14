@@ -1,13 +1,8 @@
-const searchURL = "https://openlibrary.org/search.json";
+const searchURL = "https://openlibrary.org/search.json?q=";
 const coverURL = "https://covers.openlibrary.org/b/olid/"; +"OLID-{olid}-{size}.jpg";
 
-export async function fetchBooksByQuery(queryObj) {
-    const params = new URLSearchParams();
-    for (const key in queryObj) {
-        params.append(key, queryObj[key]);
-    }
-
-    const response = await fetch(`${searchURL}?${params.toString()}`);
+export async function fetchBooksByQuery(searchQuery) {
+    const response = await fetch(`${searchURL}${searchQuery}`);
     return await response.json();
 }
 

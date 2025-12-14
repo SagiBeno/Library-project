@@ -15,11 +15,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Drawer from '@mui/material/Drawer';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { SearchTextField } from './CssTextField';
-
-import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-
 
 export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
 
@@ -27,7 +23,6 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
 
     const [anchorElNav, setAnchorElNav] = useState(false);
     const [anchorElUser, setAnchorElUser] = useState(false);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -46,33 +41,6 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
 
     return (
         <>
-            <Drawer open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
-                <Box sx={{ width: 250, padding: 2, backgroundColor: '#b08968', height: '100%', textAlign: 'center' }} role="presentation">
-                    <IconButton sx={{ position: 'absolute', right: 0, color: 'white', marginLeft: '10px' }} onClick={() => setSidebarOpen(false)}>
-                        <CloseRoundedIcon />
-                    </IconButton>
-                    <SearchTextField
-                        label="Title"
-                        sx={{ marginBottom: '10px', color: 'white', maxWidth: '200px' }}
-                        inputProps={{ style: { color: "white" } }}
-                    />
-                    <SearchTextField
-                        label="Author"
-                        sx={{ marginBottom: '10px', maxWidth: '200px' }}
-                        inputProps={{ style: { color: "white" } }}
-                    />
-                    <SearchTextField
-                        label="Subject"
-                        sx={{ marginBottom: '10px', maxWidth: '200px' }}
-                        inputProps={{ style: { color: "white" } }}
-                    />
-                    <SearchTextField
-                        label="Place"
-                        sx={{ marginBottom: '10px', maxWidth: '200px' }}
-                        inputProps={{ style: { color: "white" } }}
-                    />
-                </Box>
-            </Drawer>
             <AppBar position="static" sx={{ backgroundColor: '#ddb892', color: 'black' }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
@@ -124,8 +92,8 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                                 sx={{ display: { xs: 'block', md: 'none' } }}
                             >
                                 <MenuItem onClick={() => {
-                                    setSidebarOpen(true)
-                                    handleCloseNavMenu()
+                                    handleCloseNavMenu();
+                                    navigate('/search');
                                 }}>
                                     <Typography sx={{ textAlign: 'center', color: 'black' }}>Search</Typography>
                                 </MenuItem>
@@ -178,7 +146,7 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                             }
 
                             <Button
-                                onClick={() => setSidebarOpen(true)}
+                                onClick={() => navigate('/search')}
                                 sx={{ my: 2, color: 'black', display: 'block' }}
                             >
                                 Search
@@ -188,7 +156,7 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                         {
                             loggedIn &&
                             <Box sx={{ flexGrow: 0 }}>
-                                <Tooltip title="Open settings">
+                                <Tooltip title="More options...">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
                                         <AccountCircleIcon />
                                     </IconButton>
@@ -223,6 +191,13 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                                     }}>
                                         <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
                                     </MenuItem>
+
+                                    {isAdmin && <MenuItem onClick={() => {
+                                        handleCloseUserMenu();
+                                        navigate('/admin');
+                                    }}>
+                                        <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
+                                    </MenuItem>}
                                 </Menu>
                             </Box>
                         }
