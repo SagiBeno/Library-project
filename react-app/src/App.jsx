@@ -4,7 +4,7 @@ import HomePage from './Pages/HomePage'
 import Navbar from './Components/Navbar'
 import MyBooksPage from './Pages/MyBooksPage'
 import AdminPage from './Pages/AdminPage'
-import ProfilePage from './Pages/ProfilePage'
+import SearchPage from './Pages/SearchPage'
 import RegisterPage from './Pages/RegisterPage'
 import Spinner from './Components/Spinner'
 import supabase from "./supabase-test/supabase";
@@ -37,7 +37,7 @@ export default function App(props) {
         <Route path='/' element={<HomePage setIsLoading={setIsLoading} />} />
         <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} />} />
         <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} />} />
-        <Route path='/profile' element={<ProfilePage setIsLoading={setIsLoading} />} />
+        <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} />} />
       </Routes>
 
