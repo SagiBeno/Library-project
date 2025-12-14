@@ -27,6 +27,20 @@
     margin-top: 20px;
 }
 
+.modalButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+#modalSaveButton {
+    margin-right: 10px;
+}
+
+.modalButtons > button:hover {
+    animation: pulse 2s infinite;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -38,5 +52,16 @@
 
     100% {
         transform: scale(1);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .modalButtons {
+        flex-direction: column;
+    }
+
+    #modalSaveButton {
+        margin-right: 0;
+        margin-bottom: 10px;
     }
 }
