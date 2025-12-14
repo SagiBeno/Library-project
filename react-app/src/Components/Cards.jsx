@@ -40,6 +40,16 @@ export default function Cards({ book, handleInformation }) {
                         </Typography>
 
                 }
+
+                <Stack
+                    sx={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        marginTop: '10px',
+                    }}
+                >
+                    {/*TODO - Chip */}
+                </Stack>
             </CardContent>
 
             <CardActions
