@@ -5,25 +5,10 @@ import { useEffect, useState } from "react";
 import { fetchBooksByQuery } from '../utils'
 import Cards from '../Components/Cards'
 
-async function defaultBooks (setIsLoading, setBooks) {
-    setIsLoading(true);
-    try {
-        const data = await fetchBooksByQuery('cats');
-        setBooks([...data.docs]);
-    } catch (err) {
-        console.log(err)
-    }
-    setIsLoading(false);
-}
-
 export default function SearchPage( { setIsLoading } ) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [books, setBooks] = useState([]);
-
-    useEffect(() => {
-        defaultBooks(setIsLoading, setBooks);
-    }, []);
 
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
