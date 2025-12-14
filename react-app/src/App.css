@@ -37,10 +37,6 @@
     animation: pulse 2s infinite;
 }
 
-.cards:hover {
-    animation: pulse 2s infinite;
-}
-
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -55,7 +51,7 @@
     }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
     .modalButtons {
         flex-direction: column;
     }

@@ -1,6 +1,7 @@
-import { Card, CardMedia, CardHeader, CardContent, CardActions, Typography } from "@mui/material"
+import { Card, CardMedia, CardHeader, CardContent, CardActions, Typography, Button, Box, Stack, Chip } from "@mui/material"
 
-export default function Cards({ book }) {
+export default function Cards({ book, handleInformation }) {
+    console.log(book)
     return (
         <Card
             sx={{
@@ -12,7 +13,7 @@ export default function Cards({ book }) {
                 margin: '10px',
                 boxShadow: '0px 0px 10px 0px gray',
                 padding: '5px',
-                cursor: 'pointer'
+                cursor: 'pointer',
             }}
             className="cards"
         >
@@ -31,16 +32,39 @@ export default function Cards({ book }) {
                 loading='lazy'
             />
 
-            {
-                book?.author_name && 
-                <CardContent>
-                    <Typography variant="subtitle1">
-                        {book?.author_name[0]}
-                    </Typography>
-                </CardContent>
-            }
+            <CardContent sx={{ flexGrow: 1 }}>
+                {
+                    book?.author_name &&
+                        <Typography variant="subtitle1">
+                            {book?.author_name[0]}
+                        </Typography>
 
-            
+                }
+            </CardContent>
+
+            <CardActions
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                    mt: 'auto',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+
+                <Box>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            width: '100%'
+                        }}
+                    >
+                        Book lending
+                    </Button>
+                </Box>
+
+            </CardActions>
         </Card>
 
     )
