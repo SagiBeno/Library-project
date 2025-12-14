@@ -1,5 +1,5 @@
 import { Modal, Box, Typography, InputLabel, Button, TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@mui/material"
-import { LoginTextField } from './CssTextField'
+import { CustomTextField } from './CssTextField'
 import { useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
@@ -58,7 +58,7 @@ export function EditModal({ showEditModal, setShowEditModal, data, handleSave })
 
                         <InputLabel htmlFor='email' sx={{ textAlign: 'left', color: 'black' }}>Username</InputLabel>
 
-                        <LoginTextField
+                        <CustomTextField
                             id="username"
                             label="Username"
                             variant="outlined"
@@ -75,7 +75,7 @@ export function EditModal({ showEditModal, setShowEditModal, data, handleSave })
 
                         <InputLabel htmlFor='email' sx={{ textAlign: 'left', color: 'black' }}>Email Address</InputLabel>
 
-                        <LoginTextField
+                        <CustomTextField
                             id="email"
                             label="Email"
                             variant="outlined"
@@ -93,7 +93,7 @@ export function EditModal({ showEditModal, setShowEditModal, data, handleSave })
 
                         <InputLabel htmlFor='email' sx={{ textAlign: 'left', color: 'black' }}>Password</InputLabel>
 
-                        <LoginTextField
+                        <CustomTextField
                             id="password"
                             label="Password"
                             variant="outlined"

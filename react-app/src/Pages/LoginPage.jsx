@@ -3,7 +3,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
-import { LoginTextField } from "../Components/CssTextField";
+import { CustomTextField } from "../Components/CssTextField";
 
 export default function LoginPage({ setIsLoading }) {
     const navigate = useNavigate();
@@ -67,7 +67,7 @@ export default function LoginPage({ setIsLoading }) {
                     }}
                 >
                     <InputLabel htmlFor='email' sx={{ textAlign: 'left', color: 'black' }}>Email Address</InputLabel>
-                    <LoginTextField
+                    <CustomTextField
                         id="email"
                         label="Email"
                         variant="outlined"
@@ -84,7 +84,7 @@ export default function LoginPage({ setIsLoading }) {
                     />
 
                     <InputLabel htmlFor='password' sx={{ textAlign: 'left', color: 'black' }}>Password</InputLabel>
-                    <LoginTextField
+                    <CustomTextField
                         id="password"
                         label="Password"
                         variant="outlined"

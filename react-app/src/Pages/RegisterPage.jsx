@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { LoginTextField } from "../Components/CssTextField";
+import { CustomTextField } from "../Components/CssTextField";
 
 export default function RegisterPage({ setIsLoading }) {
     const [formValues, setFormValues] = useState({
@@ -72,7 +72,7 @@ export default function RegisterPage({ setIsLoading }) {
                 >
 
                     <InputLabel htmlFor='username' sx={{ textAlign: 'left', color: 'black' }}>Username</InputLabel>
-                    <LoginTextField
+                    <CustomTextField
                         id="username"
                         label="Username"
                         variant="outlined"
@@ -89,7 +89,7 @@ export default function RegisterPage({ setIsLoading }) {
                     />
 
                     <InputLabel htmlFor='email' sx={{ textAlign: 'left', color: 'black' }}>Email Address</InputLabel>
-                    <LoginTextField
+                    <CustomTextField
                         id="email"
                         label="Email"
                         variant="outlined"
@@ -106,7 +106,7 @@ export default function RegisterPage({ setIsLoading }) {
                     />
 
                     <InputLabel htmlFor='password' sx={{ textAlign: 'left', color: 'black' }}>Password</InputLabel>
-                    <LoginTextField
+                    <CustomTextField
                         id="password"
                         label="Password"
                         variant="outlined"
@@ -138,7 +138,7 @@ export default function RegisterPage({ setIsLoading }) {
                     }
 
                     <InputLabel htmlFor='passwordConfirm' sx={{ textAlign: 'left', marginTop: '20px', color: 'black' }}>Confrim Password</InputLabel>
-                    <LoginTextField
+                    <CustomTextField
                         id="passwordConfirm"
                         label="Confirm password"
                         variant="outlined"
