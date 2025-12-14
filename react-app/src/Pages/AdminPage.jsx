@@ -3,7 +3,7 @@ import { useState } from "react"
 import RadioButtons from "../Components/RadioButtons";
 import MyTable from "../Components/MyTable";
 import supabase from "../supabase-test/supabase";
-import { EditModal, DeleteModal } from '../Components/MyModal'
+import { EditModal, DeleteModal } from '../Components/Modals'
 
 export default function AdminPage({ setIsLoading }) {
     const [radioOptions, setRadioOptions] = useState({
@@ -35,6 +35,22 @@ export default function AdminPage({ setIsLoading }) {
         }
 
         if (value === 'admin') {
+            setIsLoading(true);
+            (async () => {
+                const members = await supabase
+                    .from('library_project_users')
+                    .select("*")
+                    .eq('isAdmin', true)
+                if (members.data.length > 0) setTableData(members.data);
+            })()
+                .catch(console.warn)
+                .finally(() => setIsLoading(false))
+        }
+
+        if (value === 'worker') {
+
+            // TODO
+
             setIsLoading(true);
             (async () => {
                 const members = await supabase
