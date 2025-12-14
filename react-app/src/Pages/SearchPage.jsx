@@ -1,14 +1,29 @@
-import { Container, Box, IconButton } from "@mui/material";
+import { Container, Box, IconButton, Typography } from "@mui/material";
 import { CustomTextField } from "../Components/CssTextField";
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchBooksByQuery } from '../utils'
 import Cards from '../Components/Cards'
+
+async function defaultBooks (setIsLoading, setBooks) {
+    setIsLoading(true);
+    try {
+        const data = await fetchBooksByQuery('cats');
+        setBooks([...data.docs]);
+    } catch (err) {
+        console.log(err)
+    }
+    setIsLoading(false);
+}
 
 export default function SearchPage( { setIsLoading } ) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+        defaultBooks(setIsLoading, setBooks);
+    }, []);
 
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
@@ -57,8 +72,13 @@ export default function SearchPage( { setIsLoading } ) {
                 }}
             >
                 {
-                    books.length > 0 &&
-                    books.map( (book, idx) => <Cards book={book} key={idx} /> )
+                    books.length > 0
+                        ?
+                            books.map( (book, idx) => <Cards book={book} key={idx} /> )
+                        :
+                            <Typography variant="h5">
+                                No results found!
+                            </Typography>
                 }
             </Box>
             

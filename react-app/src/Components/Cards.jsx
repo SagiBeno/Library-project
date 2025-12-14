@@ -24,6 +24,7 @@ export default function Cards({ book }) {
                 alt={book.title}
                 sx={{
                     width: '60%',
+                    maxHeight: '400px',
                     margin: '0 auto',
                 }}
                 title={book.title}
@@ -33,7 +34,7 @@ export default function Cards({ book }) {
             {
                 book?.author_name && 
                 <CardContent>
-                    <Typography variant="subtitle1" gutterBottom>
+                    <Typography variant="subtitle1">
                         {book?.author_name[0]}
                     </Typography>
                 </CardContent>
