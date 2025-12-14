@@ -30,11 +30,7 @@
 .modalButtons {
     display: flex;
     flex-direction: row;
-    justify-content: end;
-}
-
-#modalSaveButton {
-    margin-right: 10px;
+    justify-content: space-between;
 }
 
 .modalButtons > button:hover {
@@ -55,13 +51,12 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 400px) {
     .modalButtons {
         flex-direction: column;
     }
 
-    #modalSaveButton {
-        margin-right: 0;
-        margin-bottom: 10px;
+    .cancelButtons {
+        margin-bottom: 10px !important;
     }
 }

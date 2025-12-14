@@ -1,8 +1,11 @@
-import { Modal, Box, Typography, InputLabel, Button } from "@mui/material"
+import { Modal, Box, Typography, InputLabel, Button, TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@mui/material"
 import { LoginTextField } from './CssTextField'
 import { useState } from "react"
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-export default function MyModal({ showModal, setShowModal, data, handleSave }) {
+export function EditModal({ showEditModal, setShowEditModal, data, handleSave }) {
     const [textFieldData, setTextFieldData] = useState({
         id: data[0].id,
         username: data[0].username,
@@ -23,8 +26,8 @@ export default function MyModal({ showModal, setShowModal, data, handleSave }) {
     return (
         <div>
             <Modal
-                open={showModal}
-                onClose={() => setShowModal(false)}
+                open={showEditModal}
+                onClose={() => setShowEditModal(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -107,46 +110,136 @@ export default function MyModal({ showModal, setShowModal, data, handleSave }) {
                     </Box>
 
                     <Box className='modalButtons'>
+                        <Button
+                            variant="contained"
+                            onClick={() => setShowEditModal(false)}
+                            sx={{
+                                backgroundColor: '#bcb8b1',
+                                color: 'black'
+                            }}
+                            className='cancelButtons'
+                            startIcon={<CancelIcon />}
+                        >
+                            Cancel
+                        </Button>
+
                         {
                             data[0].username === textFieldData.username && data[0].email === textFieldData.email && data[0].password === textFieldData.password
                                 ?
-                                    <Button
-                                        disabled
-                                        variant="contained"
-                                        sx={{
-                                            backgroundColor: '#29bf12',
-                                        }}
-                                        id='modalSaveButton'
-                                    >
-                                        Save
-                                    </Button>
+                                <Button
+                                    disabled
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor: '#29bf12',
+                                    }}
+                                    startIcon={<SaveIcon />}
+                                >
+                                    Save
+                                </Button>
                                 :
-                                    <Button
-                                        variant="contained"
-                                        sx={{
-                                            backgroundColor: '#29bf12',
-                                        }}
-                                        id='modalSaveButton'
-                                        onClick={() => {
-                                            handleSave({...textFieldData});
-                                            setShowModal(false);
-                                        }}
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor: '#29bf12',
+                                    }}
+                                    onClick={() => {
+                                        handleSave({ ...textFieldData });
+                                        setShowEditModal(false);
+                                    }}
+                                    startIcon={<SaveIcon />}
+                                >
+                                    Save
+                                </Button>
 
-                                    >
-                                        Save
-                                    </Button>
-                                    
                         }
+                    </Box>
+                </Box>
+            </Modal>
+        </div>
+    )
+}
+
+export function DeleteModal({ showDeleteModal, setShowDeleteModal, data, handleDeleteConfirm }) {
+    return (
+        <div>
+            <Modal
+                open={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '50vw',
+                        maxHeight: '80vh',
+                        overflowX: 'auto',
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                    }}
+                >
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{textAlign: 'center'}}>
+                        You want to delete the following user
+                    </Typography>
+
+                    <TableContainer
+                        sx={{overflow: 'auto'}}
+                    >
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Id</TableCell>
+                                    <TableCell>Username</TableCell>
+                                    <TableCell>Email</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    data.map( ({id, username, email }, idx) => (
+                                        <TableRow key={idx}>
+                                            <TableCell>{id}</TableCell>
+                                            <TableCell>{username}</TableCell>
+                                            <TableCell>{email}</TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <Box className='modalButtons' sx={{marginTop: '20px'}}>
+                        <Button
+                            variant="contained"
+                            onClick={() => setShowDeleteModal(false)}
+                            sx={{
+                                backgroundColor: '#bcb8b1',
+                                color: 'black'
+                            }}
+                            className="cancelButtons"
+                            startIcon={<CancelIcon />}
+                        >
+                            Cancel
+                        </Button>
 
                         <Button
                             variant="contained"
-                            onClick={() => setShowModal(false)}
+                            onClick={() => {
+                                handleDeleteConfirm(data);
+                                setShowDeleteModal(false);
+                            }}
                             sx={{
                                 backgroundColor: 'red',
                             }}
+                            startIcon={<DeleteIcon />}
                         >
-                            Close
+                            Delete
                         </Button>
+
                     </Box>
                 </Box>
             </Modal>
