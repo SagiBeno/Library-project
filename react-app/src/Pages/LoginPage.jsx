@@ -1,11 +1,12 @@
 import { Box, Paper, TextField, FormControl, Button, Typography, InputLabel, IconButton, InputAdornment } from "@mui/material"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { LoginTextField } from "../Components/CssTextField";
 
 export default function LoginPage({ setIsLoading }) {
+    const navigate = useNavigate();
     const [formValues, setFormValues] = useState({
         email: '',
         password: '',
@@ -26,6 +27,7 @@ export default function LoginPage({ setIsLoading }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
+        navigate('/serach');
     }
 
     return (
