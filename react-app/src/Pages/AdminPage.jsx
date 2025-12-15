@@ -1,4 +1,4 @@
-import { Container, Paper, Typography } from "@mui/material"
+import { Box, Container, Paper, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import RadioButtons from "../Components/RadioButtons";
 import MyTable from "../Components/MyTable";
@@ -6,6 +6,7 @@ import supabase from "../supabase-test/supabase";
 import { EditModal, DeleteModal } from '../Components/Modals';
 import SelectComponent from "../Components/SelectComponent";
 import RegisterForm from "../Components/RegisterForm";
+import SearchComponent from "../Components/SearchComponent";
 
 export default function AdminPage({ setIsLoading }) {
     const [radioOptions, setRadioOptions] = useState({
@@ -22,17 +23,19 @@ export default function AdminPage({ setIsLoading }) {
     });
 
     const [radioSelectedOption, setRadioSelectedOption] = useState('');
-    const [selectSelectedOption, setSeletSelectedOption] = useState('');
+    const [selectSelectedOption, setSelectSelectedOption] = useState('');
     const [tableData, setTableData] = useState([]);
+    const [filteredTableData, setFilteredTableData] = useState([]);
     const [selectedData, setSelectedData] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState();
     const [formValues, setFormValues] = useState({
-         email: '',
-         password: '',
-         passwordConfirm: '',
-         username: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        username: '',
     });
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handleRadioButtons = (value) => {
         setRadioSelectedOption(value);
@@ -44,7 +47,10 @@ export default function AdminPage({ setIsLoading }) {
                     .from('library_project_users')
                     .select("*")
                     .eq('isAdmin', false)
-                if (members.data.length > 0) setTableData(members.data);
+                if (members.data.length > 0) {
+                    setTableData(members.data);
+                    setFilteredTableData(members.data);
+                }
             })()
                 .catch(console.warn)
                 .finally(() => setIsLoading(false))
@@ -53,33 +59,42 @@ export default function AdminPage({ setIsLoading }) {
         if (value === 'admin') {
             setIsLoading(true);
             (async () => {
-                const members = await supabase
+                const admins = await supabase
                     .from('library_project_users')
                     .select("*")
                     .eq('isAdmin', true)
-                if (members.data.length > 0) setTableData(members.data);
+                if (admins.data.length > 0) {
+                    setTableData(admins.data);
+                    setFilteredTableData(admins.data);
+                }
             })()
                 .catch(console.warn)
                 .finally(() => setIsLoading(false))
         }
 
-        if (value === 'worker') {
+        if (value === 'librarian') {
 
             // TODO
 
             setIsLoading(true);
             (async () => {
-                const members = await supabase
+                const librarians = await supabase
                     .from('library_project_users')
                     .select("*")
                     .eq('isAdmin', true)
-                if (members.data.length > 0) setTableData(members.data);
+                if (librarians.data.length > 0) {
+                    setTableData(librarians.data);
+                    setFilteredTableData(librarians.data);
+                }
             })()
                 .catch(console.warn)
                 .finally(() => setIsLoading(false))
         }
 
-        if (value === 'new') setTableData([]);
+        if (value === 'new') {
+            setTableData([]);
+            setFilteredTableData([]);
+        }
     }
 
     const handleEdit = (e) => {
@@ -127,7 +142,7 @@ export default function AdminPage({ setIsLoading }) {
     }
 
     const handleSelectOnchange = (e) => {
-        setSeletSelectedOption(e.target.value)
+        setSelectSelectedOption(e.target.value)
     }
 
     const handleFormChange = (e) => {
@@ -145,17 +160,35 @@ export default function AdminPage({ setIsLoading }) {
         setIsLoading(true);
     }
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    }
+
+    const handleSearch = async () => {
+        if (searchQuery.trim() === '') {
+            setFilteredTableData(tableData);
+        } else {
+            setFilteredTableData(tableData.filter( (user) => 
+                user.email.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                user.username.toLowerCase().includes(searchQuery.toLowerCase())
+            ));
+        }
+    }
 
     return (
         <Container className="container">
             <RadioButtons radioOptions={radioOptions} handleRadioButtons={handleRadioButtons} />
             {
-                radioSelectedOption == 'new' &&
+                radioSelectedOption !== 'new' && <SearchComponent handleChange={handleSearchChange} handleSearch={handleSearch} searchQuery={searchQuery} />
+            }
+            
+            {
+                radioSelectedOption === 'new' &&
                 <Paper
                     square={false}
                     sx={{
                         textAlign: 'center',
-                        padding: '10px',
+                        padding: '20px',
                         minWidth: '60vw',
                     }}
                     elevation={3}
@@ -168,15 +201,40 @@ export default function AdminPage({ setIsLoading }) {
                         Create an account
                     </Typography>
                     <SelectComponent handleChange={handleSelectOnchange} selectOptions={selectOptions} selectedOption={selectSelectedOption} />
-                    
+
                     {
-                        selectSelectedOption.length > 0 && <RegisterForm formValues={formValues} handleChange={handleFormChange} handleSubmit={handleFormSubmit}/>
+                        selectSelectedOption.length > 0 && <RegisterForm formValues={formValues} handleChange={handleFormChange} handleSubmit={handleFormSubmit} />
                     }
                 </Paper>
             }
 
             {
-                tableData.length > 0 && <MyTable data={tableData} handleEdit={handleEdit} handleDelete={handleDelete} loading={setIsLoading} />
+                filteredTableData.length > 0 && radioSelectedOption !== 'new'
+                
+                    ?
+
+                        <Box 
+                            sx={{
+                                marginTop: '20px',
+                                marginBottom: '20px' 
+                            }}
+                        >
+                            <MyTable data={filteredTableData} handleEdit={handleEdit} handleDelete={handleDelete} loading={setIsLoading} />
+                        </Box>
+
+                    :
+                        radioSelectedOption !== 'new' &&
+                        
+                        <Box
+                            sx={{
+                                marginTop: '20px',
+                                marginBottom: '20px' 
+                            }}
+                        >
+                            <Typography variant="h6" align="center">
+                                No data to avaliable.
+                            </Typography>
+                        </Box>
             }
 
             {
