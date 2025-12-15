@@ -3,7 +3,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
-import { CustomTextField } from "../Components/CssTextField";
+import { CustomTextField } from "../Components/ComponentsOwnStyle";
 
 export default function LoginPage({ setIsLoading }) {
     const navigate = useNavigate();

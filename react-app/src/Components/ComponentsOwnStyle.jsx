@@ -24,7 +24,7 @@ export const CustomTextField = styled(TextField)({
     },
 });
 
-export const CssSelect = styled(Select)({
+export const CustomSelect = styled(Select)({
     '& .MuiOutlinedInput-notchedOutline': {
         borderColor: '#b08968',
     },

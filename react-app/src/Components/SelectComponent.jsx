@@ -1,6 +1,6 @@
 import { InputLabel, Select, MenuItem, FormControl } from "@mui/material";
 import { useState } from "react";
-import { CssSelect } from "./ComponentsOwnStyle";
+import { CustomSelect } from "./ComponentsOwnStyle";
 
 export default function SelectComponent({ handleChange, selectOptions, selectedOption }) {
     return (
@@ -11,7 +11,7 @@ export default function SelectComponent({ handleChange, selectOptions, selectedO
             }}
         >
             <InputLabel id="type">Type of user</InputLabel>
-            <CssSelect
+            <CustomSelect
                 labelId="Type of user"
                 id="select-type"
                 value={selectedOption}
@@ -24,7 +24,7 @@ export default function SelectComponent({ handleChange, selectOptions, selectedO
                         <MenuItem value={objKey} key={idx}>{selectOptions[objKey]}</MenuItem>
                     ))
                 }
-            </CssSelect>
+            </CustomSelect>
         </FormControl>
     )
 }
