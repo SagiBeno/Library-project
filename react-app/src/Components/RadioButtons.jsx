@@ -1,5 +1,6 @@
-import { FormControl, RadioGroup, FormControlLabel, FormLabel, Radio, Box } from "@mui/material";
+import { FormControl, RadioGroup, FormControlLabel, FormLabel, Box } from "@mui/material";
 import { useState } from "react";
+import { CustomRadio } from "./ComponentsOwnStyle"; 
 
 export default function RadioButtons ( { radioOptions, handleRadioButtons } ) {
     const [value, setValue] = useState('');
@@ -34,7 +35,7 @@ export default function RadioButtons ( { radioOptions, handleRadioButtons } ) {
                     {
                         radioOptions &&
                         Object.keys(radioOptions).map( (objKey, idx) => (
-                            <FormControlLabel value={objKey} key={idx} control={<Radio />} label={radioOptions[objKey]} />
+                            <FormControlLabel value={objKey} key={idx} control={<CustomRadio />} label={radioOptions[objKey]} />
                         ))
                     }
                 </RadioGroup>
