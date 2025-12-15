@@ -1,5 +1,5 @@
 import { Modal, Box, Typography, InputLabel, Button, TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@mui/material"
-import { CustomTextField } from './CssTextField'
+import { CustomTextField } from './ComponentsOwnStyle'
 import { useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';

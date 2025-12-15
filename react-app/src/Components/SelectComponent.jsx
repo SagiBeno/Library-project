@@ -1,15 +1,21 @@
 import { InputLabel, Select, MenuItem, FormControl } from "@mui/material";
 import { useState } from "react";
+import { CssSelect } from "./ComponentsOwnStyle";
 
 export default function SelectComponent({ handleChange, selectOptions, selectedOption }) {
     return (
-        <FormControl fullWidth>
-            <InputLabel id="type">Type</InputLabel>
-            <Select
-                labelId="type"
+        <FormControl 
+            sx={{
+                width: '97%',
+                marginTop: '10px'
+            }}
+        >
+            <InputLabel id="type">Type of user</InputLabel>
+            <CssSelect
+                labelId="Type of user"
                 id="select-type"
                 value={selectedOption}
-                label="Type"
+                label="Type of user"
                 onChange={handleChange}
             >
                 {
@@ -18,7 +24,7 @@ export default function SelectComponent({ handleChange, selectOptions, selectedO
                         <MenuItem value={objKey} key={idx}>{selectOptions[objKey]}</MenuItem>
                     ))
                 }
-            </Select>
+            </CssSelect>
         </FormControl>
     )
 }

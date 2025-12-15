@@ -1,25 +1,41 @@
-import { Container } from "@mui/material"
-import { useState } from "react"
+import { Container, Paper, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
 import RadioButtons from "../Components/RadioButtons";
 import MyTable from "../Components/MyTable";
 import supabase from "../supabase-test/supabase";
-import { EditModal, DeleteModal } from '../Components/Modals'
+import { EditModal, DeleteModal } from '../Components/Modals';
+import SelectComponent from "../Components/SelectComponent";
+import RegisterForm from "../Components/RegisterForm";
 
 export default function AdminPage({ setIsLoading }) {
     const [radioOptions, setRadioOptions] = useState({
-        worker: 'Worker',
+        librarian: 'Librarian',
         member: 'Member',
-        admin: 'Admin'
+        admin: 'Admin',
+        new: 'New user'
     });
 
-    const [selectedOption, setSelectedOption] = useState('');
+    const [selectOptions, setSelectOptions] = useState({
+        librarian: 'Librarian',
+        member: 'Member',
+        admin: 'Admin',
+    });
+
+    const [radioSelectedOption, setRadioSelectedOption] = useState('');
+    const [selectSelectedOption, setSeletSelectedOption] = useState('');
     const [tableData, setTableData] = useState([]);
     const [selectedData, setSelectedData] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState();
+    const [formValues, setFormValues] = useState({
+         email: '',
+         password: '',
+         passwordConfirm: '',
+         username: '',
+    });
 
     const handleRadioButtons = (value) => {
-        setSelectedOption(value);
+        setRadioSelectedOption(value);
         // TODO - Querying relevant data
         if (value === 'member') {
             setIsLoading(true);
@@ -62,6 +78,8 @@ export default function AdminPage({ setIsLoading }) {
                 .catch(console.warn)
                 .finally(() => setIsLoading(false))
         }
+
+        if (value === 'new') setTableData([]);
     }
 
     const handleEdit = (e) => {
@@ -108,9 +126,55 @@ export default function AdminPage({ setIsLoading }) {
             })*/
     }
 
+    const handleSelectOnchange = (e) => {
+        setSeletSelectedOption(e.target.value)
+    }
+
+    const handleFormChange = (e) => {
+        const formElement = e.target.name;
+        const value = e.target.value;
+
+        setFormValues({
+            ...formValues,
+            [formElement]: value
+        });
+    }
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+    }
+
+
     return (
         <Container className="container">
             <RadioButtons radioOptions={radioOptions} handleRadioButtons={handleRadioButtons} />
+            {
+                radioSelectedOption == 'new' &&
+                <Paper
+                    square={false}
+                    sx={{
+                        textAlign: 'center',
+                        padding: '10px',
+                        minWidth: '60vw',
+                    }}
+                    elevation={3}
+                >
+                    <Typography
+                        variant="h5"
+                        align="center"
+                        sx={{ fontWeight: 'bold' }}
+                    >
+                        Create an account
+                    </Typography>
+                    <SelectComponent handleChange={handleSelectOnchange} selectOptions={selectOptions} selectedOption={selectSelectedOption} />
+                    
+                    {
+                        selectSelectedOption.length > 0 && <RegisterForm formValues={formValues} handleChange={handleFormChange} handleSubmit={handleFormSubmit}/>
+                    }
+                </Paper>
+            }
+
             {
                 tableData.length > 0 && <MyTable data={tableData} handleEdit={handleEdit} handleDelete={handleDelete} loading={setIsLoading} />
             }

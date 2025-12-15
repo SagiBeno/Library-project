@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Select, TextField } from "@mui/material";
 import { alpha, styled } from '@mui/material/styles';
 
 export const CustomTextField = styled(TextField)({
@@ -22,4 +22,13 @@ export const CustomTextField = styled(TextField)({
             borderColor: '#b08968',
         },
     },
+});
+
+export const CssSelect = styled(Select)({
+    '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#b08968',
+    },
+    '&.Miu-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#b08968',
+    }
 });
