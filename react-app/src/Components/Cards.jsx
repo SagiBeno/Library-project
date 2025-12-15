@@ -34,21 +34,44 @@ export default function Cards({ book, handleInformation }) {
             <CardContent sx={{ flexGrow: 1 }}>
                 {
                     book?.author_name &&
-                        <Typography variant="subtitle1">
-                            {book?.author_name[0]}
-                        </Typography>
+                    <Typography variant="subtitle1">
+                        {book?.author_name[0]}
+                    </Typography>
 
                 }
 
-                <Stack
-                    sx={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        marginTop: '10px',
-                    }}
-                >
-                    {/*TODO - Chip */}
-                </Stack>
+                {
+                    book?.ebook_access &&
+                    <Box>
+                        <Typography 
+                            variant="subtitle1"
+                            sx={{
+                                marginTop: '10px',
+                            }}
+                        >
+                            Ebook access
+                        </Typography>
+
+                        <Stack
+                            sx={{
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+
+                            }}
+                        >
+
+
+                            {
+                                book.ebook_access === 'borrowable'
+                                    ?
+                                        <Chip label="Borrowable" color="success" />
+                                    :
+                                        <Chip label="No access" color="error" />
+                            }
+                        </Stack>
+                    </Box>
+                }
+
             </CardContent>
 
             <CardActions
@@ -68,13 +91,14 @@ export default function Cards({ book, handleInformation }) {
                         sx={{
                             width: '100%'
                         }}
+                        className="buttons"
                     >
                         Book lending
                     </Button>
                 </Box>
 
             </CardActions>
-        </Card>
+        </Card >
 
     )
 }
