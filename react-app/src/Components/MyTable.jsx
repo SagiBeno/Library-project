@@ -3,7 +3,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 export default function MyTable( { data, handleEdit, handleDelete } ) {
-
     return (
         <TableContainer component={Paper}>
             <Table>

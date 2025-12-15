@@ -1,9 +1,8 @@
 import { Container, Box, IconButton, Typography } from "@mui/material";
-import { CustomTextField } from "../Components/CssTextField";
-import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from "react";
 import { fetchBooksByQuery } from '../utils'
 import Cards from '../Components/Cards'
+import SearchComponent from "../Components/SearchComponent";
 
 export default function SearchPage( { setIsLoading } ) {
 
@@ -27,26 +26,7 @@ export default function SearchPage( { setIsLoading } ) {
 
     return (
         <Container className="container">
-            <Box 
-                sx={{
-                    justifyContent: 'center',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: '10px',
-                }}
-            >
-                <CustomTextField 
-                    variant="outlined"
-                    label='Search'
-                    placeholder="Search"
-                    value={searchQuery}
-                    onChange={(e) => handleChange(e)}
-                />
-                <IconButton onClick={() => handleSearch()}>
-                    <SearchIcon />
-                </IconButton>
-            </Box>
+            <SearchComponent handleChange={handleChange} handleSearch={handleSearch} searchQuery={searchQuery} />
 
             <Box 
                 sx={{
