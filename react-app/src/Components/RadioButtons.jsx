@@ -13,7 +13,8 @@ export default function RadioButtons ( { radioOptions, handleRadioButtons } ) {
     return (
         <Box
             sx={{
-                textAlign: 'center'
+                textAlign: 'center',
+                marginBottom: '20px'
             }}
         >
             <FormControl>
@@ -24,7 +25,10 @@ export default function RadioButtons ( { radioOptions, handleRadioButtons } ) {
                   onChange={(e) => handleChange(e)}
                   sx={{
                     display: 'flex',
-                    flexDirection: 'row'
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    marginTop: '10px'
                   }}
                 >
                     {
