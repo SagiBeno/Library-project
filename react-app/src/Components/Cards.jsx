@@ -13,7 +13,6 @@ export default function Cards({ book, handleInformation }) {
                 margin: '10px',
                 boxShadow: '0px 0px 10px 0px gray',
                 padding: '5px',
-                cursor: 'pointer',
             }}
             className="cards"
         >
