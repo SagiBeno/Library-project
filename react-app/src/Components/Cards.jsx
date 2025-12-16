@@ -1,7 +1,7 @@
 import { Card, CardMedia, CardHeader, CardContent, CardActions, Typography, Button, Box, Stack, Chip } from "@mui/material"
 
 export default function Cards({ book, handleInformation }) {
-    console.log(book)
+
     return (
         <Card
             sx={{

@@ -7,6 +7,7 @@ import { EditModal, DeleteModal } from '../Components/Modals';
 import SelectComponent from "../Components/SelectComponent";
 import RegisterForm from "../Components/RegisterForm";
 import SearchComponent from "../Components/SearchComponent";
+import { dataRetrievalForAdmin } from "../utils";
 
 export default function AdminPage({ setIsLoading }) {
     const [radioOptions, setRadioOptions] = useState({
@@ -37,56 +38,14 @@ export default function AdminPage({ setIsLoading }) {
     });
     const [searchQuery, setSearchQuery] = useState('');
 
-    const handleRadioButtons = (value) => {
+    const handleRadioButtons = async(value) => {
+
         setRadioSelectedOption(value);
-        // TODO - Querying relevant data
-        if (value === 'member') {
+
+        if (value === 'member' || value === 'librarian' || value === 'admin') {
             setIsLoading(true);
-            (async () => {
-                const members = await supabase
-                    .from('library_project_users')
-                    .select("*")
-                    .eq('type', value)
-                if (members.data.length > 0) {
-                    setTableData(members.data);
-                    setFilteredTableData(members.data);
-                }
-            })()
-                .catch(console.warn)
-                .finally(() => setIsLoading(false))
-        }
-
-        if (value === 'admin') {
-            setIsLoading(true);
-            (async () => {
-                const admins = await supabase
-                    .from('library_project_users')
-                    .select("*")
-                    .eq('type', value)
-                if (admins.data.length > 0) {
-                    setTableData(admins.data);
-                    setFilteredTableData(admins.data);
-                }
-            })()
-                .catch(console.warn)
-                .finally(() => setIsLoading(false))
-        }
-
-        if (value === 'librarian') {
-
-            // TODO
-
-            setIsLoading(true);
-            (async () => {
-                const librarians = await supabase
-                    .from('library_project_users')
-                    .select("*")
-                    .eq('type', value)
-                if (librarians.data.length > 0) {
-                    setTableData(librarians.data);
-                    setFilteredTableData(librarians.data);
-                }
-            })()
+            await dataRetrievalForAdmin(value)
+                .then(console.log)
                 .catch(console.warn)
                 .finally(() => setIsLoading(false))
         }
