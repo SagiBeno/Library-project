@@ -177,12 +177,6 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    <MenuItem onClick={() => {
-                                        handleCloseUserMenu();
-                                        navigate('/profile');
-                                    }}>
-                                        <Typography sx={{ textAlign: 'center' }}>Profile</Typography>
-                                    </MenuItem>
 
                                     <MenuItem onClick={() => {
                                         handleCloseUserMenu();

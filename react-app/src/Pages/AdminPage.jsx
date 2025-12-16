@@ -168,8 +168,8 @@ export default function AdminPage({ setIsLoading }) {
         if (searchQuery.trim() === '') {
             setFilteredTableData(tableData);
         } else {
-            setFilteredTableData(tableData.filter( (user) => 
-                user.email.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            setFilteredTableData(tableData.filter((user) =>
+                user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.username.toLowerCase().includes(searchQuery.toLowerCase())
             ));
         }
@@ -179,9 +179,9 @@ export default function AdminPage({ setIsLoading }) {
         <Container className="container">
             <RadioButtons radioOptions={radioOptions} handleRadioButtons={handleRadioButtons} />
             {
-                radioSelectedOption !== 'new' && <SearchComponent handleChange={handleSearchChange} handleSearch={handleSearch} searchQuery={searchQuery} />
+                (radioSelectedOption !== '' && radioSelectedOption !== 'new') && <SearchComponent handleChange={handleSearchChange} handleSearch={handleSearch} searchQuery={searchQuery} />
             }
-            
+
             {
                 radioSelectedOption === 'new' &&
                 <Paper
@@ -210,31 +210,31 @@ export default function AdminPage({ setIsLoading }) {
 
             {
                 filteredTableData.length > 0 && radioSelectedOption !== 'new'
-                
+
                     ?
 
-                        <Box 
-                            sx={{
-                                marginTop: '20px',
-                                marginBottom: '20px' 
-                            }}
-                        >
-                            <MyTable data={filteredTableData} handleEdit={handleEdit} handleDelete={handleDelete} loading={setIsLoading} />
-                        </Box>
+                    <Box
+                        sx={{
+                            marginTop: '20px',
+                            marginBottom: '20px'
+                        }}
+                    >
+                        <MyTable data={filteredTableData} handleEdit={handleEdit} handleDelete={handleDelete} loading={setIsLoading} />
+                    </Box>
 
                     :
-                        radioSelectedOption !== 'new' &&
-                        
-                        <Box
-                            sx={{
-                                marginTop: '20px',
-                                marginBottom: '20px' 
-                            }}
-                        >
-                            <Typography variant="h6" align="center">
-                                No data to avaliable.
-                            </Typography>
-                        </Box>
+                    radioSelectedOption !== 'new' &&
+
+                    <Box
+                        sx={{
+                            marginTop: '20px',
+                            marginBottom: '20px'
+                        }}
+                    >
+                        <Typography variant="h6" align="center">
+                            No data to avaliable.
+                        </Typography>
+                    </Box>
             }
 
             {
