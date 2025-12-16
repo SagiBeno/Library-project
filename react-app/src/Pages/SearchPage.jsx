@@ -3,25 +3,41 @@ import { useEffect, useState } from "react";
 import { fetchBooksByQuery } from '../utils'
 import Cards from '../Components/Cards'
 import SearchComponent from "../Components/SearchComponent";
+import SnackbarComponent from "../Components/SnackbarComponent";
 
 export default function SearchPage( { setIsLoading } ) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [books, setBooks] = useState([]);
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        message: ''
+    });
 
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
     }
 
     const handleSearch = async () => {
-        setIsLoading(true);
-        try {
-            const data = await fetchBooksByQuery(searchQuery.replace(' ', '+'));
-            setBooks([...data.docs]);
-        } catch (err) {
-            console.log(err)
+        
+        if (searchQuery.trim() === '' || searchQuery.length < 3) {
+            setSnackbar({...snackbar, open: true, message: 'Please enter at least 3 characters to search!'});
+        } else {
+            setIsLoading(true);
+            await fetchBooksByQuery(searchQuery.replace(' ', '+'))
+                .then( (res) => {
+                    if (res?.docs && res.docs.length > 0) {
+                        setBooks([...res.docs]);
+                    } else {
+                        setBooks([]);
+                        setSnackbar({...snackbar, open: true, message: 'No results found!'});
+                    }
+                })
+                .catch(console.warn)
+                .finally(() => setIsLoading(false));
         }
-        setIsLoading(false);
     }
 
     return (
@@ -46,6 +62,15 @@ export default function SearchPage( { setIsLoading } ) {
                             </Typography>
                 }
             </Box>
+            
+            <SnackbarComponent 
+                open={snackbar.open} 
+                message={snackbar.message}
+                vertical={snackbar.vertical}
+                horizontal={snackbar.horizontal} 
+                onClose={() => setSnackbar({...snackbar, open: false, message: ''})} 
+            />
+
             
         </Container>
     )
