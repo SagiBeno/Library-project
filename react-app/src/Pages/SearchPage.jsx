@@ -13,7 +13,8 @@ export default function SearchPage( { setIsLoading } ) {
         open: false,
         vertical: 'top',
         horizontal: 'center',
-        message: ''
+        message: '',
+        severity: 'warning',
     });
 
     const handleChange = (e) => {
@@ -32,7 +33,11 @@ export default function SearchPage( { setIsLoading } ) {
                         setBooks([...res.docs]);
                     } else {
                         setBooks([]);
-                        setSnackbar({...snackbar, open: true, message: 'No results found!'});
+                        setSnackbar({
+                            ...snackbar,
+                            open: true,
+                            message: 'No results found!',
+                        });
                     }
                 })
                 .catch(console.warn)
@@ -68,6 +73,7 @@ export default function SearchPage( { setIsLoading } ) {
                 message={snackbar.message}
                 vertical={snackbar.vertical}
                 horizontal={snackbar.horizontal} 
+                severity={snackbar.severity}
                 onClose={() => setSnackbar({...snackbar, open: false, message: ''})} 
             />
 
