@@ -8,6 +8,7 @@ import SelectComponent from "../Components/SelectComponent";
 import RegisterForm from "../Components/RegisterForm";
 import SearchComponent from "../Components/SearchComponent";
 import { dataRetrievalForAdmin } from "../utils";
+import SnackbarComponent from "../Components/SnackbarComponent";
 
 export default function AdminPage({ setIsLoading }) {
     const [radioOptions, setRadioOptions] = useState({
@@ -38,25 +39,55 @@ export default function AdminPage({ setIsLoading }) {
     });
     const [searchQuery, setSearchQuery] = useState('');
 
-    const handleRadioButtons = async(value) => {
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        message: '',
+        severity: 'warning',
+    });
+
+    const handleRadioButtons = async (value) => {
 
         setRadioSelectedOption(value);
 
         if (value === 'member' || value === 'librarian' || value === 'admin') {
             setIsLoading(true);
             await dataRetrievalForAdmin(value)
-                .then( async (res) => {
+                .then(async (res) => {
                     const parsedRes = await JSON.parse(res);
 
                     if (parsedRes?.data && parsedRes.data.length > 0) {
                         setTableData(parsedRes.data);
                         setFilteredTableData(parsedRes.data);
+                        setSnackbar({
+                            ...snackbar,
+                            open: true,
+                            message: 'The data query was successful!',
+                            severity: 'success',
+                        });
                     } else {
                         setTableData([]);
                         setFilteredTableData([]);
+                        setSnackbar({
+                            ...snackbar,
+                            open: true,
+                            message: 'No data found!',
+                            severity: 'warning',
+                        });
+
                     }
                 })
-                .catch(console.warn)
+                .catch( (err) => {
+                    console.warn(err);
+
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Error during queries!',
+                        severity: 'error',
+                    });
+                })
                 .finally(() => setIsLoading(false))
         }
 
@@ -213,6 +244,15 @@ export default function AdminPage({ setIsLoading }) {
             {
                 showDeleteModal && <DeleteModal showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} data={selectedData} handleDeleteConfirm={handleDeleteConfirm} />
             }
+
+            <SnackbarComponent
+                open={snackbar.open}
+                message={snackbar.message}
+                vertical={snackbar.vertical}
+                horizontal={snackbar.horizontal}
+                severity={snackbar.severity}
+                onClose={() => setSnackbar({ ...snackbar, open: false, message: '' })}
+            />
 
         </Container>
     )

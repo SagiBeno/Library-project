@@ -1,7 +1,6 @@
 import { Box, Snackbar, Alert } from '@mui/material';
 
 export default function SnackbarComponent( { open, message, onClose, vertical, horizontal, severity } ) {
-    console.log(severity)
     return (
         <Box sx={{ width: 500 }}>
             <Snackbar open={open} autoHideDuration={6000} onClose={onClose} anchorOrigin={{ vertical, horizontal }}>
