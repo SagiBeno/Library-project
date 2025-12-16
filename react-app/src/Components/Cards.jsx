@@ -1,6 +1,19 @@
-import { Card, CardMedia, CardHeader, CardContent, CardActions, Typography, Button, Box, Stack, Chip } from "@mui/material"
+import { Card, CardMedia, CardHeader, CardContent, CardActions, Typography, Button, Box, Stack, Chip } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function Cards({ book, handleInformation }) {
+    const [imageUrl, setImageUrl] = useState('');
+
+    useEffect(() => {
+        if (book.cover_edition_key) {
+            const url = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`;
+            setImageUrl(url);
+        } else {
+            setImageUrl('https://www.globaluniversityalliance.org/wp-content/uploads/2017/10/No-Cover-Image-01.png');
+        }
+    }, []);
+
+
 
     return (
         <Card
@@ -20,7 +33,7 @@ export default function Cards({ book, handleInformation }) {
 
             <CardMedia
                 component="img"
-                image={`https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`}
+                image={imageUrl}
                 alt={book.title}
                 sx={{
                     width: '60%',
