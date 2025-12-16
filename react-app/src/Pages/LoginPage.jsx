@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
 
-export default function LoginPage({ setIsLoading }) {
+export default function LoginPage({ setIsLoading, setLoggedIn, setIsAdmin }) {
     const navigate = useNavigate();
     const [formValues, setFormValues] = useState({
         email: '',
@@ -27,7 +27,10 @@ export default function LoginPage({ setIsLoading }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
-        navigate('/serach');
+        // Set logged in and admin status
+        setLoggedIn(true);
+        setIsAdmin(true); // Adjust based on actual admin status from backend
+        navigate('/search');
     }
 
     return (
@@ -102,7 +105,7 @@ export default function LoginPage({ setIsLoading }) {
                             input: {
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <IconButton onClick={() => setShowPassword(showPassword ? false : true)} sx={{color: '#b08968'}}>
+                                        <IconButton onClick={() => setShowPassword(showPassword ? false : true)} sx={{ color: '#b08968' }}>
                                             {
                                                 showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
                                             }
