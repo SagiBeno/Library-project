@@ -6,6 +6,7 @@ import MyBooksPage from './Pages/MyBooksPage'
 import AdminPage from './Pages/AdminPage'
 import SearchPage from './Pages/SearchPage'
 import RegisterPage from './Pages/RegisterPage'
+import LoginPage from './Pages/LoginPage'
 import Spinner from './Components/Spinner'
 import supabase from "./supabase-test/supabase";
 import { Container } from "@mui/material"
@@ -14,10 +15,26 @@ import './App.css'
 export default function App(props) {
   const navigate = useNavigate();
   // TODO - Log in
-  const [loggedIn, setLoggedIn] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(() => {
+    const savedLoggedIn = localStorage.getItem('loggedIn');
+    return savedLoggedIn ? JSON.parse(savedLoggedIn) : false;
+  });
+  const [isAdmin, setIsAdmin] = useState(() => {
+    const savedIsAdmin = localStorage.getItem('isAdmin');
+    return savedIsAdmin ? JSON.parse(savedIsAdmin) : false;
+  });
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Save loggedIn state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('loggedIn', JSON.stringify(loggedIn));
+  }, [loggedIn]);
+
+  // Save isAdmin state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
+  }, [isAdmin]);
 
   useEffect(() => {
     (async () => {
@@ -39,6 +56,7 @@ export default function App(props) {
         <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} />} />
         <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} />} />
+        <Route path='/login' element={<LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setIsAdmin={setIsAdmin} />} />
       </Routes>
 
       {isLoading && <Spinner />}
