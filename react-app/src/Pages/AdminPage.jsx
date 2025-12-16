@@ -54,18 +54,12 @@ export default function AdminPage({ setIsLoading }) {
         if (value === 'member' || value === 'librarian' || value === 'admin') {
             setIsLoading(true);
             await dataRetrievalForAdmin(value)
-                .then(async (res) => {
+                .then( async (res) => {
                     const parsedRes = await JSON.parse(res);
 
                     if (parsedRes?.data && parsedRes.data.length > 0) {
                         setTableData(parsedRes.data);
                         setFilteredTableData(parsedRes.data);
-                        setSnackbar({
-                            ...snackbar,
-                            open: true,
-                            message: 'The data query was successful!',
-                            severity: 'success',
-                        });
                     } else {
                         setTableData([]);
                         setFilteredTableData([]);
