@@ -46,7 +46,7 @@ export default function AdminPage({ setIsLoading }) {
                 const members = await supabase
                     .from('library_project_users')
                     .select("*")
-                    .eq('isAdmin', false)
+                    .eq('type', value)
                 if (members.data.length > 0) {
                     setTableData(members.data);
                     setFilteredTableData(members.data);
@@ -62,7 +62,7 @@ export default function AdminPage({ setIsLoading }) {
                 const admins = await supabase
                     .from('library_project_users')
                     .select("*")
-                    .eq('isAdmin', true)
+                    .eq('type', value)
                 if (admins.data.length > 0) {
                     setTableData(admins.data);
                     setFilteredTableData(admins.data);
@@ -81,7 +81,7 @@ export default function AdminPage({ setIsLoading }) {
                 const librarians = await supabase
                     .from('library_project_users')
                     .select("*")
-                    .eq('isAdmin', true)
+                    .eq('type', value)
                 if (librarians.data.length > 0) {
                     setTableData(librarians.data);
                     setFilteredTableData(librarians.data);
