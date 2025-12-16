@@ -45,10 +45,12 @@ export default function AdminPage({ setIsLoading }) {
         if (value === 'member' || value === 'librarian' || value === 'admin') {
             setIsLoading(true);
             await dataRetrievalForAdmin(value)
-                .then( (res) => {
-                    if (res?.data && res.data.length > 0) {
-                        setTableData(res.data);
-                        setFilteredTableData(res.data);
+                .then( async (res) => {
+                    const parsedRes = await JSON.parse(res);
+
+                    if (parsedRes?.data && parsedRes.data.length > 0) {
+                        setTableData(parsedRes.data);
+                        setFilteredTableData(parsedRes.data);
                     } else {
                         setTableData([]);
                         setFilteredTableData([]);

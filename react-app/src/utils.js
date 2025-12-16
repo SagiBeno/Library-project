@@ -13,10 +13,10 @@ export function getCoverImageURL(olid, size = 'M') {
 }
 
 export async function dataRetrievalForAdmin(type) {
-    const { data, error } = await supabase
+    const response = await supabase
         .from('library_project_users')
         .select("*")
         .eq('type', type);
 
-    return { data, error };
+    return JSON.stringify(response);
 }
