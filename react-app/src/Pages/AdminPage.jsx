@@ -45,7 +45,15 @@ export default function AdminPage({ setIsLoading }) {
         if (value === 'member' || value === 'librarian' || value === 'admin') {
             setIsLoading(true);
             await dataRetrievalForAdmin(value)
-                .then(console.log)
+                .then( (res) => {
+                    if (res?.data && res.data.length > 0) {
+                        setTableData(res.data);
+                        setFilteredTableData(res.data);
+                    } else {
+                        setTableData([]);
+                        setFilteredTableData([]);
+                    }
+                })
                 .catch(console.warn)
                 .finally(() => setIsLoading(false))
         }
