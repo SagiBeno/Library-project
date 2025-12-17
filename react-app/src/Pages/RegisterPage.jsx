@@ -29,7 +29,7 @@ export default function RegisterPage({ setIsLoading }) {
         e.preventDefault();
         setIsLoading(true);
 
-        registerUser(formValues.username, formValues.email, formValues.password)
+        registerUser(formValues.username, formValues.password, formValues.email)
             .then(async (response) => {
                 const data = await response.json();
 
