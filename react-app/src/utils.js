@@ -20,3 +20,15 @@ export async function dataRetrievalForAdmin(type) {
 
     return JSON.stringify(response);
 }
+
+export async function authenticateUser(email, password) {
+    const res = await fetch(`/.netlify/functions/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+    })
+
+    return res;
+}
