@@ -50,7 +50,16 @@ export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, 
         setSearchQuery(e.target.value);
     }
 
+    const normalizeBook = (item) => ({
+        title: item.title,
+        author: item.author_name?.[0] || item.authors?.[0]?.name || "Unknown",
+        cover_edition_key: item?.cover_edition_key ? `https://covers.openlibrary.org/b/olid/${item.cover_edition_key}-M.jpg` : 'https://www.globaluniversityalliance.org/wp-content/uploads/2017/10/No-Cover-Image-01.png',
+        ebook_access: item?.ebook_access === 'borrowable' ? 'borrowable' : 'not available',
+    });
+
     const handleSearch = async () => {
+        setBooks([]);
+        setResultText('');
 
         if (searchQuery.trim() === '' || searchQuery.length < 3) {
             setSnackbar({
@@ -64,7 +73,7 @@ export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, 
             await fetchBooksByQuery(searchQuery.trim().replaceAll(' ', '+'))
                 .then((res) => {
                     if (res?.docs && res.docs.length > 0) {
-                        setBooks([...res.docs]);
+                        setBooks(res.docs.map( (book) => normalizeBook(book)));
                     } else {
                         setBooks([]);
                         setSnackbar({
@@ -82,11 +91,13 @@ export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, 
     }
 
     const handleSubjectClick = async (subject) => {
+        setBooks([]);
+        setResultText('');
         setIsLoading(true);
         await fetchBooksBySubject(subject)
             .then((res) => {
                 if (res?.works && res.works.length > 0) {
-                    setBooks([...res.works]);
+                    setBooks(res.works.map( (book) => normalizeBook(book)));
                 } else {
                     setBooks([]);
                     setSnackbar({
@@ -126,7 +137,7 @@ export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, 
             >
                 <Subjects subjects={subjects} handleSubjectClick={handleSubjectClick} />
             </Box>
-            
+
             <Box
                 sx={{
                     display: 'flex',
