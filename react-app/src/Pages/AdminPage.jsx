@@ -10,7 +10,7 @@ import SearchComponent from "../Components/SearchComponent";
 import { dataRetrievalForAdmin } from "../utils";
 import SnackbarComponent from "../Components/SnackbarComponent";
 
-export default function AdminPage({ setIsLoading }) {
+export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
     const [radioOptions, setRadioOptions] = useState({
         librarian: 'Librarian',
         member: 'Member',
@@ -38,14 +38,6 @@ export default function AdminPage({ setIsLoading }) {
         username: '',
     });
     const [searchQuery, setSearchQuery] = useState('');
-
-    const [snackbar, setSnackbar] = useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'center',
-        message: '',
-        severity: 'warning',
-    });
 
     const handleRadioButtons = async (value) => {
 
@@ -244,15 +236,6 @@ export default function AdminPage({ setIsLoading }) {
             {
                 showDeleteModal && <DeleteModal showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} data={selectedData} handleDeleteConfirm={handleDeleteConfirm} />
             }
-
-            <SnackbarComponent
-                open={snackbar.open}
-                message={snackbar.message}
-                vertical={snackbar.vertical}
-                horizontal={snackbar.horizontal}
-                severity={snackbar.severity}
-                onClose={() => setSnackbar({ ...snackbar, open: false, message: '' })}
-            />
 
         </Container>
     )

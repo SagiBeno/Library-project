@@ -19,8 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { StyledBadge } from './ComponentsOwnStyle';
 
-export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, lendedBooks }) {
-
+export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, lendedBooks, user }) {
     const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState(false);
@@ -69,53 +68,6 @@ export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, l
                             {
                                 loggedIn &&
                                 <>
-                                    <IconButton
-                                        size="large"
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        onClick={handleOpenNavMenu}
-                                        color="inherit"
-                                    >
-                                        <MenuIcon />
-                                    </IconButton>
-
-                                    <Menu
-                                        id="menu-appbar"
-                                        anchorEl={anchorElNav}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        keepMounted
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        open={Boolean(anchorElNav)}
-                                        onClose={handleCloseNavMenu}
-                                        sx={{ display: { xs: 'block', md: 'none' } }}
-                                    >
-
-                                        <MenuItem onClick={() => {
-                                            handleCloseNavMenu();
-                                            navigate('/search');
-                                        }}>
-                                            <Typography sx={{ textAlign: 'center', color: 'black' }}>Search</Typography>
-                                        </MenuItem>
-
-                                        {
-                                            loggedIn &&
-                                            <MenuItem onClick={() => {
-                                                handleCloseNavMenu();
-                                                navigate('/my-books');
-                                            }}>
-                                                <Typography sx={{ textAlign: 'center', color: 'black' }}>My Books</Typography>
-                                            </MenuItem>
-                                        }
-
-                                    </Menu>
-
                                     <IconButton
                                         size="large"
                                         aria-label="account of current user"
@@ -215,56 +167,75 @@ export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, l
 
                         {
                             loggedIn &&
-                            <Box sx={{ flexGrow: 0 }}>
-                                {
-                                    lendedBooks.length > 0 &&
-                                    <Tooltip title="Requested book(s)...">
-                                        <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending', { state: { books: lendedBooks } }); }}>
-                                            <StyledBadge badgeContent={lendedBooks.length} color="secondary">
-                                                <ShoppingCartIcon />
-                                            </StyledBadge>
+                            <Box sx={{ flexGrow: 0 }} className='user-menu-box'>
+                                <Typography variant="subtitle1" sx={{ marginRight: '10px' }}>Hello, {user}!</Typography>
+
+                                <Box>
+
+                                    {
+                                        lendedBooks.length > 0 &&
+                                        <Tooltip title="Requested book(s)...">
+                                            <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending', { state: { books: lendedBooks } }); }}>
+                                                <StyledBadge badgeContent={lendedBooks.length} color="secondary">
+                                                    <ShoppingCartIcon />
+                                                </StyledBadge>
+                                            </IconButton>
+                                        </Tooltip>
+                                    }
+
+
+
+                                    <Tooltip title="More options...">
+
+                                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
+                                            <AccountCircleIcon />
                                         </IconButton>
                                     </Tooltip>
-                                }
+                                    <Menu
+                                        sx={{ mt: '45px' }}
+                                        id="menu-appbar"
+                                        anchorEl={anchorElUser}
+                                        anchorOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        open={Boolean(anchorElUser)}
+                                        onClose={handleCloseUserMenu}
+                                    >
+                                        {
+                                            userType === 'admin' &&
+                                            <MenuItem onClick={() => {
+                                                handleCloseUserMenu();
+                                                navigate('/admin');
+                                            }}>
+                                                <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
+                                            </MenuItem>
+                                        }
+                                        {
+                                            userType === 'librarian' || userType === 'admin' &&
+                                            <MenuItem onClick={() => {
+                                                handleCloseUserMenu();
+                                                navigate('/librarian');
+                                            }}>
+                                                <Typography sx={{ textAlign: 'center' }}>Librarian</Typography>
+                                            </MenuItem>
+                                        }
 
-                                <Tooltip title="More options...">
-                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
-                                        <AccountCircleIcon />
-                                    </IconButton>
-                                </Tooltip>
-                                <Menu
-                                    sx={{ mt: '45px' }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                >
-
-                                    <MenuItem onClick={() => {
-                                        handleCloseUserMenu();
-                                        setLoggedIn(false);
-                                        setUserType('member');
-                                        navigate('/');
-                                    }}>
-                                        <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
-                                    </MenuItem>
-
-                                    {(['admin', 'librarian'].includes(userType)) && <MenuItem onClick={() => {
-                                        handleCloseUserMenu();
-                                        navigate('/admin');
-                                    }}>
-                                        <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
-                                    </MenuItem>}
-                                </Menu>
+                                        <MenuItem onClick={() => {
+                                            handleCloseUserMenu();
+                                            setLoggedIn(false);
+                                            setUserType('member');
+                                            navigate('/');
+                                        }}>
+                                            <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
+                                        </MenuItem>
+                                    </Menu>
+                                </Box>
                             </Box>
                         }
 

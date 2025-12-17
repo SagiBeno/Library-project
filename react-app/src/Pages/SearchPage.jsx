@@ -1,48 +1,116 @@
 import { Container, Box, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { fetchBooksByQuery } from '../utils'
-import Cards from '../Components/Cards'
+import { fetchBooksByQuery, fetchBooksBySubject } from '../utils'
+import { SearchCards } from '../Components/Cards'
 import SearchComponent from "../Components/SearchComponent";
-import SnackbarComponent from "../Components/SnackbarComponent";
+import Subjects from "../Components/Subjects";
 
-export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks } ) {
+export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, snackbar, setSnackbar }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [books, setBooks] = useState([]);
-    const [snackbar, setSnackbar] = useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'center',
-        message: '',
-        severity: 'warning',
-    });
+    const [subjects, setSubjects] = useState([
+        { label: "Fantasy", value: "fantasy" },
+        { label: "Science Fiction", value: "science_fiction" },
+        { label: "Romance", value: "romance" },
+        { label: "Mystery", value: "mystery" },
+        { label: "Thriller", value: "thriller" },
+        { label: "Horror", value: "horror" },
+
+        { label: "History", value: "history" },
+        { label: "Biography", value: "biography" },
+        { label: "Philosophy", value: "philosophy" },
+        { label: "Psychology", value: "psychology" },
+        { label: "Sociology", value: "sociology" },
+
+        { label: "Programming", value: "programming" },
+        { label: "Computer Science", value: "computer_science" },
+        { label: "Artificial Intelligence", value: "artificial_intelligence" },
+        { label: "Data Science", value: "data_science" },
+
+        { label: "Science", value: "science" },
+        { label: "Mathematics", value: "mathematics" },
+        { label: "Physics", value: "physics" },
+
+        { label: "Children", value: "children" },
+        { label: "Young Adult", value: "young_adult" },
+
+        { label: "Poetry", value: "poetry" },
+        { label: "Drama", value: "drama" },
+        { label: "Classics", value: "classics" },
+
+        { label: "Travel", value: "travel" },
+        { label: "Cooking", value: "cooking" },
+        { label: "Health", value: "health" }
+    ]);
+
+    const [resultText, setResultText] = useState('Start typing or select a category to browse books!');
 
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
     }
 
+    const normalizeBook = (item) => ({
+        title: item.title,
+        author: item.author_name?.[0] || item.authors?.[0]?.name || "Unknown",
+        cover_edition_key: item?.cover_edition_key ? `https://covers.openlibrary.org/b/olid/${item.cover_edition_key}-M.jpg` : 'https://www.globaluniversityalliance.org/wp-content/uploads/2017/10/No-Cover-Image-01.png',
+        ebook_access: item?.ebook_access === 'borrowable' ? 'borrowable' : 'not available',
+    });
+
     const handleSearch = async () => {
-        
+        setBooks([]);
+        setResultText('');
+
         if (searchQuery.trim() === '' || searchQuery.length < 3) {
-            setSnackbar({...snackbar, open: true, message: 'Please enter at least 3 characters to search!'});
+            setSnackbar({
+                ...snackbar,
+                open: true,
+                message: 'Please enter at least 3 characters to search!',
+                severity: 'warning'
+            });
         } else {
             setIsLoading(true);
-            await fetchBooksByQuery(searchQuery.replace(' ', '+'))
-                .then( (res) => {
+            await fetchBooksByQuery(searchQuery.trim().replaceAll(' ', '+'))
+                .then((res) => {
                     if (res?.docs && res.docs.length > 0) {
-                        setBooks([...res.docs]);
+                        setBooks(res.docs.map( (book) => normalizeBook(book)));
                     } else {
                         setBooks([]);
                         setSnackbar({
                             ...snackbar,
                             open: true,
                             message: 'No results found!',
+                            severity: 'info',
                         });
+                        setResultText('No results found!');
                     }
                 })
                 .catch(console.warn)
                 .finally(() => setIsLoading(false));
         }
+    }
+
+    const handleSubjectClick = async (subject) => {
+        setBooks([]);
+        setResultText('');
+        setIsLoading(true);
+        await fetchBooksBySubject(subject)
+            .then((res) => {
+                if (res?.works && res.works.length > 0) {
+                    setBooks(res.works.map( (book) => normalizeBook(book)));
+                } else {
+                    setBooks([]);
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'No results found!',
+                        severity: 'info',
+                    });
+                    setResultText('No results found!');
+                }
+            })
+            .catch(console.warn)
+            .finally(() => setIsLoading(false));
     }
 
     const handleLendBook = (book) => {
@@ -58,8 +126,19 @@ export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks 
     return (
         <Container className="container">
             <SearchComponent handleChange={handleChange} handleSearch={handleSearch} searchQuery={searchQuery} />
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginBottom: '20px',
+                    flexWrap: 'wrap',
+                }}
+            >
+                <Subjects subjects={subjects} handleSubjectClick={handleSubjectClick} />
+            </Box>
 
-            <Box 
+            <Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -70,24 +149,13 @@ export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks 
                 {
                     books.length > 0
                         ?
-                            books.map( (book, idx) => <Cards book={book} key={idx} handleLendBook={handleLendBook} lendedBooks={lendedBooks} />)
+                        books.map((book, idx) => <SearchCards book={book} key={idx} handleLendBook={handleLendBook} lendedBooks={lendedBooks} />)
                         :
-                            <Typography variant="h5">
-                                No results found!
-                            </Typography>
+                        <Typography variant="h5">
+                            {resultText}
+                        </Typography>
                 }
             </Box>
-            
-            <SnackbarComponent 
-                open={snackbar.open} 
-                message={snackbar.message}
-                vertical={snackbar.vertical}
-                horizontal={snackbar.horizontal} 
-                severity={snackbar.severity}
-                onClose={() => setSnackbar({...snackbar, open: false, message: ''})} 
-            />
-
-            
         </Container>
     )
 }
