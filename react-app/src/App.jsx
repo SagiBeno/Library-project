@@ -25,7 +25,7 @@ export default function App(props) {
     severity: 'warning',
   });
   const [lendedBooks, setLendedBooks] = useState([]);
-  // TODO - Log in
+
   const [loggedIn, setLoggedIn] = useState(() => {
     const savedLoggedIn = localStorage.getItem('loggedIn');
     return savedLoggedIn ? JSON.parse(savedLoggedIn) : false;
