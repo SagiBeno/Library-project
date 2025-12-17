@@ -70,7 +70,7 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
 
                     }
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     console.warn(err);
 
                     setSnackbar({
@@ -149,7 +149,28 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+
         setIsLoading(true);
+
+        registerUser(formValues.username, formValues.password, formValues.email, selectSelectedOption)
+            .then(async (response) => {
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.error || 'Registration failed. Please try again.');
+                }
+                else {
+                    alert('Registration successful! You can now log in.');
+                    navigate('/login');
+                }
+            })
+            .catch((error) => {
+                console.error('Error during registration:', error);
+                alert('An error occurred. Please try again.');
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
 
     const handleSearchChange = (e) => {
