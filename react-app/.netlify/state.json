@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Szolnok",
+			"country": {
+				"code": "HU",
+				"name": "Hungary"
+			},
+			"subdivision": {
+				"code": "JN",
+				"name": "Jász-Nagykun-Szolnok"
+			},
+			"timezone": "Europe/Budapest",
+			"latitude": 47.1805,
+			"longitude": 20.2002,
+			"postalCode": "5008"
+		},
+		"timestamp": 1765906918082
+	}
+}

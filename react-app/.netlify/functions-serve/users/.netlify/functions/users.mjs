@@ -1,0 +1,23 @@
+
+import {createRequire as ___nfyCreateRequire} from "module";
+import {fileURLToPath as ___nfyFileURLToPath} from "url";
+import {dirname as ___nfyPathDirname} from "path";
+let __filename=___nfyFileURLToPath(import.meta.url);
+let __dirname=___nfyPathDirname(___nfyFileURLToPath(import.meta.url));
+let require=___nfyCreateRequire(import.meta.url);
+
+
+// .netlify/functions/users.js
+import { createClient } from "@supabase/supabase-js";
+var supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+var supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+var supabase = createClient(supabaseUrl, supabaseKey);
+var users_default = async (req) => {
+  const type = req.query.type;
+  const response = await supabase.from("library_project_users").select("*").eq("type", type);
+  return response.status(200).json(response.data);
+};
+export {
+  users_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLm5ldGxpZnkvZnVuY3Rpb25zL3VzZXJzLmpzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyJpbXBvcnQgeyBjcmVhdGVDbGllbnQgfSBmcm9tIFwiQHN1cGFiYXNlL3N1cGFiYXNlLWpzXCI7XHJcblxyXG5jb25zdCBzdXBhYmFzZVVybCA9IGltcG9ydC5tZXRhLmVudi5WSVRFX1NVUEFCQVNFX1VSTDtcclxuY29uc3Qgc3VwYWJhc2VLZXkgPSBpbXBvcnQubWV0YS5lbnYuVklURV9TVVBBQkFTRV9BTk9OX0tFWTtcclxuXHJcbmNvbnN0IHN1cGFiYXNlID0gY3JlYXRlQ2xpZW50KHN1cGFiYXNlVXJsLCBzdXBhYmFzZUtleSk7XHJcblxyXG5leHBvcnQgZGVmYXVsdCBhc3luYyAocmVxKSA9PiB7XHJcblxyXG4gICAgY29uc3QgdHlwZSA9IHJlcS5xdWVyeS50eXBlO1xyXG4gICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBzdXBhYmFzZVxyXG4gICAgICAgIC5mcm9tKCdsaWJyYXJ5X3Byb2plY3RfdXNlcnMnKVxyXG4gICAgICAgIC5zZWxlY3QoXCIqXCIpXHJcbiAgICAgICAgLmVxKCd0eXBlJywgdHlwZSk7XHJcblxyXG4gICAgcmV0dXJuIHJlc3BvbnNlLnN0YXR1cygyMDApLmpzb24ocmVzcG9uc2UuZGF0YSk7XHJcbn0iXSwKICAibWFwcGluZ3MiOiAiOzs7Ozs7Ozs7O0FBQUEsU0FBUyxvQkFBb0I7QUFFN0IsSUFBTSxjQUFjLFlBQVksSUFBSTtBQUNwQyxJQUFNLGNBQWMsWUFBWSxJQUFJO0FBRXBDLElBQU0sV0FBVyxhQUFhLGFBQWEsV0FBVztBQUV0RCxJQUFPLGdCQUFRLE9BQU8sUUFBUTtBQUUxQixRQUFNLE9BQU8sSUFBSSxNQUFNO0FBQ3ZCLFFBQU0sV0FBVyxNQUFNLFNBQ2xCLEtBQUssdUJBQXVCLEVBQzVCLE9BQU8sR0FBRyxFQUNWLEdBQUcsUUFBUSxJQUFJO0FBRXBCLFNBQU8sU0FBUyxPQUFPLEdBQUcsRUFBRSxLQUFLLFNBQVMsSUFBSTtBQUNsRDsiLAogICJuYW1lcyI6IFtdCn0K
