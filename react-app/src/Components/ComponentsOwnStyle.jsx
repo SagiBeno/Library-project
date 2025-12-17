@@ -1,4 +1,4 @@
-import { Radio, Select, TextField } from "@mui/material";
+import { Radio, Select, TextField, Badge } from "@mui/material";
 import { alpha, styled } from '@mui/material/styles';
 
 export const CustomTextField = styled(TextField)({
@@ -39,3 +39,12 @@ export const CustomRadio = styled(Radio)({
         color: '#b08968',
     },
 });
+
+export const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -3,
+    top: 13,
+    border: `2px solid ${(theme.vars ?? theme).palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));

@@ -9,11 +9,13 @@ import RegisterPage from './Pages/RegisterPage'
 import LoginPage from './Pages/LoginPage'
 import Spinner from './Components/Spinner'
 import supabase from "./supabase-test/supabase";
-import { Container } from "@mui/material"
-import './App.css'
+import { Container } from "@mui/material";
+import './App.css';
+import BookLendingPage from './Pages/BookLendingPage';
 
 export default function App(props) {
   const navigate = useNavigate();
+  const [lendedBooks, setLendedBooks] = useState([]);
   // TODO - Log in
   const [loggedIn, setLoggedIn] = useState(() => {
     const savedLoggedIn = localStorage.getItem('loggedIn');
@@ -48,15 +50,16 @@ export default function App(props) {
 
   return (
     <>
-      <Navbar isAdmin={isAdmin} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+      <Navbar isAdmin={isAdmin} setLoggedIn={setLoggedIn} loggedIn={loggedIn} lendedBooks={lendedBooks} />
 
       <Routes>
         <Route path='/' element={<HomePage setIsLoading={setIsLoading} />} />
         <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} />} />
         <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} />} />
-        <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} />} />
+        <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} />} />
         <Route path='/login' element={<LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setIsAdmin={setIsAdmin} />} />
+        <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} />} />
       </Routes>
 
       {isLoading && <Spinner />}

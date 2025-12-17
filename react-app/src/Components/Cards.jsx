@@ -1,7 +1,7 @@
 import { Card, CardMedia, CardHeader, CardContent, CardActions, Typography, Button, Box, Stack, Chip } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export default function Cards({ book, handleInformation }) {
+export default function Cards({ book, handleLendBook, lendedBooks }) {
     const [imageUrl, setImageUrl] = useState('');
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export default function Cards({ book, handleInformation }) {
                 {
                     book?.ebook_access &&
                     <Box>
-                        <Typography 
+                        <Typography
                             variant="subtitle1"
                             sx={{
                                 marginTop: '10px',
@@ -77,9 +77,9 @@ export default function Cards({ book, handleInformation }) {
                             {
                                 book.ebook_access === 'borrowable'
                                     ?
-                                        <Chip label="Borrowable" color="success" />
+                                    <Chip label="Borrowable" color="success" />
                                     :
-                                        <Chip label="No access" color="error" />
+                                    <Chip label="No access" color="error" />
                             }
                         </Stack>
                     </Box>
@@ -99,15 +99,32 @@ export default function Cards({ book, handleInformation }) {
             >
 
                 <Box>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            width: '100%'
-                        }}
-                        className="buttons"
-                    >
-                        Book lending
-                    </Button>
+                    {
+                        (book?.ebook_access && book.ebook_access === 'borrowable' && !lendedBooks.includes(book))
+                            ?
+                            <Button
+                                type="button"
+                                variant="contained"
+                                sx={{
+                                    width: '100%'
+                                }}
+                                className="buttons"
+                                onClick={() => handleLendBook(book)}
+                            >
+                                Book lending
+                            </Button>
+                            :
+                            <Button
+                                disabled
+                                type="button"
+                                variant="contained"
+                                sx={{
+                                    width: '100%'
+                                }}
+                            >
+                                {lendedBooks.includes(book) ? 'Added to lending list' : 'Not available for lending'}
+                            </Button>
+                    }
                 </Box>
 
             </CardActions>
