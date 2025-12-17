@@ -125,7 +125,7 @@ export default function RegisterForm({ handleChange, formValues, handleSubmit })
             }
 
             {
-                formValues.password !== formValues.passwordConfirm || formValues.password.length === 0 || formValues.username.length === 0 || formValues.email.length === 0
+                formValues.password !== formValues.passwordConfirm || formValues.password.length === 0 || formValues.username.length === 0 || formValues.email.length === 0 || formValues.password.length < 8
                     ?
                     <Button
                         type="submit"
