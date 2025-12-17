@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export function SearchCards({ book, handleLendBook, lendedBooks }) {
-    console.log(book);
+
     return (
         <Card
             sx={{
