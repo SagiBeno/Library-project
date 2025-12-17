@@ -1,7 +1,7 @@
 import { Container, Box, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchBooksByQuery } from '../utils'
-import Cards from '../Components/Cards'
+import { SearchCards } from '../Components/Cards'
 import SearchComponent from "../Components/SearchComponent";
 import SnackbarComponent from "../Components/SnackbarComponent";
 
@@ -70,7 +70,7 @@ export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks 
                 {
                     books.length > 0
                         ?
-                            books.map( (book, idx) => <Cards book={book} key={idx} handleLendBook={handleLendBook} lendedBooks={lendedBooks} />)
+                            books.map( (book, idx) => <SearchCards book={book} key={idx} handleLendBook={handleLendBook} lendedBooks={lendedBooks} />)
                         :
                             <Typography variant="h5">
                                 No results found!
