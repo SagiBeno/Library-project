@@ -7,6 +7,8 @@ import { EditModal, DeleteModal } from '../Components/Modals';
 import SelectComponent from "../Components/SelectComponent";
 import RegisterForm from "../Components/RegisterForm";
 import SearchComponent from "../Components/SearchComponent";
+import { dataRetrievalForAdmin } from "../utils";
+import SnackbarComponent from "../Components/SnackbarComponent";
 
 export default function AdminPage({ setIsLoading }) {
     const [radioOptions, setRadioOptions] = useState({
@@ -37,57 +39,55 @@ export default function AdminPage({ setIsLoading }) {
     });
     const [searchQuery, setSearchQuery] = useState('');
 
-    const handleRadioButtons = (value) => {
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        message: '',
+        severity: 'warning',
+    });
+
+    const handleRadioButtons = async (value) => {
+
         setRadioSelectedOption(value);
-        // TODO - Querying relevant data
-        if (value === 'member') {
+
+        if (value === 'member' || value === 'librarian' || value === 'admin') {
             setIsLoading(true);
-            (async () => {
-                const members = await supabase
-                    .from('library_project_users')
-                    .select("*")
-                    .eq('type', value)
-                if (members.data.length > 0) {
-                    setTableData(members.data);
-                    setFilteredTableData(members.data);
-                }
-            })()
-                .catch(console.warn)
-                .finally(() => setIsLoading(false))
-        }
+            await dataRetrievalForAdmin(value)
+                .then(async (res) => {
+                    const parsedRes = await JSON.parse(res);
 
-        if (value === 'admin') {
-            setIsLoading(true);
-            (async () => {
-                const admins = await supabase
-                    .from('library_project_users')
-                    .select("*")
-                    .eq('type', value)
-                if (admins.data.length > 0) {
-                    setTableData(admins.data);
-                    setFilteredTableData(admins.data);
-                }
-            })()
-                .catch(console.warn)
-                .finally(() => setIsLoading(false))
-        }
+                    if (parsedRes?.data && parsedRes.data.length > 0) {
+                        setTableData(parsedRes.data);
+                        setFilteredTableData(parsedRes.data);
+                        setSnackbar({
+                            ...snackbar,
+                            open: true,
+                            message: 'The data query was successful!',
+                            severity: 'success',
+                        });
+                    } else {
+                        setTableData([]);
+                        setFilteredTableData([]);
+                        setSnackbar({
+                            ...snackbar,
+                            open: true,
+                            message: 'No data found!',
+                            severity: 'warning',
+                        });
 
-        if (value === 'librarian') {
+                    }
+                })
+                .catch( (err) => {
+                    console.warn(err);
 
-            // TODO
-
-            setIsLoading(true);
-            (async () => {
-                const librarians = await supabase
-                    .from('library_project_users')
-                    .select("*")
-                    .eq('type', value)
-                if (librarians.data.length > 0) {
-                    setTableData(librarians.data);
-                    setFilteredTableData(librarians.data);
-                }
-            })()
-                .catch(console.warn)
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Error during queries!',
+                        severity: 'error',
+                    });
+                })
                 .finally(() => setIsLoading(false))
         }
 
@@ -244,6 +244,15 @@ export default function AdminPage({ setIsLoading }) {
             {
                 showDeleteModal && <DeleteModal showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} data={selectedData} handleDeleteConfirm={handleDeleteConfirm} />
             }
+
+            <SnackbarComponent
+                open={snackbar.open}
+                message={snackbar.message}
+                vertical={snackbar.vertical}
+                horizontal={snackbar.horizontal}
+                severity={snackbar.severity}
+                onClose={() => setSnackbar({ ...snackbar, open: false, message: '' })}
+            />
 
         </Container>
     )
