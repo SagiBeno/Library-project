@@ -45,6 +45,19 @@
     justify-content: center;
 }
 
+.subjectChip {
+    margin: 5px !important;
+    cursor: pointer;
+    background-color: #f0e1d2 !important;
+    color: black !important;
+}
+
+.subjectChip:hover {
+    font-weight: bold;
+    background-color: #ddb892 !important;
+    animation: pulse 2s infinite;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);
