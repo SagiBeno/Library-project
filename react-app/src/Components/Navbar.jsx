@@ -167,20 +167,23 @@ export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, l
 
                         {
                             loggedIn &&
-                            <Box sx={{ flexGrow: 0 }}>
-                                {
-                                    lendedBooks.length > 0 &&
-                                    <Tooltip title="Requested book(s)...">
-                                        <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending', { state: { books: lendedBooks } }); }}>
-                                            <StyledBadge badgeContent={lendedBooks.length} color="secondary">
-                                                <ShoppingCartIcon />
-                                            </StyledBadge>
-                                        </IconButton>
-                                    </Tooltip>
-                                }
+                            <Box sx={{ flexGrow: 0 }} className='user-menu-box'>
+                                <Typography variant="subtitle1" sx={{ marginRight: '10px' }}>Hello, {user}!</Typography>
 
-                                <Box className='user-menu-box'>
-                                    <Typography variant="subtitle1" sx={{ marginRight: '10px' }}>Hello, {user}!</Typography>
+                                <Box>
+
+                                    {
+                                        lendedBooks.length > 0 &&
+                                        <Tooltip title="Requested book(s)...">
+                                            <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending', { state: { books: lendedBooks } }); }}>
+                                                <StyledBadge badgeContent={lendedBooks.length} color="secondary">
+                                                    <ShoppingCartIcon />
+                                                </StyledBadge>
+                                            </IconButton>
+                                        </Tooltip>
+                                    }
+
+
 
                                     <Tooltip title="More options...">
 
@@ -213,15 +216,15 @@ export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, l
                                                 <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
                                             </MenuItem>
                                         }
-                                        {/*
-                                            userType === 'librarian' &&
+                                        {
+                                            userType === 'librarian' || userType === 'admin' &&
                                             <MenuItem onClick={() => {
                                                 handleCloseUserMenu();
                                                 navigate('/librarian');
                                             }}>
                                                 <Typography sx={{ textAlign: 'center' }}>Librarian</Typography>
                                             </MenuItem>
-                                        */}
+                                        }
 
                                         <MenuItem onClick={() => {
                                             handleCloseUserMenu();

@@ -2,6 +2,12 @@ import supabase from '././supabase-test/supabase';
 
 const searchURL = "https://openlibrary.org/search.json?q=";
 const coverURL = "https://covers.openlibrary.org/b/olid/"; +"OLID-{olid}-{size}.jpg";
+const subjectsURL = "https://openlibrary.org/subjects/";
+
+export async function fetchBooksBySubject(subject) {
+    const response = await fetch(`${subjectsURL}${subject}.json`);
+    return await response.json();
+}
 
 export async function fetchBooksByQuery(searchQuery) {
     const response = await fetch(`${searchURL}${searchQuery}`);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './Components/Navbar'
 import MyBooksPage from './Pages/MyBooksPage'
@@ -12,6 +12,7 @@ import { Container } from "@mui/material";
 import './App.css';
 import BookLendingPage from './Pages/BookLendingPage';
 import SnackbarComponent from "./Components/SnackbarComponent";
+import LibrarianPage from './Pages/LibrarianPage';
 
 export default function App(props) {
   const navigate = useNavigate();
@@ -60,13 +61,22 @@ export default function App(props) {
 
       <Routes>
         <Route path='/' element={
-          !loggedIn 
+          !loggedIn && userType === 'member'
             ?
               <LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setUserType={setUserType} setUsername={setUsername} snackbar={snackbar} setSnackbar={setSnackbar} />
             : 
               <SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} /> } />
+        
+        {
+          !loggedIn && userType === 'librarian' || userType === 'admin' &&
+          <Route path='/librarian' element={<LibrarianPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
+        }
+
+        {
+          !loggedIn && userType === 'admin' || userType === 'librarian' &&
+          <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
+        }
         <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} />} />
-        <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} />} />
         <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} />} />

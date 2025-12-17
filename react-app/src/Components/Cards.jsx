@@ -3,16 +3,6 @@ import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export function SearchCards({ book, handleLendBook, lendedBooks }) {
-    const [imageUrl, setImageUrl] = useState('');
-
-    useEffect(() => {
-        if (book.cover_edition_key) {
-            const url = `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`;
-            setImageUrl(url);
-        } else {
-            setImageUrl('https://www.globaluniversityalliance.org/wp-content/uploads/2017/10/No-Cover-Image-01.png');
-        }
-    }, []);
 
     return (
         <Card
@@ -32,7 +22,7 @@ export function SearchCards({ book, handleLendBook, lendedBooks }) {
 
             <CardMedia
                 component="img"
-                image={imageUrl}
+                image={book.cover_edition_key}
                 alt={book.title}
                 sx={{
                     width: '60%',
@@ -45,13 +35,13 @@ export function SearchCards({ book, handleLendBook, lendedBooks }) {
 
             <CardContent sx={{ flexGrow: 1 }}>
                 {
-                    book?.author_name &&
+                    book?.author &&
                     <>
                         <Typography variant="subtitle1">
                             Author
                         </Typography>
                         <Typography variant="body2">
-                            {book?.author_name[0]}
+                            {book?.author}
                         </Typography>
                     </>
 
@@ -138,16 +128,6 @@ export function SearchCards({ book, handleLendBook, lendedBooks }) {
 }
 
 export function LendingCards({ handleRemove, lendedBook }) {
-    const [imageUrl, setImageUrl] = useState('');
-
-    useEffect(() => {
-        if (lendedBook.cover_edition_key) {
-            const url = `https://covers.openlibrary.org/b/olid/${lendedBook.cover_edition_key}-M.jpg`;
-            setImageUrl(url);
-        } else {
-            setImageUrl('https://www.globaluniversityalliance.org/wp-content/uploads/2017/10/No-Cover-Image-01.png');
-        }
-    }, []);
 
     return (
         <Card
@@ -167,7 +147,7 @@ export function LendingCards({ handleRemove, lendedBook }) {
 
             <CardMedia
                 component="img"
-                image={imageUrl}
+                image={lendedBook.cover_edition_key}
                 alt={lendedBook.title}
                 sx={{
                     width: '60%',
@@ -180,16 +160,16 @@ export function LendingCards({ handleRemove, lendedBook }) {
 
             <CardContent sx={{ flexGrow: 1 }}>
                 {
-                    lendedBook?.author_name &&
+                    lendedBook?.author &&
                     <>
                         <Typography variant="subtitle1">
                             Author
                         </Typography>
                         <Typography variant="body2">
-                            {lendedBook?.author_name[0]}
+                            {lendedBook?.author}
                         </Typography>
                     </>
-                    
+
 
                 }
             </CardContent>
@@ -205,7 +185,7 @@ export function LendingCards({ handleRemove, lendedBook }) {
                 }}
             >
                 <IconButton onClick={() => handleRemove(lendedBook)}>
-                    <DeleteIcon sx={{color: 'red'}}/>
+                    <DeleteIcon sx={{ color: 'red' }} />
                 </IconButton>
 
             </CardActions>
