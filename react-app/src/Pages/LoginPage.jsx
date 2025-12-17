@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
 
+import { authenticateUser } from "../utils";
+
 export default function LoginPage({ setIsLoading, setLoggedIn, setIsAdmin }) {
     const navigate = useNavigate();
     const [formValues, setFormValues] = useState({
@@ -24,13 +26,28 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setIsAdmin }) {
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        // Set logged in and admin status
-        setLoggedIn(true);
-        setIsAdmin(true); // Adjust based on actual admin status from backend
-        navigate('/search');
+
+        const response = await authenticateUser(formValues.email, formValues.password);
+
+        console.log(response);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error || 'Login failed. Please try again.');
+            setIsLoading(false);
+            return;
+        }
+        else {
+            setIsLoading(false);
+            setLoggedIn(true);
+            setIsAdmin(true); // Adjust based on actual admin status from backend
+            navigate('/search');
+        }
+
     }
 
     return (
