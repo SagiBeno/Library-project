@@ -61,7 +61,10 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setU
                 message: 'Login successful!',
                 severity: 'success'
             });
-            navigate('/search');
+
+            if (data?.user?.type === 'admin') navigate('/admin');
+            if (data?.user?.type === 'librarian') navigate('/librarian');
+            if (data?.user?.type === 'member') navigate('/my-books');
         }
 
     }

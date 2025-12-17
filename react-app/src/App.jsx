@@ -61,19 +61,19 @@ export default function App(props) {
 
       <Routes>
         <Route path='/' element={
-          !loggedIn && userType === 'member'
+          !loggedIn
             ?
               <LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setUserType={setUserType} setUsername={setUsername} snackbar={snackbar} setSnackbar={setSnackbar} />
             : 
               <SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} /> } />
         
         {
-          !loggedIn && userType === 'librarian' || userType === 'admin' &&
+          userType === 'librarian' || userType === 'admin' &&
           <Route path='/librarian' element={<LibrarianPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         }
 
         {
-          !loggedIn && userType === 'admin' || userType === 'librarian' &&
+          userType === 'admin' &&
           <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         }
         <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} />} />
