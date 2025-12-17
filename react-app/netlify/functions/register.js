@@ -16,8 +16,8 @@ export default async (request, context) => {
         );
     }
 
-    const { username, password, email, type } = await request.json();
-
+    const { username, password, email } = await request.json();
+    let { type } = await request.json();
 
     if (type) {
         type = 'member';
