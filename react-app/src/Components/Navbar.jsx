@@ -19,8 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { StyledBadge } from './ComponentsOwnStyle';
 
-export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, lendedBooks }) {
-
+export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, lendedBooks, user }) {
     const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState(false);
@@ -180,44 +179,60 @@ export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, l
                                     </Tooltip>
                                 }
 
-                                <Tooltip title="More options...">
-                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
-                                        <AccountCircleIcon />
-                                    </IconButton>
-                                </Tooltip>
-                                <Menu
-                                    sx={{ mt: '45px' }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                >
+                                <Box className='user-menu-box'>
+                                    <Typography variant="subtitle1" sx={{ marginRight: '10px' }}>Hello, {user}!</Typography>
 
-                                    <MenuItem onClick={() => {
-                                        handleCloseUserMenu();
-                                        setLoggedIn(false);
-                                        setUserType('member');
-                                        navigate('/');
-                                    }}>
-                                        <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
-                                    </MenuItem>
+                                    <Tooltip title="More options...">
 
-                                    {(['admin', 'librarian'].includes(userType)) && <MenuItem onClick={() => {
-                                        handleCloseUserMenu();
-                                        navigate('/admin');
-                                    }}>
-                                        <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
-                                    </MenuItem>}
-                                </Menu>
+                                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
+                                            <AccountCircleIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Menu
+                                        sx={{ mt: '45px' }}
+                                        id="menu-appbar"
+                                        anchorEl={anchorElUser}
+                                        anchorOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        open={Boolean(anchorElUser)}
+                                        onClose={handleCloseUserMenu}
+                                    >
+                                        {
+                                            userType === 'admin' &&
+                                            <MenuItem onClick={() => {
+                                                handleCloseUserMenu();
+                                                navigate('/admin');
+                                            }}>
+                                                <Typography sx={{ textAlign: 'center' }}>Admin</Typography>
+                                            </MenuItem>
+                                        }
+                                        {/*
+                                            userType === 'librarian' &&
+                                            <MenuItem onClick={() => {
+                                                handleCloseUserMenu();
+                                                navigate('/librarian');
+                                            }}>
+                                                <Typography sx={{ textAlign: 'center' }}>Librarian</Typography>
+                                            </MenuItem>
+                                        */}
+
+                                        <MenuItem onClick={() => {
+                                            handleCloseUserMenu();
+                                            setLoggedIn(false);
+                                            setUserType('member');
+                                            navigate('/');
+                                        }}>
+                                            <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
+                                        </MenuItem>
+                                    </Menu>
+                                </Box>
                             </Box>
                         }
 

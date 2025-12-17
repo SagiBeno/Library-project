@@ -4,20 +4,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
-import SnackbarComponent from "../Components/SnackbarComponent";
 import { authenticateUser } from "../utils";
 
 //TODO - wrong credentials better handling
-export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
+export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setUsername, snackbar, setSnackbar }) {
     const navigate = useNavigate();
-
-    const [snackbar, setSnackbar] = useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'center',
-        message: '',
-        severity: 'warning',
-    });
 
     if (localStorage.getItem('loggedIn') === 'true') {
         navigate('/search');
@@ -61,6 +52,8 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
         }
         else {
             setIsLoading(false);
+            setUserType(data?.user?.type || 'member');
+            setUsername(data?.user?.username || '');
             setLoggedIn(true);
             // Set user type returned by backend: member, librarian, admin
             setSnackbar({...snackbar, 
@@ -68,7 +61,6 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
                 message: 'Login successful!',
                 severity: 'success'
             });
-            setUserType(data?.user?.type || 'member');
             navigate('/search');
         }
 
@@ -190,15 +182,6 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
 
                 </Paper>
             </Box>
-
-            <SnackbarComponent
-                open={snackbar.open}
-                message={snackbar.message}
-                vertical={snackbar.vertical}
-                horizontal={snackbar.horizontal}
-                severity={snackbar.severity}
-                onClose={() => setSnackbar({ ...snackbar, open: false, message: '' })}
-            />
         </Container>
     )
 }
