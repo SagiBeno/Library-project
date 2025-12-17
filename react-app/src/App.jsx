@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
-import HomePage from './Pages/HomePage'
 import Navbar from './Components/Navbar'
 import MyBooksPage from './Pages/MyBooksPage'
 import AdminPage from './Pages/AdminPage'
@@ -21,9 +20,9 @@ export default function App(props) {
     const savedLoggedIn = localStorage.getItem('loggedIn');
     return savedLoggedIn ? JSON.parse(savedLoggedIn) : false;
   });
-  const [isAdmin, setIsAdmin] = useState(() => {
-    const savedIsAdmin = localStorage.getItem('isAdmin');
-    return savedIsAdmin ? JSON.parse(savedIsAdmin) : false;
+  const [userType, setUserType] = useState(() => {
+    const savedUserType = localStorage.getItem('userType');
+    return savedUserType ? JSON.parse(savedUserType) : 'member';
   });
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +32,10 @@ export default function App(props) {
     localStorage.setItem('loggedIn', JSON.stringify(loggedIn));
   }, [loggedIn]);
 
-  // Save isAdmin state to localStorage whenever it changes
+  // Save userType state to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
-  }, [isAdmin]);
+    localStorage.setItem('userType', JSON.stringify(userType));
+  }, [userType]);
 
   useEffect(() => {
     (async () => {
@@ -50,15 +49,15 @@ export default function App(props) {
 
   return (
     <>
-      <Navbar isAdmin={isAdmin} setLoggedIn={setLoggedIn} loggedIn={loggedIn} lendedBooks={lendedBooks} />
+      <Navbar userType={userType} setUserType={setUserType} setLoggedIn={setLoggedIn} loggedIn={loggedIn} lendedBooks={lendedBooks} />
 
       <Routes>
-        <Route path='/' element={<HomePage setIsLoading={setIsLoading} />} />
+        <Route path='/' element={<LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setUserType={setUserType} />} />
         <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} />} />
         <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} />} />
         <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} />} />
+        <Route path='/login' element={<LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setUserType={setUserType} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} />} />
-        <Route path='/login' element={<LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setIsAdmin={setIsAdmin} />} />
         <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} />} />
       </Routes>
 
