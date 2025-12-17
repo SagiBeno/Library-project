@@ -32,3 +32,27 @@ export async function authenticateUser(email, password) {
 
     return res;
 }
+
+export async function registerUser(username, password, email, type = 'member') {
+    const res = await fetch(`/.netlify/functions/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password, email, type }),
+    })
+
+    return res;
+}
+
+async function testFunction() {
+    const res = await fetch(`/.netlify/functions/test`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+    })
+
+    return res;
+}
