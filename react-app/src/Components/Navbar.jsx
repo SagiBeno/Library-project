@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { StyledBadge } from './ComponentsOwnStyle';
 
-export default function Navbar({ setLoggedIn, isAdmin, loggedIn, lendedBooks }) {
+export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, lendedBooks }) {
 
     const navigate = useNavigate();
 
@@ -92,8 +92,8 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn, lendedBooks }) 
                                 open={Boolean(anchorElNav)}
                                 onClose={handleCloseNavMenu}
                                 sx={{ display: { xs: 'block', md: 'none' } }}
-                            >   
-                                
+                            >
+
                                 <MenuItem onClick={() => {
                                     handleCloseNavMenu();
                                     navigate('/search');
@@ -162,7 +162,7 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn, lendedBooks }) 
                                 {
                                     lendedBooks.length > 0 &&
                                     <Tooltip title="Requested book(s)...">
-                                        <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending',  { state: { books: lendedBooks } }); }}>
+                                        <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending', { state: { books: lendedBooks } }); }}>
                                             <StyledBadge badgeContent={lendedBooks.length} color="secondary">
                                                 <ShoppingCartIcon />
                                             </StyledBadge>
@@ -195,12 +195,13 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn, lendedBooks }) 
                                     <MenuItem onClick={() => {
                                         handleCloseUserMenu();
                                         setLoggedIn(false);
+                                        setUserType('member');
                                         navigate('/');
                                     }}>
                                         <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
                                     </MenuItem>
 
-                                    {isAdmin && <MenuItem onClick={() => {
+                                    {(['admin', 'librarian'].includes(userType)) && <MenuItem onClick={() => {
                                         handleCloseUserMenu();
                                         navigate('/admin');
                                     }}>
