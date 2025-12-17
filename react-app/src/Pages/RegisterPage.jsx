@@ -1,9 +1,13 @@
 import { Box, Paper, Typography, Container } from "@mui/material"
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react"
 import RegisterForm from "../Components/RegisterForm";
 
+import { registerUser } from "../utils";
+
 export default function RegisterPage({ setIsLoading }) {
+    const navigate = useNavigate();
+
     const [formValues, setFormValues] = useState({
         email: '',
         password: '',
@@ -24,6 +28,26 @@ export default function RegisterPage({ setIsLoading }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
+
+        registerUser(formValues.username, formValues.email, formValues.password)
+            .then(async (response) => {
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.error || 'Registration failed. Please try again.');
+                }
+                else {
+                    alert('Registration successful! You can now log in.');
+                    navigate('/login');
+                }
+            })
+            .catch((error) => {
+                console.error('Error during registration:', error);
+                alert('An error occurred. Please try again.');
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
 
     return (
@@ -54,7 +78,7 @@ export default function RegisterPage({ setIsLoading }) {
                     Create an account
                 </Typography>
 
-                <RegisterForm handleChange={handleChange} formValues={formValues} handleSubmit={handleSubmit}/>
+                <RegisterForm handleChange={handleChange} formValues={formValues} handleSubmit={handleSubmit} />
 
             </Paper>
         </Container>
