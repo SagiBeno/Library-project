@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import bcrypt from 'bcrypt';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
@@ -43,10 +44,17 @@ export default async (request, context) => {
 
     console.log(data, error);
 
-    if (error || !data || data.password !== password) {
+    if (error || !data) {
         return new Response(
             JSON.stringify({ error: "Invalid credentials" }),
             { status: error?.status || 401, headers: jsonHeaders }
+        );
+    }
+
+    if (!bcrypt.compareSync(password, data.password)) {
+        return new Response(
+            JSON.stringify({ error: "Invalid credentials" }),
+            { status: 401, headers: jsonHeaders }
         );
     }
 
