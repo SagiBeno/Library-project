@@ -115,53 +115,6 @@ export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, l
                                         }
 
                                     </Menu>
-
-                                    <IconButton
-                                        size="large"
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        onClick={handleOpenNavMenu}
-                                        color="inherit"
-                                    >
-                                        <MenuIcon />
-                                    </IconButton>
-
-                                    <Menu
-                                        id="menu-appbar"
-                                        anchorEl={anchorElNav}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        keepMounted
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        open={Boolean(anchorElNav)}
-                                        onClose={handleCloseNavMenu}
-                                        sx={{ display: { xs: 'block', md: 'none' } }}
-                                    >
-
-                                        <MenuItem onClick={() => {
-                                            handleCloseNavMenu();
-                                            navigate('/search');
-                                        }}>
-                                            <Typography sx={{ textAlign: 'center', color: 'black' }}>Search</Typography>
-                                        </MenuItem>
-
-                                        {
-                                            loggedIn &&
-                                            <MenuItem onClick={() => {
-                                                handleCloseNavMenu();
-                                                navigate('/my-books');
-                                            }}>
-                                                <Typography sx={{ textAlign: 'center', color: 'black' }}>My Books</Typography>
-                                            </MenuItem>
-                                        }
-
-                                    </Menu>
                                 </>
                             }
 
