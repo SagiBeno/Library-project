@@ -4,11 +4,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
-
 import { authenticateUser } from "../utils";
 
 //TODO - wrong credentials better handling
-export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
+export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setUsername, snackbar, setSnackbar }) {
     const navigate = useNavigate();
 
     if (localStorage.getItem('loggedIn') === 'true') {
@@ -43,15 +42,25 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
         console.log(data);
 
         if (!response.ok) {
-            alert(data.error || 'Login failed. Please try again.');
+            setSnackbar({...snackbar, 
+                open: true,
+                message: 'Invalid email or password. Please try again!',
+                severity: 'error'
+            });
             setIsLoading(false);
             return;
         }
         else {
             setIsLoading(false);
+            setUserType(data?.user?.type || 'member');
+            setUsername(data?.user?.username || '');
             setLoggedIn(true);
             // Set user type returned by backend: member, librarian, admin
-            setUserType(data?.user?.type || 'member');
+            setSnackbar({...snackbar, 
+                open: true,
+                message: 'Login successful!',
+                severity: 'success'
+            });
             navigate('/search');
         }
 

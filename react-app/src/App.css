@@ -37,6 +37,14 @@
     animation: pulse 2s infinite;
 }
 
+.user-menu-box {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -58,5 +66,9 @@
 
     .cancelButtons {
         margin-bottom: 10px !important;
+    }
+
+    .user-menu-box {
+        flex-direction: column;
     }
 }

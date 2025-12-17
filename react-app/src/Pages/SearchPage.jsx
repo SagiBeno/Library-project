@@ -1,21 +1,12 @@
 import { Container, Box, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchBooksByQuery } from '../utils'
-import Cards from '../Components/Cards'
+import { SearchCards } from '../Components/Cards'
 import SearchComponent from "../Components/SearchComponent";
-import SnackbarComponent from "../Components/SnackbarComponent";
-
-export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks } ) {
+export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks, snackbar, setSnackbar } ) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [books, setBooks] = useState([]);
-    const [snackbar, setSnackbar] = useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'center',
-        message: '',
-        severity: 'warning',
-    });
 
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
@@ -24,7 +15,12 @@ export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks 
     const handleSearch = async () => {
         
         if (searchQuery.trim() === '' || searchQuery.length < 3) {
-            setSnackbar({...snackbar, open: true, message: 'Please enter at least 3 characters to search!'});
+            setSnackbar({
+                ...snackbar, 
+                open: true, 
+                message: 'Please enter at least 3 characters to search!',
+                severity: 'warning'
+            });
         } else {
             setIsLoading(true);
             await fetchBooksByQuery(searchQuery.replace(' ', '+'))
@@ -37,6 +33,7 @@ export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks 
                             ...snackbar,
                             open: true,
                             message: 'No results found!',
+                            severity: 'info',
                         });
                     }
                 })
@@ -70,24 +67,13 @@ export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks 
                 {
                     books.length > 0
                         ?
-                            books.map( (book, idx) => <Cards book={book} key={idx} handleLendBook={handleLendBook} lendedBooks={lendedBooks} />)
+                            books.map( (book, idx) => <SearchCards book={book} key={idx} handleLendBook={handleLendBook} lendedBooks={lendedBooks} />)
                         :
                             <Typography variant="h5">
                                 No results found!
                             </Typography>
                 }
             </Box>
-            
-            <SnackbarComponent 
-                open={snackbar.open} 
-                message={snackbar.message}
-                vertical={snackbar.vertical}
-                horizontal={snackbar.horizontal} 
-                severity={snackbar.severity}
-                onClose={() => setSnackbar({...snackbar, open: false, message: ''})} 
-            />
-
-            
         </Container>
     )
 }
