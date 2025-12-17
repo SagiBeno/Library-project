@@ -121,6 +121,10 @@ export default function RegisterForm({ handleChange, formValues, handleSubmit })
             }
 
             {
+                formValues.password.length < 8 && <FormHelperText sx={{ color: '#a97a4aff', fontWeight: 'bold' }}>Password must be at least 8 characters long!</FormHelperText>
+            }
+
+            {
                 formValues.password !== formValues.passwordConfirm || formValues.password.length === 0 || formValues.username.length === 0 || formValues.email.length === 0
                     ?
                     <Button

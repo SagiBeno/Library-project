@@ -4,12 +4,20 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
-
+import SnackbarComponent from "../Components/SnackbarComponent";
 import { authenticateUser } from "../utils";
 
 //TODO - wrong credentials better handling
 export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
     const navigate = useNavigate();
+
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        message: '',
+        severity: 'warning',
+    });
 
     if (localStorage.getItem('loggedIn') === 'true') {
         navigate('/search');
@@ -43,7 +51,11 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
         console.log(data);
 
         if (!response.ok) {
-            alert(data.error || 'Login failed. Please try again.');
+            setSnackbar({...snackbar, 
+                open: true,
+                message: 'Invalid email or password. Please try again!',
+                severity: 'error'
+            });
             setIsLoading(false);
             return;
         }
@@ -51,6 +63,11 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
             setIsLoading(false);
             setLoggedIn(true);
             // Set user type returned by backend: member, librarian, admin
+            setSnackbar({...snackbar, 
+                open: true,
+                message: 'Login successful!',
+                severity: 'success'
+            });
             setUserType(data?.user?.type || 'member');
             navigate('/search');
         }
@@ -173,6 +190,15 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType }) {
 
                 </Paper>
             </Box>
+
+            <SnackbarComponent
+                open={snackbar.open}
+                message={snackbar.message}
+                vertical={snackbar.vertical}
+                horizontal={snackbar.horizontal}
+                severity={snackbar.severity}
+                onClose={() => setSnackbar({ ...snackbar, open: false, message: '' })}
+            />
         </Container>
     )
 }
