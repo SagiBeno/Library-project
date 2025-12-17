@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
@@ -16,11 +16,19 @@ export default async (request, context) => {
         );
     }
 
-    const { username, password, email } = await request.json();
-    let { type } = await request.json();
+    const body = await request.json();
 
-    if (type) {
-        type = 'member';
+    const { username, password, email } = body || {};
+
+    const type = body.type || 'member';
+
+    console.log(username, password, email, type);
+
+    if (!username || !password || !email) {
+        return new Response(
+            JSON.stringify({ error: "username, password and email required" }),
+            { status: 400, headers: jsonHeaders }
+        );
     }
 
     //check if user already exists
@@ -47,6 +55,8 @@ export default async (request, context) => {
         .single();
 
     if (existingUserByEmail) {
+        console.log(existingUserByEmail);
+
         return new Response(
             JSON.stringify({ error: "Email already exists" }),
             { status: 400, headers: jsonHeaders }
