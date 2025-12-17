@@ -16,8 +16,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Drawer from '@mui/material/Drawer';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useNavigate } from 'react-router-dom';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { StyledBadge } from './ComponentsOwnStyle';
 
-export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
+export default function Navbar({ setLoggedIn, isAdmin, loggedIn, lendedBooks }) {
 
     const navigate = useNavigate();
 
@@ -90,7 +92,8 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                                 open={Boolean(anchorElNav)}
                                 onClose={handleCloseNavMenu}
                                 sx={{ display: { xs: 'block', md: 'none' } }}
-                            >
+                            >   
+                                
                                 <MenuItem onClick={() => {
                                     handleCloseNavMenu();
                                     navigate('/search');
@@ -156,6 +159,17 @@ export default function Navbar({ setLoggedIn, isAdmin, loggedIn }) {
                         {
                             loggedIn &&
                             <Box sx={{ flexGrow: 0 }}>
+                                {
+                                    lendedBooks.length > 0 &&
+                                    <Tooltip title="Requested book(s)...">
+                                        <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending',  { state: { books: lendedBooks } }); }}>
+                                            <StyledBadge badgeContent={lendedBooks.length} color="secondary">
+                                                <ShoppingCartIcon />
+                                            </StyledBadge>
+                                        </IconButton>
+                                    </Tooltip>
+                                }
+
                                 <Tooltip title="More options...">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'black' }}>
                                         <AccountCircleIcon />

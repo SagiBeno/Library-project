@@ -5,7 +5,7 @@ import Cards from '../Components/Cards'
 import SearchComponent from "../Components/SearchComponent";
 import SnackbarComponent from "../Components/SnackbarComponent";
 
-export default function SearchPage( { setIsLoading } ) {
+export default function SearchPage( { setIsLoading, setLendedBooks, lendedBooks } ) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [books, setBooks] = useState([]);
@@ -45,6 +45,16 @@ export default function SearchPage( { setIsLoading } ) {
         }
     }
 
+    const handleLendBook = (book) => {
+        setLendedBooks([...lendedBooks, book]);
+        setSnackbar({
+            ...snackbar,
+            open: true,
+            message: `"${book.title}" has been added to your lending list!`,
+            severity: 'success',
+        });
+    }
+
     return (
         <Container className="container">
             <SearchComponent handleChange={handleChange} handleSearch={handleSearch} searchQuery={searchQuery} />
@@ -60,7 +70,7 @@ export default function SearchPage( { setIsLoading } ) {
                 {
                     books.length > 0
                         ?
-                            books.map( (book, idx) => <Cards book={book} key={idx} /> )
+                            books.map( (book, idx) => <Cards book={book} key={idx} handleLendBook={handleLendBook} lendedBooks={lendedBooks} />)
                         :
                             <Typography variant="h5">
                                 No results found!

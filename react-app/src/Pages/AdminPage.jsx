@@ -1,7 +1,7 @@
 import { Box, Container, Paper, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import RadioButtons from "../Components/RadioButtons";
-import MyTable from "../Components/MyTable";
+import { AdminTable } from "../Components/Tables";
 import supabase from "../supabase-test/supabase";
 import { EditModal, DeleteModal } from '../Components/Modals';
 import SelectComponent from "../Components/SelectComponent";
@@ -219,7 +219,7 @@ export default function AdminPage({ setIsLoading }) {
                             marginBottom: '20px'
                         }}
                     >
-                        <MyTable data={filteredTableData} handleEdit={handleEdit} handleDelete={handleDelete} loading={setIsLoading} />
+                        <AdminTable data={filteredTableData} handleEdit={handleEdit} handleDelete={handleDelete} loading={setIsLoading} />
                     </Box>
 
                     :
