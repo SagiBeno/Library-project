@@ -1,3 +1,19 @@
+/**
+ * Delete a user by ID.
+ *
+ * Removes a user from the `library_project_users` table.
+ * Intended for admin use only.
+ *
+ * @route DELETE /.netlify/functions/delete_user
+ *
+ * @param {Request} request - Netlify Function request object
+ * @bodyParam {number} id - ID of the user to delete
+ *
+ * @response 200 application/json User deleted successfully
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
 //DELETE delete_user method
 
 import { createClient } from "@supabase/supabase-js";
