@@ -5,7 +5,7 @@ import RegisterForm from "../Components/RegisterForm";
 
 import { registerUser } from "../utils";
 
-export default function RegisterPage({ setIsLoading }) {
+export default function RegisterPage({ setIsLoading, snackbar, setSnackbar }) {
     const navigate = useNavigate();
 
     const [formValues, setFormValues] = useState({
@@ -34,16 +34,27 @@ export default function RegisterPage({ setIsLoading }) {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    alert(data.error || 'Registration failed. Please try again.');
+                    setSnackbar({
+                        open: true,
+                        message: data.message || 'Registration failed! Please try again!',
+                        severity: 'warning',
+                    });
                 }
                 else {
-                    alert('Registration successful! You can now log in.');
+                    setSnackbar({
+                        open: true,
+                        message: 'Registration successful! You can now log in.',
+                        severity: 'success',
+                    });
                     navigate('/login');
                 }
             })
             .catch((error) => {
-                console.error('Error during registration:', error);
-                alert('An error occurred. Please try again.');
+                setSnackbar({
+                    open: true,
+                    message: 'An error occurred! Please try again!',
+                    severity: 'error',
+                });
             })
             .finally(() => {
                 setIsLoading(false);
