@@ -7,7 +7,7 @@ import { EditModal, DeleteModal } from '../Components/Modals';
 import SelectComponent from "../Components/SelectComponent";
 import RegisterForm from "../Components/RegisterForm";
 import SearchComponent from "../Components/SearchComponent";
-import { dataRetrievalForAdmin } from "../utils";
+import { dataRetrievalForAdmin, registerUser, updateUser, deleteUser } from "../utils";
 import SnackbarComponent from "../Components/SnackbarComponent";
 
 export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
@@ -95,21 +95,37 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
         setShowEditModal(true);
     }
 
-    const handleSave = (res) => {
-
+    const handleSave = async (res) => {
         setIsLoading(true);
-        /*
-        (async () => {
-            const { data, error } = await supabase
-                .from('library_project_users')
-                .update({ username: res.username, email: res.email, password: res.password })
-                .eq('id', res.id)
-        })()
-            .catch(console.warn)
-            .finally(() => {
-                setIsLoading(false);
-                handleRadioButtons(selectedOption);
-            })*/
+
+        let response;
+        if (res.password != tableData.find(user => user.id === res.id).password) {
+            response = await updateUser(res.id, res.username, res.password, res.email)
+        }
+        else {
+            response = await updateUser(res.id, res.username, undefined, res.email)
+        }
+
+        setIsLoading(false);
+
+        if (!response.ok) {
+            setSnackbar({
+                ...snackbar,
+                open: true,
+                message: data.error || 'Update failed. Please try again.',
+                severity: 'error',
+            });
+        }
+        else {
+            handleRadioButtons(radioSelectedOption)
+            setSnackbar({
+                ...snackbar,
+                open: true,
+                message: 'Update successful!',
+                severity: 'success',
+            });
+        }
+
     }
 
     const handleDelete = (e) => {
@@ -118,19 +134,32 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
         setShowDeleteModal(true);
     }
 
-    const handleDeleteConfirm = (res) => {
-        /*
-        (async () => {
-            const { data, error } = await supabase
-                .from('library_project_users')
-                .update({ username: res[0].username, email: res[0].email, password: res[0].password })
-                .eq('id', res[0].id)
-        })()
-            .catch(console.warn)
-            .finally(() => {
-                setIsLoading(false);
-                handleRadioButtons(selectedOption);
-            })*/
+    const handleDeleteConfirm = async (res) => {
+        setIsLoading(true);
+
+        const response = await deleteUser(res[0].id);
+
+        console.log(response);
+
+        setIsLoading(false);
+
+        if (!response.ok) {
+            setSnackbar({
+                ...snackbar,
+                open: true,
+                message: data.error || 'Delete failed. Please try again.',
+                severity: 'error',
+            });
+        }
+        else {
+            handleRadioButtons(radioSelectedOption)
+            setSnackbar({
+                ...snackbar,
+                open: true,
+                message: 'Delete successful!',
+                severity: 'success',
+            });
+        }
     }
 
     const handleSelectOnchange = (e) => {
