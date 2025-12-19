@@ -1,3 +1,13 @@
+/**
+ * Root application component.
+ *
+ * Handles global application state such as authentication,
+ * user role, routing, and shared UI elements (navbar, snackbar, loading spinner).
+ *
+ * Routes are conditionally rendered based on authentication status
+ * and user role (member, librarian, admin).
+ */
+
 import { useState, useEffect, use } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './Components/Navbar'
