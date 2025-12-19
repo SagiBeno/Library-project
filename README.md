@@ -1,32 +1,25 @@
-# Library Project – Book Borrowing System
+# Library Project
 
-A web application for managing a small library system.  
-Users can browse books, borrow and return them, while administrators can manage users and monitor borrowing activity.
+A web-based library management application where users can search for books,
+borrow them, and manage lending operations based on user roles.
 
-The application uses the Open Library API for book metadata and a custom backend for handling borrowing logic and user management.
+Book metadata is fetched from the Open Library API, while borrowing state
+and user management are handled by a custom backend using Supabase and Netlify Functions.
 
 ---
 
 ## Features
 
-### User Features
-- Browse books by search query or subject (genre)
-- View book details and cover images
-- Add books to a lending list
+- Book search by title or keyword
+- Browse books by subject/category
+- User authentication (login & registration)
+- Role-based access:
+  - Member
+  - Librarian
+  - Admin
 - Borrow and return books
-- View personal borrowed books
-
-### Authentication
-- User registration
-- Secure login with hashed passwords
-- Role-based access (member, librarian, admin)
-
-### Admin Features
-- View users filtered by role
-- Search users by username or email
-- Create new users
-- Edit existing users
-- Delete users
+- User management (admin panel)
+- Responsive UI with Material UI components
 
 ---
 
@@ -34,53 +27,37 @@ The application uses the Open Library API for book metadata and a custom backend
 
 ### Frontend
 - React
-- Material UI (MUI)
 - React Router
+- Material UI (MUI)
 
 ### Backend
-- Netlify Functions (Serverless)
+- Netlify Functions
 - Supabase (PostgreSQL)
 - bcrypt for password hashing
 
 ### External API
-- Open Library API (book metadata and covers)
+- Open Library API (search, subjects, covers)
 
 ---
 
-## Application Architecture
+## User Roles
 
-- **Frontend** handles UI, user interaction and state management
-- **Backend** handles authentication, user management and borrowing logic
-- **Database** stores users, books and borrow records
-- **Open Library API** provides book metadata (title, author, cover)
-
-Borrowing state and availability are always handled by the backend database, not by the external API.
+| Role       | Permissions |
+|------------|------------|
+| Member     | Search books, borrow and return books |
+| Librarian | View lending data |
+| Admin      | Full user management (create, edit, delete users) |
 
 ---
 
-## Pages Overview
+## Application Flow
 
-### Search Page
-- Search books by keyword
-- Browse books by subject
-- Add books to lending list
-
-### Lending Page
-- Review selected books
-- Remove books from the lending list
-- Confirm borrowing (validated by backend)
-
-### Login Page
-- Authenticate users
-- Redirect users based on role
-
-### Register Page
-- Create new user accounts
-
-### Admin Page
-- Manage users (view, create, edit, delete)
-- Filter users by role
-- Search users
+1. Users register or log in.
+2. Based on their role, they are redirected to the appropriate page.
+3. Users can search books using Open Library data.
+4. Selected books can be added to a lending list.
+5. Borrowing availability is validated by the backend.
+6. Admins can manage users through a dedicated admin interface.
 
 ---
 
@@ -88,24 +65,19 @@ Borrowing state and availability are always handled by the backend database, not
 
 Backend functionality is implemented using Netlify Functions.
 
-### Authentication
+Examples:
 - `POST /.netlify/functions/login`
 - `POST /.netlify/functions/register`
-
-### User Management
-- `GET /.netlify/functions/get_users_by_type`
 - `PUT /.netlify/functions/update_user`
 - `DELETE /.netlify/functions/delete_user`
-
-### Books & Borrowing
 - `GET /.netlify/functions/get_or_create_book`
 - `POST /.netlify/functions/createBorrow`
 
-All API endpoints are documented using JSDoc comments and described in detail in the source code.
+Detailed API documentation can be found in the source code via JSDoc comments.
 
 ---
 
-## Database Schema (Simplified)
+## Database Schema (Supabase)
 
 ### Users
 - id
@@ -129,7 +101,7 @@ All API endpoints are documented using JSDoc comments and described in detail in
 - return_date
 - status
 
-A book can only have one active borrow record at a time.
+A book can have only one active borrow record at a time.
 
 ---
 
@@ -137,26 +109,20 @@ A book can only have one active borrow record at a time.
 
 The application is deployed on **Netlify**.
 
-### Environment Variables
-The following environment variables are required:
-
+Environment variables required:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 
-These are configured in the Netlify dashboard.
-
 ---
 
-## Design Decisions & Challenges
+## Documentation Notes
 
-- The Open Library API returns inconsistent data structures, so a normalization layer was implemented on the frontend.
-- Borrowing availability is handled exclusively in the backend to ensure data consistency.
-- The application separates book metadata (external API) from application state (database).
-- Serverless functions were chosen for simplicity and scalability.
+- Backend endpoints are documented using JSDoc.
+- Frontend pages include short descriptive comments for clarity.
+- Utility and service modules are documented where they handle data logic.
 
 ---
 
 ## Author
 
-Library Project  
-Frontend-focused implementation with documented backend integration.
+Library Project – Student Assignment
