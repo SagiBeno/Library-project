@@ -1,3 +1,23 @@
+/**
+ * Register a new user.
+ *
+ * Creates a new user account with a hashed password.
+ * Ensures that both username and email are unique.
+ *
+ * @route POST /.netlify/functions/register
+ *
+ * @param {Request} request - Netlify Function request
+ * @bodyParam {string} username - Unique username
+ * @bodyParam {string} password - Plain text password (hashed before storage)
+ * @bodyParam {string} email - Unique email address
+ * @bodyParam {string} [type=member] - User role (default: member)
+ *
+ * @response 201 application/json User registered successfully
+ * @response 400 application/json Missing fields or duplicate username/email
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
 import { createClient } from "@supabase/supabase-js";
 import bcrypt from 'bcrypt';
 
@@ -21,8 +41,6 @@ export default async (request, context) => {
     const { username, password, email } = body || {};
 
     const type = body.type || 'member';
-
-    console.log(username, password, email, type);
 
     if (!username || !password || !email) {
         return new Response(
@@ -84,7 +102,7 @@ export default async (request, context) => {
         );
     }
     return new Response(
-        JSON.stringify({ message: "User registered successfully", user: data }),
+        JSON.stringify({ message: "User registered successfully", user: {username: data.username, type: data.type} }),
         { status: 201, headers: jsonHeaders }
     );
 }
