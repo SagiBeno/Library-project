@@ -157,16 +157,30 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    alert(data.error || 'Registration failed. Please try again.');
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Registration failed! Please try again!',
+                        severity: 'warning',
+                    });
                 }
                 else {
-                    alert('Registration successful! You can now log in.');
-                    navigate('/login');
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Registration successful! You can now log in.',
+                        severity: 'success',
+                    });
+                    handleRadioButtons(selectSelectedOption);
                 }
             })
             .catch((error) => {
-                console.error('Error during registration:', error);
-                alert('An error occurred. Please try again.');
+                setSnackbar({
+                    ...snackbar,
+                    open: true,
+                    message: 'An error occurred during registration. Please try again!',
+                    severity: 'error',
+                });
             })
             .finally(() => {
                 setIsLoading(false);
