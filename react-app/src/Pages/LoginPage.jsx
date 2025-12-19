@@ -1,11 +1,9 @@
 /**
- * Book lending page.
+ * Login page.
  *
- * Displays the list of books selected by the user for borrowing.
- * Allows users to review selected books, remove items from the list,
- * and confirm the lending process.
- *
- * Book availability and borrowing state are handled by backend validation.
+ * Authenticates users via the backend login endpoint and redirects them
+ * based on their role (admin, librarian, member).
+ * Stores session-related state in the app (and uses localStorage to check existing login).
  */
 
 import { Box, Paper, TextField, FormControl, Button, Typography, InputLabel, IconButton, InputAdornment, Container } from "@mui/material"
@@ -14,14 +12,17 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
+import { useEffect } from "react";
 import { authenticateUser } from "../utils";
 
 export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setUsername, snackbar, setSnackbar }) {
     const navigate = useNavigate();
 
-    if (localStorage.getItem('loggedIn') === 'true') {
-        navigate('/search');
-    }
+    useEffect(() => {
+        if (localStorage.getItem('loggedIn') === 'true') {
+            navigate('/search');
+        }
+    }, [navigate]);
 
     const [formValues, setFormValues] = useState({
         email: '',
