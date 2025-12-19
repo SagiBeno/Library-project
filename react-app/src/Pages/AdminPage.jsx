@@ -1,3 +1,18 @@
+/**
+ * Admin page for user management.
+ *
+ * Allows administrators to:
+ * - View users filtered by role (admin, librarian, member)
+ * - Search users by username or email
+ * - Create new users
+ * - Edit existing users
+ * - Delete users
+ *
+ * Data is fetched from backend API endpoints and displayed
+ * in a management table with modal-based edit and delete actions.
+ */
+
+
 import { Box, Container, Paper, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import RadioButtons from "../Components/RadioButtons";

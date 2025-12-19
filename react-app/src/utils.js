@@ -1,22 +1,50 @@
+/**
+ * Utility functions for data fetching and API communication.
+ *
+ * This module handles:
+ * - Fetching book data from the Open Library API (search and subjects)
+ * - Generating cover image URLs
+ * - Communicating with backend Netlify Functions (auth, users, books)
+ *
+ * The module acts as a service layer between the React frontend
+ * and external/internal APIs.
+ */
+
 import supabase from '././supabase-test/supabase';
 
 const searchURL = "https://openlibrary.org/search.json?q=";
-const coverURL = "https://covers.openlibrary.org/b/olid/"; +"OLID-{olid}-{size}.jpg";
 const subjectsURL = "https://openlibrary.org/subjects/";
+
+/**
+ * Fetches books from Open Library by subject (genre).
+ *
+ * @param {string} subject - Open Library subject key (e.g. "fantasy", "science_fiction")
+ * @returns {Promise<Object>} Open Library subject response JSON
+ */
 
 export async function fetchBooksBySubject(subject) {
     const response = await fetch(`${subjectsURL}${subject}.json`);
     return await response.json();
 }
 
+/**
+ * Fetches books from Open Library using a search query.
+ *
+ * @param {string} searchQuery - Search term (title, author, keyword)
+ * @returns {Promise<Object>} Open Library search response JSON
+ */
+
 export async function fetchBooksByQuery(searchQuery) {
     const response = await fetch(`${searchURL}${searchQuery}`);
     return await response.json();
 }
 
-export function getCoverImageURL(olid, size = 'M') {
-    return coverURL.replace('{olid}', olid).replace('{size}', size);
-}
+/**
+ * Retrieves user data for admin purposes filtered by user type.
+ *
+ * @param {string} type - User type (e.g. "admin", "member")
+ * @returns {Promise<string>} JSON string containing user records
+ */
 
 export async function dataRetrievalForAdmin(type) {
     const response = await supabase
@@ -26,6 +54,14 @@ export async function dataRetrievalForAdmin(type) {
 
     return JSON.stringify(response);
 }
+
+/**
+ * Authenticates a user via backend login function.
+ *
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @returns {Promise<Response>} Fetch response object
+ */
 
 export async function authenticateUser(email, password) {
     const res = await fetch(`/.netlify/functions/login`, {
@@ -38,6 +74,16 @@ export async function authenticateUser(email, password) {
 
     return res;
 }
+
+/**
+ * Registers a new user.
+ *
+ * @param {string} username - Desired username
+ * @param {string} password - User password
+ * @param {string} email - User email
+ * @param {string} [type='member'] - User type
+ * @returns {Promise<Response>} Fetch response object
+ */
 
 export async function registerUser(username, password, email, type = 'member') {
     const res = await fetch(`/.netlify/functions/register`, {
@@ -63,6 +109,16 @@ async function testFunction() {
     return res;
 }
 
+/**
+ * Registers a new user.
+ *
+ * @param {string} username - Desired username
+ * @param {string} password - User password
+ * @param {string} email - User email
+ * @param {string} [type='member'] - User type
+ * @returns {Promise<Response>} Fetch response object
+ */
+
 export async function updateUser(id, username, password, email) {
     const res = await fetch(`/.netlify/functions/update_user`, {
         method: 'PUT',
@@ -74,6 +130,13 @@ export async function updateUser(id, username, password, email) {
     return res;
 }
 
+/**
+ * Deletes a user by ID.
+ *
+ * @param {number} id - User ID
+ * @returns {Promise<Response>} Fetch response object
+ */
+
 export async function deleteUser(id) {
     const res = await fetch(`/.netlify/functions/delete_user`, {
         method: 'DELETE',
@@ -84,6 +147,16 @@ export async function deleteUser(id) {
     })
     return res;
 }
+
+/**
+ * Retrieves a book by external key or creates it if it does not exist.
+ *
+ * @param {string} external_key - Open Library external key
+ * @param {string} title - Book title
+ * @param {string} author - Book author
+ * @param {string} cover_url - Cover image URL
+ * @returns {Promise<Response>} Fetch response object
+ */
 
 export async function handleBook(external_key, title, author, cover_url) {
     const res = await fetch(`/.netlify/functions/get_or_create_book`, {

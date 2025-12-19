@@ -1,3 +1,17 @@
+/**
+ * Retrieve users by type.
+ *
+ * Fetches all users filtered by their role/type (e.g. admin or member).
+ * Intended for administrative use.
+ *
+ * @route GET /.netlify/functions/get_users_by_type
+ *
+ * @queryParam {string} type - User type to filter by (e.g. "admin", "member")
+ *
+ * @response 200 application/json Array of users
+ */
+
+
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;

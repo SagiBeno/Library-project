@@ -1,3 +1,28 @@
+/**
+ * Create a borrow record (borrow a book).
+ *
+ * Validates input, resolves internal user/book IDs from username and Open Library external key,
+ * calculates return date based on borrow_length (days), then inserts a new row into `library_project_borrows`.
+ *
+ * Notes:
+ * - This endpoint currently does NOT prevent borrowing a book that is already borrowed.
+ *   Recommended: check for an active borrow (status='borrowed' AND return_date is null/ > now) before insert.
+ *
+ * @route POST /.netlify/functions/createBorrow
+ * @param {Request} request - Netlify Functions request
+ * @returns {Response}
+ *
+ * @bodyParam {string} username - Username of the borrower (must exist in `library_project_users`)
+ * @bodyParam {string} book_id_external - External book key (must exist in `library_project_books.external_key`)
+ * @bodyParam {number} borrow_length - Borrow duration in days (positive integer)
+ *
+ * @response 201 application/json Borrow created successfully
+ * @response 400 application/json Missing required fields
+ * @response 404 application/json User not found / Book not found
+ * @response 405 application/json Method not allowed (non-POST)
+ * @response 500 application/json Database error
+ */
+
 //POST create borrow method
 
 import { createClient } from "@supabase/supabase-js";

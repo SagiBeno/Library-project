@@ -1,17 +1,28 @@
+/**
+ * Login page.
+ *
+ * Authenticates users via the backend login endpoint and redirects them
+ * based on their role (admin, librarian, member).
+ * Stores session-related state in the app (and uses localStorage to check existing login).
+ */
+
 import { Box, Paper, TextField, FormControl, Button, Typography, InputLabel, IconButton, InputAdornment, Container } from "@mui/material"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
+import { useEffect } from "react";
 import { authenticateUser } from "../utils";
 
 export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setUsername, snackbar, setSnackbar }) {
     const navigate = useNavigate();
 
-    if (localStorage.getItem('loggedIn') === 'true') {
-        navigate('/search');
-    }
+    useEffect(() => {
+        if (localStorage.getItem('loggedIn') === 'true') {
+            navigate('/search');
+        }
+    }, [navigate]);
 
     const [formValues, setFormValues] = useState({
         email: '',
@@ -37,8 +48,6 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setU
         const response = await authenticateUser(formValues.email, formValues.password);
 
         const data = await response.json();
-
-        console.log(data);
 
         if (!response.ok) {
             setSnackbar({...snackbar, 
