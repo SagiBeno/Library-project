@@ -38,8 +38,6 @@ export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setU
 
         const data = await response.json();
 
-        console.log(data);
-
         if (!response.ok) {
             setSnackbar({...snackbar, 
                 open: true,
