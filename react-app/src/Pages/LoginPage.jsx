@@ -1,3 +1,13 @@
+/**
+ * Book lending page.
+ *
+ * Displays the list of books selected by the user for borrowing.
+ * Allows users to review selected books, remove items from the list,
+ * and confirm the lending process.
+ *
+ * Book availability and borrowing state are handled by backend validation.
+ */
+
 import { Box, Paper, TextField, FormControl, Button, Typography, InputLabel, IconButton, InputAdornment, Container } from "@mui/material"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
