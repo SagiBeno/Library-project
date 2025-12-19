@@ -62,3 +62,25 @@ async function testFunction() {
 
     return res;
 }
+
+export async function updateUser(id, username, password, email) {
+    const res = await fetch(`/.netlify/functions/update_user`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, username, password, email }),
+    })
+    return res;
+}
+
+export async function deleteUser(id) {
+    const res = await fetch(`/.netlify/functions/delete_user`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+    })
+    return res;
+}
