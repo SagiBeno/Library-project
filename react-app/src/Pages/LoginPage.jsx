@@ -6,7 +6,6 @@ import { useState } from "react"
 import { CustomTextField } from "../Components/ComponentsOwnStyle";
 import { authenticateUser } from "../utils";
 
-//TODO - wrong credentials better handling
 export default function LoginPage({ setIsLoading, setLoggedIn, setUserType, setUsername, snackbar, setSnackbar }) {
     const navigate = useNavigate();
 

@@ -54,7 +54,9 @@ export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, 
         title: item.title,
         author: item.author_name?.[0] || item.authors?.[0]?.name || "Unknown",
         cover_edition_key: item?.cover_edition_key ? `https://covers.openlibrary.org/b/olid/${item.cover_edition_key}-M.jpg` : 'https://www.globaluniversityalliance.org/wp-content/uploads/2017/10/No-Cover-Image-01.png',
-        ebook_access: item?.ebook_access === 'borrowable' ? 'borrowable' : 'not available',
+        status: 'borrowable',
+        create_at: item?.first_publish_year,
+        key: item?.key.split('/')[2]
     });
 
     const handleSearch = async () => {
