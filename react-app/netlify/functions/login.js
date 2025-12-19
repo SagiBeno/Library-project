@@ -1,3 +1,20 @@
+/**
+ * Authenticate a user using email and password.
+ *
+ * Validates credentials against stored user records.
+ * Passwords are compared using bcrypt hash verification.
+ *
+ * @route POST /.netlify/functions/login
+ *
+ * @param {Request} request - Netlify Function request
+ * @bodyParam {string} email - User email
+ * @bodyParam {string} password - Plain text password (hashed comparison on server)
+ *
+ * @response 200 application/json Authentication successful
+ * @response 400 application/json Invalid JSON or missing fields
+ * @response 401 application/json Invalid credentials
+ */
+
 import { createClient } from "@supabase/supabase-js";
 import bcrypt from 'bcrypt';
 
@@ -38,7 +55,7 @@ export default async (request, context) => {
 
     const { data, error } = await supabase
         .from('library_project_users')
-        .select("username, password, type")
+        .select("username, type, password")
         .eq('email', email)
         .single();
 
@@ -59,7 +76,7 @@ export default async (request, context) => {
     }
 
     return new Response(
-        JSON.stringify({ message: "Authentication successful", user: data }),
+        JSON.stringify({ message: "Authentication successful", user: {username: data.username, type: data.type} }),
         { status: 200, headers: jsonHeaders }
     );
 };
