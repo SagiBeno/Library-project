@@ -52,12 +52,6 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
                     if (parsedRes?.data && parsedRes.data.length > 0) {
                         setTableData(parsedRes.data);
                         setFilteredTableData(parsedRes.data);
-                        setSnackbar({
-                            ...snackbar,
-                            open: true,
-                            message: 'The data query was successful!',
-                            severity: 'success',
-                        });
                     } else {
                         setTableData([]);
                         setFilteredTableData([]);
@@ -112,7 +106,7 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
             setSnackbar({
                 ...snackbar,
                 open: true,
-                message: data.error || 'Update failed. Please try again.',
+                message: 'Update failed. Please try again!',
                 severity: 'error',
             });
         }
@@ -147,7 +141,7 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
             setSnackbar({
                 ...snackbar,
                 open: true,
-                message: data.error || 'Delete failed. Please try again.',
+                message: 'Delete failed. Please try again!',
                 severity: 'error',
             });
         }
