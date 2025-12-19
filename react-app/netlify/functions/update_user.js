@@ -1,3 +1,23 @@
+/**
+ * Update user information.
+ *
+ * Updates username and email, and optionally updates the password.
+ * If a new password is provided, it is hashed before being stored.
+ *
+ * @route PUT /.netlify/functions/update_user
+ *
+ * @param {Request} request - Netlify Function request
+ * @bodyParam {number} id - ID of the user to update
+ * @bodyParam {string} username - Updated username
+ * @bodyParam {string} email - Updated email address
+ * @bodyParam {string} [password] - Optional new password (hashed before storage)
+ *
+ * @response 200 application/json User updated successfully
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
+
 //PUT update_user method
 import { createClient } from "@supabase/supabase-js";
 import bcrypt from 'bcrypt';
@@ -19,8 +39,6 @@ export default async (request, context) => {
     }
 
     const { id, username, password, email } = await request.json();
-
-    //console.log(id, username, password, email);
 
     if (password) {
         const hashedPassword = await bcrypt.hash(password, 12);
