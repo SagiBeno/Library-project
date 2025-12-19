@@ -3,6 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 export function AdminTable( { data, handleEdit, handleDelete } ) {
+
     return (
         <TableContainer component={Paper}>
             <Table>
@@ -28,11 +29,21 @@ export function AdminTable( { data, handleEdit, handleDelete } ) {
                                     </IconButton>
                                 </TableCell>
                                 <TableCell>
-                                    <IconButton onClick={(e) => handleDelete(e)} value={id}>
-                                        <DeleteIcon sx={{color: 'red'}} />
-                                    </IconButton>
+                                    {
+                                        username === localStorage.getItem('username').replaceAll('"', '')
+                                            ?
+                                                <IconButton disabled>   
+                                                    <DeleteIcon sx={{color: 'lightgray'}} />
+                                                </IconButton>
+                                            :
+                                                <IconButton onClick={(e) => handleDelete(e)} value={id}>
+                                                    <DeleteIcon sx={{color: 'red'}} />
+                                                </IconButton>
+                                    }
+                                    
                                 </TableCell>
                             </TableRow>
+                            
                         ))
                     }
                 </TableBody>
