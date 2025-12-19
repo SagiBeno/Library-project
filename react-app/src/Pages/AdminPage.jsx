@@ -52,12 +52,6 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
                     if (parsedRes?.data && parsedRes.data.length > 0) {
                         setTableData(parsedRes.data);
                         setFilteredTableData(parsedRes.data);
-                        setSnackbar({
-                            ...snackbar,
-                            open: true,
-                            message: 'The data query was successful!',
-                            severity: 'success',
-                        });
                     } else {
                         setTableData([]);
                         setFilteredTableData([]);
@@ -112,7 +106,7 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
             setSnackbar({
                 ...snackbar,
                 open: true,
-                message: data.error || 'Update failed. Please try again.',
+                message: 'Update failed. Please try again!',
                 severity: 'error',
             });
         }
@@ -139,15 +133,13 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
 
         const response = await deleteUser(res[0].id);
 
-        console.log(response);
-
         setIsLoading(false);
 
         if (!response.ok) {
             setSnackbar({
                 ...snackbar,
                 open: true,
-                message: data.error || 'Delete failed. Please try again.',
+                message: 'Delete failed. Please try again!',
                 severity: 'error',
             });
         }
@@ -189,7 +181,7 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
                     setSnackbar({
                         ...snackbar,
                         open: true,
-                        message: 'Registration failed! Please try again!',
+                        message: 'An error occured while adding the user. Please try again.',
                         severity: 'warning',
                     });
                 }
@@ -197,9 +189,20 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
                     setSnackbar({
                         ...snackbar,
                         open: true,
-                        message: 'Registration successful! You can now log in.',
+                        message: 'The user has been succesfully added!',
                         severity: 'success',
                     });
+
+                    const formElement = e.target.name;
+                    const value = e.target.value;
+
+                    setFormValues({
+                        email: '',
+                        password: '',
+                        passwordConfirm: '',
+                        username: ''
+                    });
+                    
                     handleRadioButtons(selectSelectedOption);
                 }
             })
@@ -207,7 +210,7 @@ export default function AdminPage({ setIsLoading, snackbar, setSnackbar }) {
                 setSnackbar({
                     ...snackbar,
                     open: true,
-                    message: 'An error occurred during registration. Please try again!',
+                    message: 'An error occured while adding the user. Please try again.',
                     severity: 'error',
                 });
             })
