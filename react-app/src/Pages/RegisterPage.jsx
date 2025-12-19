@@ -42,15 +42,17 @@ export default function RegisterPage({ setIsLoading, snackbar, setSnackbar }) {
                 }
                 else {
                     setSnackbar({
+                        ...snackbar,
                         open: true,
                         message: 'Registration successful! You can now log in.',
                         severity: 'success',
                     });
-                    navigate('/login');
+                    navigate('/');
                 }
             })
             .catch((error) => {
                 setSnackbar({
+                    ...snackbar,
                     open: true,
                     message: 'An error occurred! Please try again!',
                     severity: 'error',
