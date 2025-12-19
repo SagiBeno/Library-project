@@ -34,50 +34,42 @@ export function SearchCards({ book, handleLendBook, lendedBooks }) {
             />
 
             <CardContent sx={{ flexGrow: 1 }}>
-                {
-                    book?.author &&
-                    <>
-                        <Typography variant="subtitle1">
-                            Author
-                        </Typography>
-                        <Typography variant="body2">
-                            {book?.author}
-                        </Typography>
-                    </>
+                <Typography variant="subtitle1">
+                    Author
+                </Typography>
+                <Typography variant="body2">
+                    {book?.author}
+                </Typography>
 
-                }
+                <Typography
+                    variant="subtitle1"
+                    sx={{
+                        marginTop: '10px',
+                    }}
+                >
+                    Status
+                </Typography>
 
-                {
-                    book?.ebook_access &&
-                    <Box>
-                        <Typography
-                            variant="subtitle1"
-                            sx={{
-                                marginTop: '10px',
-                            }}
-                        >
-                            Ebook access
-                        </Typography>
+                <Stack
+                    sx={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
 
-                        <Stack
-                            sx={{
-                                flexDirection: 'row',
-                                justifyContent: 'center',
+                    }}
+                >
 
-                            }}
-                        >
+                    <Chip label="Borrowable" color="success" />
 
+                </Stack>
 
-                            {
-                                book.ebook_access === 'borrowable'
-                                    ?
-                                    <Chip label="Borrowable" color="success" />
-                                    :
-                                    <Chip label="No access" color="error" />
-                            }
-                        </Stack>
-                    </Box>
-                }
+                <Typography
+                    variant="subtitle1"
+                    sx={{
+                        marginTop: '10px',
+                    }}
+                >
+                    First publish year: {book.create_at}
+                </Typography>
 
             </CardContent>
 
@@ -94,7 +86,7 @@ export function SearchCards({ book, handleLendBook, lendedBooks }) {
 
                 <Box>
                     {
-                        (book?.ebook_access && book.ebook_access === 'borrowable' && !lendedBooks.includes(book))
+                        (book?.status && book.status === 'borrowable' && !lendedBooks.includes(book))
                             ?
                             <Button
                                 type="button"
