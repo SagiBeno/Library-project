@@ -1,4 +1,4 @@
-import { Modal, Box, Typography, InputLabel, Button, TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@mui/material"
+import { Modal, Box, Typography, InputLabel, Button, FormHelperText, TableContainer, Table, TableCell, TableRow, TableHead, TableBody } from "@mui/material"
 import { CustomTextField } from './ComponentsOwnStyle'
 import { useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -107,6 +107,8 @@ export function EditModal({ showEditModal, setShowEditModal, data, handleSave })
                                 width: '100%'
                             }}
                         />
+
+                        <FormHelperText sx={{ color: '#a97a4aff', fontWeight: 'bold' }}>Password must be at least 8 characters long!</FormHelperText>
                     </Box>
 
                     <Box className='modalButtons'>
@@ -124,7 +126,7 @@ export function EditModal({ showEditModal, setShowEditModal, data, handleSave })
                         </Button>
 
                         {
-                            data[0].username === textFieldData.username && data[0].email === textFieldData.email && data[0].password === textFieldData.password
+                            data[0].username === textFieldData.username && data[0].email === textFieldData.email && data[0].password === textFieldData.password || textFieldData.password.length < 7
                                 ?
                                 <Button
                                     disabled
