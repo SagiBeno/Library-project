@@ -1,3 +1,15 @@
+/**
+ * Book search and discovery page.
+ *
+ * Allows users to browse books using free-text search
+ * or predefined subject (genre) filters.
+ * Book data is fetched from the Open Library API and normalized
+ * for frontend usage.
+ *
+ * Users can add books to a temporary lending list,
+ * which is later processed during the lending confirmation.
+ */
+
 import { Container, Box, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchBooksByQuery, fetchBooksBySubject } from '../utils'
@@ -50,6 +62,8 @@ export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, 
         setSearchQuery(e.target.value);
     }
 
+
+    // Normalizes Open Library responses into a unified book format
     const normalizeBook = (item) => ({
         title: item.title,
         author: item.author_name?.[0] || item.authors?.[0]?.name || "Unknown",
