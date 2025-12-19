@@ -1,3 +1,24 @@
+/**
+ * Retrieve a book by external key or create it if it does not exist.
+ *
+ * This endpoint checks whether a book with the given Open Library external key
+ * already exists in the database. If not, it creates a new book record.
+ *
+ * @route GET /.netlify/functions/get_or_create_book
+ *
+ * @param {Request} request - Netlify Function request
+ * @bodyParam {string} external_key - Open Library external key (e.g. /works/OL123W)
+ * @bodyParam {string} title - Book title
+ * @bodyParam {string} author - Book author
+ * @bodyParam {string} cover_url - Cover image URL
+ *
+ * @response 200 application/json Book already exists
+ * @response 201 application/json Book created successfully
+ * @response 400 application/json Missing required fields
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
 //GET get_or_create_book method
 
 import { createClient } from "@supabase/supabase-js";
