@@ -51,8 +51,7 @@ export default function BookLendingPage({ setIsLoading, username, snackbar, setS
                 const res = responses[i];
                 if (res.ok) {
                     const data = await res.json();
-                    console.log(data)
-                    const book_id = data?.data[0].id ? data.id : data.data[0].id;
+                    const book_id = data?.data[0].id;
 
                     borrowInfoPromises.push(getBookBorrowInfo(book_id));
                 }
