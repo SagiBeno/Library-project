@@ -160,11 +160,22 @@ export async function deleteUser(id) {
 
 export async function handleBook(external_key, title, author, cover_url) {
     const res = await fetch(`/.netlify/functions/get_or_create_book`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ external_key, title, author, cover_url }),
+    })
+    return res;
+}
+
+export async function getBookBorrowInfo(book_id) {
+    const res = await fetch(`/.netlify/functions/get_borrow`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ book_id }),
     })
     return res;
 }

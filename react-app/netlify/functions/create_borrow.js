@@ -32,6 +32,8 @@ const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+//destructure is buggy 
+
 export default async (request, context) => {
     const jsonHeaders = { "content-type": "application/json" };
 
