@@ -1,3 +1,20 @@
+/**
+ * Get a book by external key.
+ *
+ * Retrieves a single book record from the `library_project_books` table
+ * using its `external_key` value.
+ *
+ * @route POST /.netlify/functions/get_book_by_external_id
+ *
+ * @param {Request} request - Netlify Function request object
+ * @bodyParam {string} external_key - External identifier of the book
+ *
+ * @response 200 application/json Successfully retrieved book data
+ * @response 400 application/json External key is required
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
 //POST get book by external key
 
 import { createClient } from "@supabase/supabase-js";
