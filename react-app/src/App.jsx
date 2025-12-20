@@ -86,7 +86,7 @@ export default function App(props) {
           userType === 'admin' &&
           <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         }
-        <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} />} />
+        <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} username={username} />} />
         <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} username={username} />} />
