@@ -13,7 +13,7 @@ import { useState, useEffect, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LendingCards } from '../Components/Cards';
 
-import { handleBook } from '../utils';
+import { handleBook, getBookBorrowInfo } from '../utils';
 
 const processedBookKeys = new Set();
 
@@ -23,8 +23,7 @@ export default function BookLendingPage({ setIsLoading }) {
     const [lendedBooks, setLendedBooks] = useState(location.state.books != null ? location.state.books : []);
 
     useEffect(() => {
-        console.log('Lended books:', lendedBooks);
-        //TODO check if books are in database, if not create them
+        //console.log('Lended books:', lendedBooks);
         async function checkBooks() {
             const toProcess = [];
             for (const book of lendedBooks) {
@@ -39,19 +38,38 @@ export default function BookLendingPage({ setIsLoading }) {
                 toProcess.map(b => handleBook(b.key, b.title, b.author, b.cover_edition_key))
             );
 
-            for (const res of responses) {
-                try {
+            const borrowInfoPromises = [];
+
+            for (let i = 0; i < responses.length; i++) {
+                const res = responses[i];
+                if (res.ok) {
                     const data = await res.json();
-                    console.log('Book check/create response data:', data);
-                } catch (e) {
-                    console.error('Failed to parse book response');
+                    const book_id = data.data[0].id;
+
+                    borrowInfoPromises.push(getBookBorrowInfo(book_id));
+                }
+            }
+
+            const borrowResponses = await Promise.all(borrowInfoPromises);
+
+            for (let i = 0; i < borrowResponses.length; i++) {
+                const res = borrowResponses[i];
+                if (res.ok) {
+                    const data = await res.json();
+
+                    if (data.data.length == 0) {
+                        console.log(`Book ${toProcess[i].title} is available for lending.`);
+                    }
+                    else {
+                        console.log(`Book ${toProcess[i].title} is currently lent out.`);
+                    }
                 }
             }
 
         }
         checkBooks();
 
-        //TODO if in database, check if available
+
 
     }, [lendedBooks]);
 
