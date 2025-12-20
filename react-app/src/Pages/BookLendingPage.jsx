@@ -18,7 +18,7 @@ import { handleBook, getBookBorrowInfo, createBookBorrow } from '../utils';
 
 const processedBookKeys = new Set();
 
-export default function BookLendingPage({ setIsLoading, username }) {
+export default function BookLendingPage({ setIsLoading, username, snackbar, setSnacbar }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [lendedBooks, setLendedBooks] = useState(() => {
@@ -66,7 +66,7 @@ export default function BookLendingPage({ setIsLoading, username }) {
                     const data = await res.json();
 
                     if (data.data.length != 0) {
-                        setLentOutBooks(...lentOutBooks, lendedBooks.filter( (book) => (
+                        setLentOutBooks(...lentOutBooks, lendedBooks.filter((book) => (
                             book.title === toProcess[i].title
                         )))
 
@@ -107,9 +107,22 @@ export default function BookLendingPage({ setIsLoading, username }) {
             for (const promise of promises) {
                 const res = await promise;
                 if (res.ok) {
-                    console.log('Lending recorded successfully.');
+                    setSnacbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Lending recorded successfully!',
+                        severity: 'success'
+                    });
+                    navigate('/my-books');
+                    setLendedBooks([])
+                    localStorage.setItem('lendedBooks', JSON.stringify([]));
                 } else {
-                    console.error('Error recording lending.');
+                    setSnacbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Error recording lending!',
+                        severity: 'error'
+                    });
                 }
             }
 
@@ -117,9 +130,6 @@ export default function BookLendingPage({ setIsLoading, username }) {
         };
 
         processLending();
-
-        navigate('/my-books');
-
     }
 
     const handleCancel = () => {
