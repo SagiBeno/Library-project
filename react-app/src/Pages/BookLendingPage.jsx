@@ -18,7 +18,7 @@ import { handleBook, getBookBorrowInfo, createBookBorrow } from '../utils';
 
 const processedBookKeys = new Set();
 
-export default function BookLendingPage({ setIsLoading, username, snackbar, setSnacbar }) {
+export default function BookLendingPage({ setIsLoading, username, snackbar, setSnackbar }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [lendedBooks, setLendedBooks] = useState(() => {
@@ -107,7 +107,7 @@ export default function BookLendingPage({ setIsLoading, username, snackbar, setS
             for (const promise of promises) {
                 const res = await promise;
                 if (res.ok) {
-                    setSnacbar({
+                    setSnackbar({
                         ...snackbar,
                         open: true,
                         message: 'Lending recorded successfully!',
@@ -117,7 +117,7 @@ export default function BookLendingPage({ setIsLoading, username, snackbar, setS
                     setLendedBooks([])
                     localStorage.setItem('lendedBooks', JSON.stringify([]));
                 } else {
-                    setSnacbar({
+                    setSnackbar({
                         ...snackbar,
                         open: true,
                         message: 'Error recording lending!',
