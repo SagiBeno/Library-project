@@ -65,6 +65,10 @@ export default function App(props) {
     localStorage.setItem('username', JSON.stringify(username));
   }, [username]);
 
+  useEffect(() => {
+    localStorage.setItem('lendedBooks', JSON.stringify(lendedBooks));
+  }, [lendedBooks]);
+
   return (
     <>
       <Navbar user={username} userType={userType} setUserType={setUserType} setLoggedIn={setLoggedIn} loggedIn={loggedIn} lendedBooks={lendedBooks} />
