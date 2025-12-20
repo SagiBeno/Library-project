@@ -19,7 +19,7 @@
  * @response 500 application/json Database error
  */
 
-//GET get_or_create_book method
+//POST get_or_create_book method
 
 import { createClient } from "@supabase/supabase-js";
 
@@ -31,7 +31,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export default async (request, context) => {
     const jsonHeaders = { "content-type": "application/json" };
 
-    if (request.method !== 'GET') {
+    if (request.method !== 'POST') {
         return new Response(
             JSON.stringify({ error: "Method not allowed" }),
             { status: 405, headers: jsonHeaders }
@@ -40,6 +40,8 @@ export default async (request, context) => {
 
     const { external_key, title, author, cover_url } = await request.json();
 
+    console.log('Received data:', { external_key, title, author, cover_url });
+
     if (!external_key || !title || !author || !cover_url) {
         return new Response(
             JSON.stringify({ error: "external_key, title, author and cover_url are required" }),
@@ -47,26 +49,27 @@ export default async (request, context) => {
         );
     }
 
-    const { book_data, book_error } = await supabase
+    const res = await supabase
         .from('library_project_books')
         .select("id")
-        .eq('external_key', external_key)
-        .single();
+        .eq('external_key', external_key);
 
-    if (book_error) {
+    if (res.error) {
         return new Response(
-            JSON.stringify({ error: book_error.message }),
+            JSON.stringify({ error: res.error.message }),
             { status: 500, headers: jsonHeaders }
         );
     }
 
-    if (!book_data) {
+    //console.log('Book data from DB:', res.data);
+
+    if (!res.data || res.data.length === 0) {
         //create book
 
         const { data, error } = await supabase
             .from('library_project_books')
             .insert([
-                { external_key, title, author, cover_url }
+                { external_key, title, author, cover_url, created_at: new Date() }
             ]);
         if (error) {
             return new Response(
@@ -74,13 +77,29 @@ export default async (request, context) => {
                 { status: 500, headers: jsonHeaders }
             );
         }
+
+        //get new book id
+
+        const newBookRes = await supabase
+            .from('library_project_books')
+            .select("id")
+            .eq('external_key', external_key)
+            .single();
+
+        if (newBookRes.error) {
+            return new Response(
+                JSON.stringify({ error: newBookRes.error.message }),
+                { status: 500, headers: jsonHeaders }
+            );
+        }
+
         return new Response(
-            JSON.stringify({ message: "Book added successfully", data }),
+            JSON.stringify({ message: "Book added successfully", data: newBookRes.data }),
             { status: 201, headers: jsonHeaders }
         );
     }
     return new Response(
-        JSON.stringify({ message: "Book already exists", book_data }),
+        JSON.stringify({ message: "Book already exists", data: res.data }),
         { status: 200, headers: jsonHeaders }
     );
 }

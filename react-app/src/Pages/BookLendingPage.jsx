@@ -13,7 +13,9 @@ import { useState, useEffect, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LendingCards } from '../Components/Cards';
 
-import { getBook, createBook } from '../utils';
+import { handleBook } from '../utils';
+
+const processedBookKeys = new Set();
 
 export default function BookLendingPage({ setIsLoading }) {
     const navigate = useNavigate();
@@ -23,6 +25,31 @@ export default function BookLendingPage({ setIsLoading }) {
     useEffect(() => {
         console.log('Lended books:', lendedBooks);
         //TODO check if books are in database, if not create them
+        async function checkBooks() {
+            const toProcess = [];
+            for (const book of lendedBooks) {
+                if (processedBookKeys.has(book.key)) continue;
+                processedBookKeys.add(book.key);
+                toProcess.push(book);
+            }
+
+            if (toProcess.length === 0) return;
+
+            const responses = await Promise.all(
+                toProcess.map(b => handleBook(b.key, b.title, b.author, b.cover_edition_key))
+            );
+
+            for (const res of responses) {
+                try {
+                    const data = await res.json();
+                    console.log('Book check/create response data:', data);
+                } catch (e) {
+                    console.error('Failed to parse book response');
+                }
+            }
+
+        }
+        checkBooks();
 
         //TODO if in database, check if available
 
