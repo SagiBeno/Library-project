@@ -8,6 +8,13 @@ and user management are handled by a custom backend using Supabase and Netlify F
 
 ---
 
+## Live Demo
+
+The application is publicly available here:  
+👉 **https://kando-library.netlify.app**
+
+---
+
 ## Features
 
 - Book search by title or keyword
@@ -45,7 +52,7 @@ and user management are handled by a custom backend using Supabase and Netlify F
 | Role       | Permissions |
 |------------|------------|
 | Member     | Search books, borrow and return books |
-| Librarian | View lending data |
+| Librarian  | View lending data |
 | Admin      | Full user management (create, edit, delete users) |
 
 ---
@@ -65,15 +72,17 @@ and user management are handled by a custom backend using Supabase and Netlify F
 
 Backend functionality is implemented using Netlify Functions.
 
-Examples:
+Example endpoints:
 - `POST /.netlify/functions/login`
 - `POST /.netlify/functions/register`
 - `PUT /.netlify/functions/update_user`
 - `DELETE /.netlify/functions/delete_user`
 - `GET /.netlify/functions/get_or_create_book`
 - `POST /.netlify/functions/createBorrow`
+- `GET /.netlify/functions/get_all_borrows`
+- `POST /.netlify/functions/get_all_borrows_for_user`
 
-Detailed API documentation can be found in the source code via JSDoc comments.
+Detailed API documentation is provided directly in the source code via JSDoc comments.
 
 ---
 
@@ -97,7 +106,7 @@ Detailed API documentation can be found in the source code via JSDoc comments.
 - id
 - user_id
 - book_id
-- borrow_start
+- borrow_date
 - return_date
 - status
 
@@ -109,7 +118,7 @@ A book can have only one active borrow record at a time.
 
 The application is deployed on **Netlify**.
 
-Environment variables required:
+Required environment variables:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 
