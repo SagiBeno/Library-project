@@ -279,7 +279,7 @@ export function ConfirmModal({ showConfirmModal, setShowConfirmModal, data, hand
                         Unfortunately, the status of the following books has changed.
                     </Typography>
 
-                    <Box sx={{margin: '20px' }}>
+                    <Box sx={{ margin: '20px' }}>
                         <ul>
                             {
                                 data.map((book, idx) => (
@@ -316,6 +316,100 @@ export function ConfirmModal({ showConfirmModal, setShowConfirmModal, data, hand
                             startIcon={<DoneRoundedIcon />}
                         >
                             Continue
+                        </Button>
+
+                    </Box>
+                </Box>
+            </Modal>
+        </div>
+    )
+}
+
+export function DeleteBorrowModal({ showDeleteModal, setShowDeleteModal, data, handleDeleteConfirm }) {
+    return (
+        <div>
+            <Modal
+                open={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '50vw',
+                        maxHeight: '80vh',
+                        overflowX: 'auto',
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                    }}
+                >
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ textAlign: 'center' }}>
+                        You want to delete the following borrow
+                    </Typography>
+
+                    <TableContainer
+                        sx={{ overflow: 'auto' }}
+                    >
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Id</TableCell>
+                                    <TableCell>Book's title</TableCell>
+                                    <TableCell>Username</TableCell>
+                                    <TableCell>Borrow date</TableCell>
+                                    <TableCell>Return date</TableCell>
+                                    <TableCell>Status</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    data.map(({ id, borrow_date, return_date, status, library_project_books, library_project_users }, idx) => (
+                                        <TableRow key={idx}>
+                                            <TableCell>{id}</TableCell>
+                                            <TableCell>{library_project_books.title}</TableCell>
+                                            <TableCell>{library_project_users.username}</TableCell>
+                                            <TableCell>{borrow_date}</TableCell>
+                                            <TableCell>{return_date}</TableCell>
+                                            <TableCell>{status}</TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <Box className='modalButtons' sx={{ marginTop: '20px' }}>
+                        <Button
+                            variant="contained"
+                            onClick={() => setShowDeleteModal(false)}
+                            sx={{
+                                backgroundColor: '#bcb8b1',
+                                color: 'black'
+                            }}
+                            className="cancelButtons"
+                            startIcon={<CancelIcon />}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                handleDeleteConfirm(data);
+                                setShowDeleteModal(false);
+                            }}
+                            sx={{
+                                backgroundColor: 'red',
+                            }}
+                            startIcon={<DeleteIcon />}
+                        >
+                            Delete
                         </Button>
 
                     </Box>
