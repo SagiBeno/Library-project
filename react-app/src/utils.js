@@ -222,3 +222,14 @@ export async function getAllBorrows() {
     })
     return res;
 }
+
+export async function deleteBorrow(borrow_id) {
+    const res = await fetch(`/.netlify/functions/delete_borrow`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ borrow_id }),
+    })
+    return res;
+}
