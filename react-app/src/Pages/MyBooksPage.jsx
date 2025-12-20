@@ -1,3 +1,14 @@
+/**
+ * User books page.
+ *
+ * Displays the list of books currently borrowed by the logged-in user.
+ * Borrowed books are retrieved by:
+ * - Fetching borrow records for the user
+ * - Resolving book metadata using external book identifiers
+ *
+ * The page automatically refreshes when the user's lending state changes.
+ */
+
 import { Container, Typography, Box, Button } from "@mui/material";
 import { useState, useEffect, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
