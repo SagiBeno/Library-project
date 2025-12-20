@@ -1,0 +1,9 @@
+npm i
+npm install @netlify/vite-plugin
+npm install -D netlify-cli
+
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+npm install react-router-dom
+npm i bcrypt
+
+npx netlify-cli@latest dev

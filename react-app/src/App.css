@@ -1,0 +1,92 @@
+* {
+  font-family: "Nunito", sans-serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.link {
+    color: brown;
+    text-decoration: none;
+}
+
+.link:hover {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.buttons {
+    background-color: #ddb892 !important;
+    color: black !important;
+}
+
+.buttons:hover {
+    animation: pulse 2s infinite;
+}
+
+.container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.modalButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.modalButtons > button:hover {
+    animation: pulse 2s infinite;
+}
+
+.user-menu-box {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+}
+
+.subjectChip {
+    margin: 5px !important;
+    cursor: pointer;
+    background-color: #f0e1d2 !important;
+    color: black !important;
+}
+
+.subjectChip:hover {
+    font-weight: bold;
+    background-color: #ddb892 !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .modalButtons {
+        flex-direction: column;
+    }
+
+    .modalButtons > button {
+        margin-top: 10px;
+    }
+
+    .cancelButtons {
+        margin-bottom: 10px !important;
+    }
+
+    .user-menu-box {
+        flex-direction: column;
+    }
+}
