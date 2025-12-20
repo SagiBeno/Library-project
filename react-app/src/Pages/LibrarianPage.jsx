@@ -1,3 +1,15 @@
+/**
+ * Librarian management page.
+ *
+ * Displays all active and past borrow records.
+ * Allows librarians to:
+ * - View all borrow transactions
+ * - Search borrows by book title, username, borrow ID, or dates
+ * - Delete borrow records via a confirmation modal
+ *
+ * Data is fetched from backend endpoints and displayed in a table.
+ */
+
 import { useEffect, useState } from "react"
 import { Container, Box, Typography } from "@mui/material"
 import { BorrowsTable } from "../Components/Tables";
