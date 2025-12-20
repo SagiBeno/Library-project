@@ -1,3 +1,25 @@
+/**
+ * Get all borrow records.
+ *
+ * Retrieves all borrow entries from the `library_project_borrows` table,
+ * including related user and book information.
+ *
+ * Each borrow record contains:
+ * - borrow date
+ * - return date
+ * - status
+ * - username of the borrowing user
+ * - title of the borrowed book
+ *
+ * @route GET /.netlify/functions/get_all_borrows
+ *
+ * @param {Request} request - Netlify Function request object
+ *
+ * @response 200 application/json Successfully retrieved borrow records
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
 //GET get all borrows
 
 import { createClient } from "@supabase/supabase-js";
