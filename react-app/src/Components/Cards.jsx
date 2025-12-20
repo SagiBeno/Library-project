@@ -184,3 +184,55 @@ export function LendingCards({ handleRemove, lendedBook }) {
         </Card >
     )
 }
+
+
+export function MyBooksCard({ book }) {
+
+    return (
+        <Card
+            sx={{
+                width: '300px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                textAlign: 'center',
+                margin: '10px',
+                boxShadow: '0px 0px 10px 0px gray',
+                padding: '5px',
+            }}
+            className="cards"
+        >
+            <CardHeader title={book.title} />
+
+            <CardMedia
+                component="img"
+                image={book.cover_url}
+                alt={book.title}
+                sx={{
+                    width: '60%',
+                    maxHeight: '400px',
+                    margin: '0 auto',
+                }}
+                title={book.title}
+                loading='lazy'
+            />
+
+            <CardContent sx={{ flexGrow: 1 }}>
+                {
+                    book?.author &&
+                    <>
+                        <Typography variant="subtitle1">
+                            Author
+                        </Typography>
+                        <Typography variant="body2">
+                            {book?.author}
+                        </Typography>
+                    </>
+
+
+                }
+            </CardContent>
+        </Card >
+    )
+}
+

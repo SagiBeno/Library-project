@@ -1,3 +1,23 @@
+/**
+ * Get all borrowed books for a user by username.
+ *
+ * Looks up a user in the `library_project_users` table by `username`,
+ * retrieves all related borrow records from `library_project_borrows`,
+ * and returns the `external_key` values of the borrowed books
+ * from the `library_project_books` table.
+ *
+ * @route POST /.netlify/functions/get_user_borrows
+ *
+ * @param {Request} request - Netlify Function request object
+ * @bodyParam {string} username - Username of the user whose borrows are requested
+ *
+ * @response 200 application/json Successfully retrieved borrowed book keys
+ * @response 400 application/json Username is required
+ * @response 404 application/json User not found
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
 //POST get all borrows for a user by username
 
 import { createClient } from "@supabase/supabase-js";

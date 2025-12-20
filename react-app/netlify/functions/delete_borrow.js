@@ -1,3 +1,20 @@
+/**
+ * Delete a borrow record.
+ *
+ * Removes a borrow entry from the `library_project_borrows` table.
+ * Used to delete a borrowing record (e.g. when a book is returned or an entry is removed).
+ *
+ * @route DELETE /.netlify/functions/delete_borrow
+ *
+ * @param {Request} request - Netlify Function request
+ * @bodyParam {number} id - ID of the borrow record to delete
+ *
+ * @response 200 application/json Borrow record deleted successfully
+ * @response 405 application/json Method not allowed
+ * @response 500 application/json Database error
+ */
+
+
 //DELETE delete_borrow method
 
 import { createClient } from "@supabase/supabase-js";
@@ -24,9 +41,6 @@ export default async (request, context) => {
         .from('library_project_borrows')
         .delete()
         .eq('id', id);
-
-    console.log(id);
-    console.log(data);
 
     if (error) {
         return new Response({

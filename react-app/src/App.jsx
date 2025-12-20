@@ -8,21 +8,19 @@
  * and user role (member, librarian, admin).
  */
 
-import { useState, useEffect, use } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import Navbar from './Components/Navbar'
-import MyBooksPage from './Pages/MyBooksPage'
-import AdminPage from './Pages/AdminPage'
-import SearchPage from './Pages/SearchPage'
-import RegisterPage from './Pages/RegisterPage'
-import LoginPage from './Pages/LoginPage'
-import Spinner from './Components/Spinner'
-import supabase from "./supabase-test/supabase";
-import { Container } from "@mui/material";
-import './App.css';
+import { useState, useEffect, use } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import Navbar from './Components/Navbar';
+import MyBooksPage from './Pages/MyBooksPage';
+import AdminPage from './Pages/AdminPage';
+import SearchPage from './Pages/SearchPage';
+import RegisterPage from './Pages/RegisterPage';
+import LoginPage from './Pages/LoginPage';
+import Spinner from './Components/Spinner';
 import BookLendingPage from './Pages/BookLendingPage';
 import SnackbarComponent from "./Components/SnackbarComponent";
 import LibrarianPage from './Pages/LibrarianPage';
+import './App.css';
 
 export default function App(props) {
   const navigate = useNavigate();
@@ -65,6 +63,10 @@ export default function App(props) {
     localStorage.setItem('username', JSON.stringify(username));
   }, [username]);
 
+  useEffect(() => {
+    localStorage.setItem('lendedBooks', JSON.stringify(lendedBooks));
+  }, [lendedBooks]);
+
   return (
     <>
       <Navbar user={username} userType={userType} setUserType={setUserType} setLoggedIn={setLoggedIn} loggedIn={loggedIn} lendedBooks={lendedBooks} />
@@ -86,10 +88,10 @@ export default function App(props) {
           userType === 'admin' &&
           <Route path='/admin' element={<AdminPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         }
-        <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} username={username} />} />
+        <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} username={username} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
-        <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} username={username} />} />
+        <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} username={username} snackbar={snackbar} setSnackbar={setSnackbar} />} />
       </Routes>
 
       {isLoading && <Spinner />}

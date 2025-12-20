@@ -18,7 +18,7 @@ import { handleBook, getBookBorrowInfo, createBookBorrow } from '../utils';
 
 const processedBookKeys = new Set();
 
-export default function BookLendingPage({ setIsLoading, username }) {
+export default function BookLendingPage({ setIsLoading, username, snackbar, setSnackbar }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [lendedBooks, setLendedBooks] = useState(() => {
@@ -51,8 +51,7 @@ export default function BookLendingPage({ setIsLoading, username }) {
                 const res = responses[i];
                 if (res.ok) {
                     const data = await res.json();
-                    console.log(data)
-                    const book_id = data?.data[0].id ? data.id : data.data[0].id;
+                    const book_id = data?.data[0].id;
 
                     borrowInfoPromises.push(getBookBorrowInfo(book_id));
                 }
@@ -66,7 +65,7 @@ export default function BookLendingPage({ setIsLoading, username }) {
                     const data = await res.json();
 
                     if (data.data.length != 0) {
-                        setLentOutBooks(...lentOutBooks, lendedBooks.filter( (book) => (
+                        setLentOutBooks(...lentOutBooks, lendedBooks.filter((book) => (
                             book.title === toProcess[i].title
                         )))
 
@@ -90,7 +89,6 @@ export default function BookLendingPage({ setIsLoading, username }) {
     }
 
     const handleConfirm = () => {
-        console.log('Confirmed lending:', lendedBooks);
 
         const processLending = async () => {
             setIsLoading(true);
@@ -108,9 +106,22 @@ export default function BookLendingPage({ setIsLoading, username }) {
             for (const promise of promises) {
                 const res = await promise;
                 if (res.ok) {
-                    console.log('Lending recorded successfully.');
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Lending recorded successfully!',
+                        severity: 'success'
+                    });
+                    navigate('/my-books');
+                    setLendedBooks([])
+                    localStorage.setItem('lendedBooks', JSON.stringify([]));
                 } else {
-                    console.error('Error recording lending.');
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: 'Error recording lending!',
+                        severity: 'error'
+                    });
                 }
             }
 
@@ -118,9 +129,6 @@ export default function BookLendingPage({ setIsLoading, username }) {
         };
 
         processLending();
-
-        navigate('/my-books');
-
     }
 
     const handleCancel = () => {
