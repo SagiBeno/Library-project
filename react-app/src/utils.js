@@ -212,3 +212,13 @@ export async function getBookById(external_key) {
     })
     return res;
 }
+
+export async function getAllBorrows() {
+    const res = await fetch(`/.netlify/functions/get_all_borrows`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    return res;
+}
