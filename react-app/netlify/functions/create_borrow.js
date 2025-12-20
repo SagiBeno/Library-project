@@ -45,6 +45,8 @@ export default async (request, context) => {
     }
     const { username, book_id_external, borrow_length } = await request.json();
 
+    console.log('Create borrow request:', { username, book_id_external, borrow_length });
+
     if (!username || !book_id_external || !borrow_length) {
         return new Response(
             JSON.stringify({ error: "username, book_id_external and borrow_length are required" }),
@@ -52,45 +54,49 @@ export default async (request, context) => {
         );
     }
 
-    const { user_data, user_error } = await supabase
+    const user_res = await supabase
         .from('library_project_users')
         .select('id')
         .eq('username', username)
         .single();
 
-    if (user_error || !user_data) {
+    if (user_res.error || !user_res.data) {
         return new Response(
             JSON.stringify({ error: "User not found" }),
             { status: 404, headers: jsonHeaders }
         );
     }
 
-    const user_id = user_data.id;
+    const user_id = user_res.data.id;
 
-    const { book_data, book_error } = await supabase
+    const book_res = await supabase
         .from('library_project_books')
         .select('id')
         .eq('external_key', book_id_external)
         .single();
 
-    if (book_error || !book_data) {
+    if (book_res.error || !book_res.data) {
         return new Response(
             JSON.stringify({ error: "Book not found" }),
             { status: 404, headers: jsonHeaders }
         );
     }
 
-    const book_id = book_data.id;
+    const book_id = book_res.data.id;
 
     const borrow_start = new Date();
     const return_date = new Date();
     return_date.setDate(return_date.getDate() + borrow_length); // add borrow_length days
 
+    console.log('Inserting borrow record:', { borrow_start, return_date, user_id, book_id });
+
     const { data, error } = await supabase
         .from('library_project_borrows')
         .insert([
-            { borrow_start: borrow_start, return_date: return_date, user_id: user_id, book_id: book_id, status: 'borrowed' }
+            { borrow_date: borrow_start, return_date: return_date, user_id: user_id, book_id: book_id, status: 'borrowed' }
         ]);
+
+    console.log('Insert result:', { data, error });
 
     if (error) {
         return new Response(

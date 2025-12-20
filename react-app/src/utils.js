@@ -179,3 +179,36 @@ export async function getBookBorrowInfo(book_id) {
     })
     return res;
 }
+
+export async function createBookBorrow(username, book_id_external, borrow_length) {
+    const res = await fetch(`/.netlify/functions/create_borrow`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, book_id_external, borrow_length }),
+    })
+    return res;
+}
+
+export async function getAllBorrowsForUser(username) {
+    const res = await fetch(`/.netlify/functions/get_all_borrow_for_user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username }),
+    })
+    return res;
+}
+
+export async function getBookById(external_key) {
+    const res = await fetch(`/.netlify/functions/get_book_by_id`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ external_key }),
+    })
+    return res;
+}
