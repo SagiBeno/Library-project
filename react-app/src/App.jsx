@@ -8,21 +8,19 @@
  * and user role (member, librarian, admin).
  */
 
-import { useState, useEffect, use } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import Navbar from './Components/Navbar'
-import MyBooksPage from './Pages/MyBooksPage'
-import AdminPage from './Pages/AdminPage'
-import SearchPage from './Pages/SearchPage'
-import RegisterPage from './Pages/RegisterPage'
-import LoginPage from './Pages/LoginPage'
-import Spinner from './Components/Spinner'
-import supabase from "./supabase-test/supabase";
-import { Container } from "@mui/material";
-import './App.css';
+import { useState, useEffect, use } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import Navbar from './Components/Navbar';
+import MyBooksPage from './Pages/MyBooksPage';
+import AdminPage from './Pages/AdminPage';
+import SearchPage from './Pages/SearchPage';
+import RegisterPage from './Pages/RegisterPage';
+import LoginPage from './Pages/LoginPage';
+import Spinner from './Components/Spinner';
 import BookLendingPage from './Pages/BookLendingPage';
 import SnackbarComponent from "./Components/SnackbarComponent";
 import LibrarianPage from './Pages/LibrarianPage';
+import './App.css';
 
 export default function App(props) {
   const navigate = useNavigate();
