@@ -179,3 +179,14 @@ export async function getBookBorrowInfo(book_id) {
     })
     return res;
 }
+
+export async function createBookBorrow(username, book_id_external, borrow_length) {
+    const res = await fetch(`/.netlify/functions/create_borrow`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, book_id_external, borrow_length }),
+    })
+    return res;
+}

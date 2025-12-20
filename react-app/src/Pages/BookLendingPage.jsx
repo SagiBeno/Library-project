@@ -13,11 +13,11 @@ import { useState, useEffect, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LendingCards } from '../Components/Cards';
 
-import { handleBook, getBookBorrowInfo } from '../utils';
+import { handleBook, getBookBorrowInfo, createBookBorrow } from '../utils';
 
 const processedBookKeys = new Set();
 
-export default function BookLendingPage({ setIsLoading }) {
+export default function BookLendingPage({ setIsLoading, username }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [lendedBooks, setLendedBooks] = useState(location.state.books != null ? location.state.books : []);
@@ -81,13 +81,36 @@ export default function BookLendingPage({ setIsLoading }) {
     }
 
     const handleConfirm = () => {
-        //navigate('/my-books');
-
         console.log('Confirmed lending:', lendedBooks);
 
-        //TODO check each book in lendedBooks array is borrowable
+        const processLending = async () => {
+            setIsLoading(true);
 
-        //TODO if available, update the book to be lent by the user 
+            const promises = [];
+
+            for (const book of lendedBooks) {
+                const res = await createBookBorrow(username, book.key, 30) //30 days borrow length
+
+                promises.push(res);
+            }
+
+            await Promise.all(promises);
+
+            for (const promise of promises) {
+                const res = await promise;
+                if (res.ok) {
+                    console.log('Lending recorded successfully.');
+                } else {
+                    console.error('Error recording lending.');
+                }
+            }
+
+            setIsLoading(false);
+        };
+
+        processLending();
+
+        navigate('/my-books');
 
     }
 

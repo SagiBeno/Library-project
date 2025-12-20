@@ -73,10 +73,10 @@ export default function App(props) {
         <Route path='/' element={
           !loggedIn
             ?
-              <LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setUserType={setUserType} setUsername={setUsername} snackbar={snackbar} setSnackbar={setSnackbar} />
-            : 
-              <SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} /> } />
-        
+            <LoginPage setIsLoading={setIsLoading} setLoggedIn={setLoggedIn} setUserType={setUserType} setUsername={setUsername} snackbar={snackbar} setSnackbar={setSnackbar} />
+            :
+            <SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} />} />
+
         {
           userType === 'librarian' || userType === 'admin' &&
           <Route path='/librarian' element={<LibrarianPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
@@ -89,9 +89,9 @@ export default function App(props) {
         <Route path='/my-books' element={<MyBooksPage setIsLoading={setIsLoading} />} />
         <Route path='/search' element={<SearchPage setIsLoading={setIsLoading} setLendedBooks={setLendedBooks} lendedBooks={lendedBooks} snackbar={snackbar} setSnackbar={setSnackbar} />} />
         <Route path='/register' element={<RegisterPage setIsLoading={setIsLoading} snackbar={snackbar} setSnackbar={setSnackbar} />} />
-        <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} />} />
+        <Route path='/lending' element={<BookLendingPage setIsLoading={setIsLoading} lendedBooks={lendedBooks} username={username} />} />
       </Routes>
- 
+
       {isLoading && <Spinner />}
       <SnackbarComponent
         open={snackbar.open}
