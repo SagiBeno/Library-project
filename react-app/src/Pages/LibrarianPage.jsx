@@ -59,8 +59,8 @@ export default function LibrarianPage({ snackbar, setSnackbar, setIsLoading }) {
         setShowDeleteModal(true);
     }
 
-    const handleDeleteConfirm = () => {
-
+    const handleDeleteConfirm = (borrow) => {
+        
     }
 
     return (
