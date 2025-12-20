@@ -4,35 +4,36 @@ import { BorrowsTable } from "../Components/Tables";
 import SearchComponent from "../Components/SearchComponent";
 import { DeleteBorrowModal } from "../Components/Modals";
 
-import { getAllBorrows } from "../utils"
+import { getAllBorrows, deleteBorrow } from "../utils"
+
+async function fetchBorrows(setIsLoading, setBorrows, setFilteredBorrows, snackbar, setSnackbar) {
+    setIsLoading(true);
+    const res = await getAllBorrows();
+    if (res.ok) {
+        const data = await res.json();
+        setBorrows(data.data);
+        setFilteredBorrows(data.data)
+    } else {
+        setSnackbar({
+            ...snackbar,
+            open: true,
+            message: 'Error during retrieval!',
+            severity: 'error'
+        });
+    }
+
+    setIsLoading(false);
+}
 
 export default function LibrarianPage({ snackbar, setSnackbar, setIsLoading }) {
     const [borrows, setBorrows] = useState([]);
     const [filteredBorrows, setFilteredBorrows] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showDeleteModal, setShowDeleteModal] = useState();
-    const [selectedData, setSelectedData] = useState([]); 
+    const [selectedData, setSelectedData] = useState([]);
 
     useEffect(() => {
-        async function fetchBorrows() {
-            setIsLoading(true);
-            const res = await getAllBorrows();
-            if (res.ok) {
-                const data = await res.json();
-                console.log(data.data[0])
-                setBorrows(data.data);
-                setFilteredBorrows(data.data)
-            } else {
-                setSnackbar({
-                    open: true,
-                    message: 'Error during retrieval!',
-                    severity: 'error'
-                });
-            }
-
-            setIsLoading(false);
-        }
-        fetchBorrows();
+        fetchBorrows(setIsLoading, setBorrows, setFilteredBorrows, snackbar, setSnackbar);
     }, []);
 
     const handleSearchChange = (e) => {
@@ -60,7 +61,29 @@ export default function LibrarianPage({ snackbar, setSnackbar, setIsLoading }) {
     }
 
     const handleDeleteConfirm = (borrow) => {
-        
+        const id = borrow[0].id;
+
+        async function fetchDelete() {
+            const response = await deleteBorrow(id);
+            if (response.ok) {
+                setSnackbar({
+                    ...snackbar,
+                    open: true,
+                    message: 'Delete successful!',
+                    severity: 'success'
+                });
+                fetchBorrows(setIsLoading, setBorrows, setFilteredBorrows, snackbar, setSnackbar);
+            } else {
+                setSnackbar({
+                    ...snackbar,
+                    open: true,
+                    message: 'Delete failed. Please try again!',
+                    severity: 'error'
+                });
+            }
+        }
+
+        fetchDelete();
     }
 
     return (

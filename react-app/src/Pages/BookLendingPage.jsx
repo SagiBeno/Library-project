@@ -90,7 +90,6 @@ export default function BookLendingPage({ setIsLoading, username }) {
     }
 
     const handleConfirm = () => {
-        console.log('Confirmed lending:', lendedBooks);
 
         const processLending = async () => {
             setIsLoading(true);
