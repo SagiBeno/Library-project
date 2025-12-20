@@ -229,7 +229,7 @@ export async function deleteBorrow(borrow_id) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ borrow_id }),
+        body: JSON.stringify({ id: borrow_id }),
     })
     return res;
 }

@@ -25,9 +25,6 @@ export default async (request, context) => {
         .delete()
         .eq('id', id);
 
-    console.log(id);
-    console.log(data);
-
     if (error) {
         return new Response({
             statusCode: 500,
