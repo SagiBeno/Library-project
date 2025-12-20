@@ -4,6 +4,7 @@ import { useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 
 export function EditModal({ showEditModal, setShowEditModal, data, handleSave }) {
     const [textFieldData, setTextFieldData] = useState({
@@ -185,12 +186,12 @@ export function DeleteModal({ showDeleteModal, setShowDeleteModal, data, handleD
                         p: 4,
                     }}
                 >
-                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{textAlign: 'center'}}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ textAlign: 'center' }}>
                         You want to delete the following user
                     </Typography>
 
                     <TableContainer
-                        sx={{overflow: 'auto'}}
+                        sx={{ overflow: 'auto' }}
                     >
                         <Table>
                             <TableHead>
@@ -202,7 +203,7 @@ export function DeleteModal({ showDeleteModal, setShowDeleteModal, data, handleD
                             </TableHead>
                             <TableBody>
                                 {
-                                    data.map( ({id, username, email }, idx) => (
+                                    data.map(({ id, username, email }, idx) => (
                                         <TableRow key={idx}>
                                             <TableCell>{id}</TableCell>
                                             <TableCell>{username}</TableCell>
@@ -214,7 +215,7 @@ export function DeleteModal({ showDeleteModal, setShowDeleteModal, data, handleD
                         </Table>
                     </TableContainer>
 
-                    <Box className='modalButtons' sx={{marginTop: '20px'}}>
+                    <Box className='modalButtons' sx={{ marginTop: '20px' }}>
                         <Button
                             variant="contained"
                             onClick={() => setShowDeleteModal(false)}
@@ -240,6 +241,81 @@ export function DeleteModal({ showDeleteModal, setShowDeleteModal, data, handleD
                             startIcon={<DeleteIcon />}
                         >
                             Delete
+                        </Button>
+
+                    </Box>
+                </Box>
+            </Modal>
+        </div>
+    )
+}
+
+export function ConfirmModal({ showConfirmModal, setShowConfirmModal, data, handleConfirm, handleCancel }) {
+
+    return (
+        <div>
+            <Modal
+                open={showConfirmModal}
+                onClose={() => setShowConfirmModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '50vw',
+                        maxHeight: '80vh',
+                        overflowX: 'auto',
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                    }}
+                >
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ textAlign: 'center' }}>
+                        Unfortunately, the status of the following books has changed.
+                    </Typography>
+
+                    <Box sx={{margin: '20px' }}>
+                        <ul>
+                            {
+                                data.map((book, idx) => (
+                                    <li key={idx}>{book.title}</li>
+                                ))
+                            }
+                        </ul>
+                    </Box>
+
+                    <Box className='modalButtons' sx={{ marginTop: '20px' }}>
+
+                        <Button
+                            variant="contained"
+                            sx={{
+                                backgroundColor: 'gray',
+                            }}
+                            startIcon={<CancelIcon />}
+                            className="cancelButtons"
+                            onClick={() => handleCancel()}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            sx={{
+                                backgroundColor: '#29bf12',
+                                color: 'white'
+                            }}
+                            onClick={() => {
+                                handleConfirm(data);
+                                setShowConfirmModal(false);
+                            }}
+                            startIcon={<DoneRoundedIcon />}
+                        >
+                            Continue
                         </Button>
 
                     </Box>

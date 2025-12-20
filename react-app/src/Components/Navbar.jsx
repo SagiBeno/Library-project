@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { StyledBadge } from './ComponentsOwnStyle';
 
-export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, lendedBooks, user }) {
+export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, user, lendedBooks }) {
     const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState(false);
@@ -175,7 +175,11 @@ export default function Navbar({ setLoggedIn, userType, setUserType, loggedIn, l
                                     {
                                         lendedBooks.length > 0 &&
                                         <Tooltip title="Requested book(s)...">
-                                            <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }} onClick={() => { navigate('/lending', { state: { books: lendedBooks } }); }}>
+                                            <IconButton sx={{ p: 0, color: 'black', marginRight: '20px' }}
+                                                onClick={() => { 
+                                                    navigate('/lending');
+                                                }}
+                                            >
                                                 <StyledBadge badgeContent={lendedBooks.length} color="secondary">
                                                     <ShoppingCartIcon />
                                                 </StyledBadge>

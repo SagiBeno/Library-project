@@ -137,6 +137,7 @@ export default function SearchPage({ setIsLoading, setLendedBooks, lendedBooks, 
             message: `"${book.title}" has been added to your lending list!`,
             severity: 'success',
         });
+        localStorage.setItem('lendedBooks', JSON.stringify([...lendedBooks, book]))
     }
 
     return (

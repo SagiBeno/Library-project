@@ -12,6 +12,7 @@ import { Container, Typography, Box, Button } from "@mui/material";
 import { useState, useEffect, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LendingCards } from '../Components/Cards';
+import { ConfirmModal } from "../Components/Modals";
 
 import { handleBook, getBookBorrowInfo } from '../utils';
 
@@ -20,11 +21,17 @@ const processedBookKeys = new Set();
 export default function BookLendingPage({ setIsLoading }) {
     const navigate = useNavigate();
     const location = useLocation();
-    const [lendedBooks, setLendedBooks] = useState(location.state.books != null ? location.state.books : []);
+    const [lendedBooks, setLendedBooks] = useState(() => {
+        const savedLendedBooks = localStorage.getItem('lendedBooks');
+        return savedLendedBooks ? JSON.parse(savedLendedBooks) : '';
+    });
+    const [lentOutBooks, setLentOutBooks] = useState([]);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     useEffect(() => {
-        //console.log('Lended books:', lendedBooks);
+
         async function checkBooks() {
+            setIsLoading(true)
             const toProcess = [];
             for (const book of lendedBooks) {
                 if (processedBookKeys.has(book.key)) continue;
@@ -44,7 +51,8 @@ export default function BookLendingPage({ setIsLoading }) {
                 const res = responses[i];
                 if (res.ok) {
                     const data = await res.json();
-                    const book_id = data.data[0].id;
+                    console.log(data)
+                    const book_id = data?.data[0].id ? data.id : data.data[0].id;
 
                     borrowInfoPromises.push(getBookBorrowInfo(book_id));
                 }
@@ -57,26 +65,27 @@ export default function BookLendingPage({ setIsLoading }) {
                 if (res.ok) {
                     const data = await res.json();
 
-                    if (data.data.length == 0) {
-                        console.log(`Book ${toProcess[i].title} is available for lending.`);
-                    }
-                    else {
-                        console.log(`Book ${toProcess[i].title} is currently lent out.`);
+                    if (data.data.length != 0) {
+                        setLentOutBooks(...lentOutBooks, lendedBooks.filter( (book) => (
+                            book.title === toProcess[i].title
+                        )))
+
+                        setShowConfirmModal(true);
                     }
                 }
             }
 
+            setIsLoading(false)
         }
         checkBooks();
 
-
-
-    }, [lendedBooks]);
+    }, []);
 
     const handleRemove = (book) => {
         const idx = lendedBooks.indexOf(book);
         const newLendedBooks = [...lendedBooks];
         newLendedBooks.splice(idx, 1);
+        localStorage.setItem('lendedBooks', JSON.stringify(newLendedBooks));
         setLendedBooks(newLendedBooks);
     }
 
@@ -89,6 +98,23 @@ export default function BookLendingPage({ setIsLoading }) {
 
         //TODO if available, update the book to be lent by the user 
 
+    }
+
+    const handleCancel = () => {
+        setLendedBooks([]);
+        localStorage.setItem('lendedBooks', JSON.stringify([]))
+        navigate('/serach');
+    }
+
+    const handleConfirmModal = (data) => {
+
+        data.map((book) => {
+            const idx = lendedBooks.indexOf(book);
+            const newLendedBooks = [...lendedBooks];
+            newLendedBooks.splice(idx, 1);
+            localStorage.setItem('lendedBooks', JSON.stringify(newLendedBooks));
+            setLendedBooks(newLendedBooks);
+        })
     }
 
     return (
@@ -120,6 +146,10 @@ export default function BookLendingPage({ setIsLoading }) {
                     <Typography variant="h5" sx={{ textAlign: 'center', marginTop: '20px' }}>
                         You have not lended any books yet!
                     </Typography>
+            }
+
+            {
+                lentOutBooks.length > 0 && <ConfirmModal showConfirmModal={showConfirmModal} setShowConfirmModal={setShowConfirmModal} data={lentOutBooks} handleConfirm={handleConfirmModal} handleCancel={handleCancel} />
             }
         </Container>
     )

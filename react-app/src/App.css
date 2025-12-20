@@ -25,6 +25,7 @@
 
 .container {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .modalButtons {
@@ -75,6 +76,10 @@
 @media screen and (max-width: 500px) {
     .modalButtons {
         flex-direction: column;
+    }
+
+    .modalButtons > button {
+        margin-top: 10px;
     }
 
     .cancelButtons {
